@@ -1,0 +1,2174 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>GCC Dcode — Decode the Future of Global Capability</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Source+Sans+3:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            html {
+                scroll-behavior: smooth;
+            }
+            :root {
+                --ink: #0a0a0a;
+                --ink2: #111111;
+                --paper: #f2f0eb;
+                --off: #e8e5df;
+                --accent: #1a1a2e;
+                --blue: #1c3f6e;
+                --blue-mid: #2b5fa0;
+                --blue-light: #4a80c4;
+                --steel: #7a8fa6;
+                --muted: #9aa3b0;
+                --text: #eaeaea;
+                --text-dim: #8a8f98;
+                --border: #222228;
+                --border2: #2e2e38;
+            }
+            body {
+                background: var(--ink);
+                color: var(--text);
+                font-family: "Source Sans 3", sans-serif;
+                font-size: 16px;
+                line-height: 1.6;
+                overflow-x: hidden;
+                cursor: none;
+            }
+
+            /* ── CURSOR ── */
+            .cur {
+                position: fixed;
+                width: 8px;
+                height: 8px;
+                background: #fff;
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 9999;
+                transform: translate(-50%, -50%);
+                transition:
+                    width 0.15s,
+                    height 0.15s;
+            }
+            .cur-r {
+                position: fixed;
+                width: 32px;
+                height: 32px;
+                border: 1px solid rgba(255, 255, 255, 0.25);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 9998;
+                transform: translate(-50%, -50%);
+                transition:
+                    width 0.3s,
+                    height 0.3s;
+            }
+
+            /* ── NAV ── */
+            nav {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 200;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 1.5rem 3rem;
+                transition:
+                    background 0.4s,
+                    border 0.4s;
+            }
+            nav.scrolled {
+                background: rgba(10, 10, 10, 0.96);
+                border-bottom: 1px solid var(--border);
+            }
+            .logo {
+                font-family: "Playfair Display", serif;
+                font-size: 1.25rem;
+                font-weight: 800;
+                color: #fff;
+                text-decoration: none;
+                letter-spacing: -0.01em;
+            }
+            .logo em {
+                font-style: italic;
+                color: var(--blue-light);
+            }
+            .nav-links {
+                display: flex;
+                gap: 2.5rem;
+                list-style: none;
+            }
+            .nav-links a {
+                color: var(--text-dim);
+                text-decoration: none;
+                font-size: 0.78rem;
+                font-weight: 500;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                transition: color 0.2s;
+            }
+            .nav-links a:hover {
+                color: #fff;
+            }
+            .nav-btn {
+                background: transparent;
+                border: 1px solid var(--border2);
+                color: var(--text-dim);
+                padding: 0.55rem 1.25rem;
+                font-size: 0.75rem;
+                font-weight: 500;
+                cursor: none;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                transition: all 0.2s;
+                font-family: "Source Sans 3", sans-serif;
+            }
+            .nav-btn:hover {
+                border-color: #fff;
+                color: #fff;
+            }
+
+            /* ── HERO ── */
+            .hero {
+                min-height: 100vh;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                align-items: center;
+                padding: 0;
+                position: relative;
+                overflow: hidden;
+            }
+            .hero-left {
+                padding: 10rem 3rem 6rem 3rem;
+                position: relative;
+                z-index: 2;
+            }
+            .hero-kicker {
+                font-family: "Space Mono", monospace;
+                font-size: 0.7rem;
+                color: var(--steel);
+                letter-spacing: 0.15em;
+                text-transform: uppercase;
+                margin-bottom: 2rem;
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+            }
+            .hero-kicker::before {
+                content: "";
+                display: block;
+                width: 20px;
+                height: 1px;
+                background: var(--steel);
+            }
+            .hero h1 {
+                font-family: "Playfair Display", serif;
+                font-size: clamp(3.5rem, 6vw, 5.5rem);
+                font-weight: 800;
+                line-height: 1;
+                letter-spacing: -0.03em;
+                color: #fff;
+                margin-bottom: 2.5rem;
+            }
+            .hero h1 em {
+                font-style: italic;
+                color: var(--blue-light);
+            }
+            .hero-sub {
+                font-size: 1rem;
+                color: var(--text-dim);
+                font-weight: 300;
+                max-width: 400px;
+                line-height: 1.8;
+                margin-bottom: 2.5rem;
+            }
+            .hero-actions {
+                display: flex;
+                gap: 1rem;
+                align-items: center;
+            }
+            .btn-p {
+                background: #fff;
+                color: #0a0a0a;
+                padding: 0.85rem 2rem;
+                font-size: 0.85rem;
+                font-weight: 600;
+                border: none;
+                cursor: none;
+                letter-spacing: 0.04em;
+                text-decoration: none;
+                display: inline-block;
+                transition: all 0.2s;
+            }
+            .btn-p:hover {
+                background: var(--blue-light);
+                color: #fff;
+                transform: translateY(-2px);
+            }
+            .btn-g {
+                background: transparent;
+                color: var(--text-dim);
+                padding: 0.85rem 1.75rem;
+                font-size: 0.85rem;
+                font-weight: 400;
+                border: 1px solid var(--border2);
+                cursor: none;
+                text-decoration: none;
+                display: inline-block;
+                transition: all 0.2s;
+            }
+            .btn-g:hover {
+                border-color: var(--text-dim);
+                color: #fff;
+            }
+
+            /* ── HERO RIGHT — SVG CANVAS ── */
+
+            .hero-right {
+                overflow: hidden;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            #globeViz {
+                width: 195%;
+                height: 100vh;
+            }
+
+            /* divider line */
+            .hero-divider {
+                position: absolute;
+                left: 50%;
+                top: 0;
+                bottom: 0;
+                width: 1px;
+                background: var(--border);
+                z-index: 1;
+            }
+
+            /* ── TICKER ── */
+            .ticker-wrap {
+                overflow: hidden;
+                border-top: 1px solid var(--border);
+                border-bottom: 1px solid var(--border);
+                padding: 0.9rem 0;
+                background: var(--ink2);
+            }
+            .ticker-track {
+                display: flex;
+                width: max-content;
+                animation: tickerRun 35s linear infinite;
+            }
+            .ticker-item {
+                display: flex;
+                align-items: center;
+                gap: 1.25rem;
+                padding: 0 2.5rem;
+                font-size: 0.72rem;
+                font-weight: 600;
+                color: var(--text-dim);
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                white-space: nowrap;
+            }
+            .ticker-dot {
+                width: 4px;
+                height: 4px;
+                border-radius: 50%;
+                background: var(--blue-mid);
+                flex-shrink: 0;
+            }
+            @keyframes tickerRun {
+                0% {
+                    transform: translateX(0);
+                }
+                100% {
+                    transform: translateX(-50%);
+                }
+            }
+
+            /* ── SECTION BASE ── */
+            .s {
+                padding: 7rem 3rem;
+                max-width: 1280px;
+                margin: 0 auto;
+            }
+            .s-full {
+                padding: 0;
+                max-width: none;
+                margin: 0;
+            }
+            .eyebrow {
+                font-family: "Space Mono", monospace;
+                font-size: 0.65rem;
+                color: var(--steel);
+                letter-spacing: 0.15em;
+                text-transform: uppercase;
+                margin-bottom: 1rem;
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+            }
+            .eyebrow::before {
+                content: "";
+                display: block;
+                width: 20px;
+                height: 1px;
+                background: var(--steel);
+            }
+            h2.st {
+                font-family: "Playfair Display", serif;
+                font-size: clamp(2rem, 4vw, 3.25rem);
+                font-weight: 800;
+                line-height: 1.05;
+                letter-spacing: -0.03em;
+                color: #fff;
+                margin-bottom: 1.25rem;
+            }
+            h2.st em {
+                font-style: italic;
+                color: var(--blue-light);
+            }
+            .sd {
+                font-size: 1rem;
+                color: var(--text-dim);
+                font-weight: 300;
+                max-width: 480px;
+                line-height: 1.8;
+            }
+
+            /* ── WHAT WE OFFER — big editorial list ── */
+            .offer-section {
+                border-top: 1px solid var(--border);
+                background: var(--ink2);
+            }
+            .offer-wrap {
+                max-width: 1280px;
+                margin: 0 auto;
+                padding: 7rem 3rem;
+            }
+            .offer-head {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 4rem;
+                align-items: start;
+                margin-bottom: 5rem;
+            }
+            .offer-num {
+                font-family: "Space Mono", monospace;
+                font-size: 0.65rem;
+                color: var(--text-dim);
+                letter-spacing: 0.1em;
+            }
+            .offer-list {
+                list-style: none;
+            }
+            .offer-item {
+                display: grid;
+                grid-template-columns: 3rem 1fr auto;
+                align-items: center;
+                gap: 2rem;
+                padding: 2rem 0;
+                border-bottom: 1px solid var(--border);
+                cursor: none;
+                transition: background 0.2s;
+                position: relative;
+            }
+            .offer-item:first-child {
+                border-top: 1px solid var(--border);
+            }
+            .offer-item::after {
+                content: "↗";
+                color: transparent;
+                font-size: 1.25rem;
+                transition:
+                    color 0.2s,
+                    transform 0.2s;
+                transform: translate(-8px, 8px);
+            }
+            .offer-item:hover::after {
+                color: var(--blue-light);
+                transform: translate(0, 0);
+            }
+            .offer-item:hover {
+                background: rgba(255, 255, 255, 0.02);
+            }
+            .offer-idx {
+                font-family: "Space Mono", monospace;
+                font-size: 0.65rem;
+                color: var(--text-dim);
+                letter-spacing: 0.1em;
+            }
+            .offer-title {
+                font-family: "Playfair Display", serif;
+                font-size: 1.6rem;
+                font-weight: 700;
+                color: #fff;
+                letter-spacing: -0.02em;
+            }
+            .offer-desc {
+                font-size: 0.88rem;
+                color: var(--text-dim);
+                max-width: 400px;
+                margin-top: 0.3rem;
+                line-height: 1.6;
+            }
+
+            /* ── ABOUT — full bleed split ── */
+            .about-section {
+                border-top: 1px solid var(--border);
+            }
+            .about-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                min-height: 80vh;
+            }
+            .about-text {
+                padding: 7rem 4rem;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                border-right: 1px solid var(--border);
+            }
+            .about-visual-side {
+                position: relative;
+                overflow: hidden;
+                background: var(--ink2);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .about-canvas {
+                position: absolute;
+                inset: 0;
+            }
+            .about-stat-overlay {
+                position: relative;
+                z-index: 2;
+                display: flex;
+                flex-direction: column;
+                gap: 2rem;
+                padding: 4rem;
+            }
+            .big-stat {
+                border-left: 2px solid var(--blue-mid);
+                padding-left: 1.5rem;
+            }
+            .big-num {
+                font-family: "Playfair Display", serif;
+                font-size: 3.5rem;
+                font-weight: 800;
+                color: #fff;
+                line-height: 1;
+                letter-spacing: -0.03em;
+            }
+            .big-num span {
+                font-size: 1.5rem;
+                color: var(--blue-light);
+            }
+            .big-label {
+                font-size: 0.78rem;
+                color: var(--text-dim);
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                margin-top: 0.4rem;
+            }
+
+            /* ── EVENTS ── */
+            .events-section {
+                border-top: 1px solid var(--border);
+                background: var(--ink);
+            }
+            .events-wrap {
+                max-width: 1280px;
+                margin: 0 auto;
+                padding: 7rem 3rem;
+            }
+            .events-head {
+                display: flex;
+                align-items: flex-end;
+                justify-content: space-between;
+                margin-bottom: 4rem;
+            }
+            .events-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0;
+                border: 1px solid var(--border);
+            }
+            .ev {
+                padding: 2.5rem;
+                border-right: 1px solid var(--border);
+                transition: background 0.25s;
+                cursor: none;
+                position: relative;
+                overflow: hidden;
+            }
+            .ev:last-child {
+                border-right: none;
+            }
+            .ev::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 2px;
+                background: var(--blue-mid);
+                transform: scaleX(0);
+                transform-origin: left;
+                transition: transform 0.3s;
+            }
+            .ev:hover::before {
+                transform: scaleX(1);
+            }
+            .ev:hover {
+                background: rgba(255, 255, 255, 0.025);
+            }
+            .ev-date {
+                font-family: "Space Mono", monospace;
+                font-size: 0.62rem;
+                color: var(--blue-light);
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                margin-bottom: 0.75rem;
+            }
+            .ev-title {
+                font-family: "Playfair Display", serif;
+                font-size: 1.25rem;
+                font-weight: 700;
+                color: #fff;
+                line-height: 1.25;
+                margin-bottom: 0.75rem;
+            }
+            .ev-loc {
+                font-size: 0.82rem;
+                color: var(--text-dim);
+                margin-bottom: 1.25rem;
+            }
+            .ev-tag {
+                display: inline-block;
+                font-size: 0.65rem;
+                font-weight: 600;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                padding: 0.25rem 0.75rem;
+                border: 1px solid var(--border2);
+                color: var(--text-dim);
+            }
+            .ev-tag.hi {
+                border-color: var(--blue-mid);
+                color: var(--blue-light);
+            }
+
+            /* ── INSIGHTS ── */
+            .insights-section {
+                border-top: 1px solid var(--border);
+                background: var(--ink2);
+            }
+            .insights-wrap {
+                max-width: 1280px;
+                margin: 0 auto;
+                padding: 7rem 3rem;
+            }
+            .insights-grid {
+                display: grid;
+                grid-template-columns: 5fr 4fr;
+                gap: 0;
+                border: 1px solid var(--border);
+                margin-top: 4rem;
+            }
+            .ins-main {
+                border-right: 1px solid var(--border);
+                cursor: none;
+                transition: background 0.25s;
+            }
+            .ins-main:hover {
+                background: rgba(255, 255, 255, 0.02);
+            }
+            .ins-hero-img {
+                height: 300px;
+                position: relative;
+                overflow: hidden;
+                background: var(--ink);
+            }
+            .ins-hero-canvas {
+                position: absolute;
+                inset: 0;
+            }
+            .ins-hero-label {
+                position: absolute;
+                bottom: 1.5rem;
+                left: 1.75rem;
+                font-family: "Space Mono", monospace;
+                font-size: 0.6rem;
+                letter-spacing: 0.15em;
+                text-transform: uppercase;
+                color: var(--text-dim);
+                z-index: 2;
+            }
+            .ins-body {
+                padding: 2rem 1.75rem;
+            }
+            .ins-cat {
+                font-family: "Space Mono", monospace;
+                font-size: 0.6rem;
+                color: var(--blue-light);
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                margin-bottom: 0.5rem;
+            }
+            .ins-title {
+                font-family: "Playfair Display", serif;
+                font-size: 1.4rem;
+                font-weight: 700;
+                color: #fff;
+                line-height: 1.2;
+                margin-bottom: 0.75rem;
+            }
+            .ins-excerpt {
+                font-size: 0.88rem;
+                color: var(--text-dim);
+                line-height: 1.7;
+            }
+            .ins-foot {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-top: 1.25rem;
+                padding-top: 1.25rem;
+                border-top: 1px solid var(--border);
+            }
+            .ins-by {
+                font-size: 0.78rem;
+                color: var(--text-dim);
+            }
+            .ins-link {
+                font-size: 0.72rem;
+                font-weight: 600;
+                color: #fff;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                text-decoration: none;
+            }
+
+            .ins-list {
+                display: flex;
+                flex-direction: column;
+            }
+            .ins-item {
+                padding: 1.5rem 1.75rem;
+                border-bottom: 1px solid var(--border);
+                cursor: none;
+                transition: background 0.25s;
+            }
+            .ins-item:last-child {
+                border-bottom: none;
+            }
+            .ins-item:hover {
+                background: rgba(255, 255, 255, 0.02);
+            }
+            .ins-item .ins-title {
+                font-size: 0.98rem;
+            }
+
+            /* ── COUNCIL ── */
+            .council-section {
+                border-top: 1px solid var(--border);
+            }
+            .council-wrap {
+                max-width: 1280px;
+                margin: 0 auto;
+                padding: 7rem 3rem;
+            }
+            .council-head {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 4rem;
+                align-items: end;
+                margin-bottom: 4rem;
+            }
+            .council-grid {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 0;
+                border: 1px solid var(--border);
+            }
+            .mem {
+                padding: 1.75rem;
+                border-right: 1px solid var(--border);
+                border-bottom: 1px solid var(--border);
+                transition: background 0.2s;
+                cursor: none;
+            }
+            .mem:nth-child(4n) {
+                border-right: none;
+            }
+            .mem:nth-last-child(-n + 4) {
+                border-bottom: none;
+            }
+            .mem:hover {
+                background: rgba(255, 255, 255, 0.03);
+            }
+            .mem-av {
+                width: 44px;
+                height: 44px;
+                border-radius: 50%;
+                background: var(--blue);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 0.8rem;
+                font-weight: 700;
+                color: #fff;
+                margin-bottom: 1rem;
+                border: 1px solid var(--blue-mid);
+            }
+            .mem-name {
+                font-family: "Playfair Display", serif;
+                font-size: 0.95rem;
+                font-weight: 700;
+                color: #fff;
+                margin-bottom: 0.2rem;
+            }
+            .mem-role {
+                font-size: 0.75rem;
+                color: var(--text-dim);
+                line-height: 1.4;
+            }
+            .mem-co {
+                font-size: 0.7rem;
+                color: var(--blue-light);
+                margin-top: 0.3rem;
+                letter-spacing: 0.04em;
+            }
+
+            /* ── CTA FULL BLEED ── */
+            .cta-band {
+                border-top: 1px solid var(--border);
+                position: relative;
+                overflow: hidden;
+                min-height: 480px;
+                display: flex;
+                align-items: center;
+            }
+            .cta-canvas {
+                position: absolute;
+                inset: 0;
+            }
+            .cta-content {
+                position: relative;
+                z-index: 2;
+                padding: 6rem 3rem;
+                max-width: 1280px;
+                margin: 0 auto;
+                width: 100%;
+            }
+            .cta-content h2 {
+                font-family: "Playfair Display", serif;
+                font-size: clamp(2.5rem, 5vw, 4.5rem);
+                font-weight: 800;
+                color: #fff;
+                letter-spacing: -0.03em;
+                line-height: 1;
+                margin-bottom: 1.5rem;
+                max-width: 700px;
+            }
+            .cta-content h2 em {
+                font-style: italic;
+                color: var(--blue-light);
+            }
+            .cta-content p {
+                font-size: 1rem;
+                color: var(--text-dim);
+                max-width: 420px;
+                margin-bottom: 2.5rem;
+                line-height: 1.7;
+            }
+            .cta-acts {
+                display: flex;
+                gap: 1rem;
+            }
+
+            /* ── MARQUEE ── */
+            .mq-wrap {
+                overflow: hidden;
+                border-top: 1px solid var(--border);
+                border-bottom: 1px solid var(--border);
+                background: var(--ink2);
+                padding: 0.8rem 0;
+            }
+            .mq-track {
+                display: flex;
+                width: max-content;
+                animation: mqRun 28s linear infinite;
+            }
+            .mq-item {
+                display: flex;
+                align-items: center;
+                gap: 1.25rem;
+                padding: 0 2rem;
+                font-size: 0.72rem;
+                color: var(--text-dim);
+                letter-spacing: 0.08em;
+                white-space: nowrap;
+            }
+            .mq-dot {
+                width: 3px;
+                height: 3px;
+                border-radius: 50%;
+                background: var(--blue-mid);
+                flex-shrink: 0;
+            }
+            @keyframes mqRun {
+                0% {
+                    transform: translateX(0);
+                }
+                100% {
+                    transform: translateX(-50%);
+                }
+            }
+
+            /* ── FORMS SECTION ── */
+
+            .forms-section {
+                padding: 8rem 8%;
+                background: #050505;
+                display: flex;
+                flex-direction: column;
+                gap: 8rem;
+            }
+
+            .form-block {
+                max-width: 1100px;
+                margin: 0 auto;
+                width: 100%;
+            }
+
+            .form-header {
+                margin-bottom: 2.5rem;
+            }
+
+            .form-header span {
+                font-family: "Space Mono", monospace;
+                font-size: 0.75rem;
+                letter-spacing: 0.15em;
+                color: var(--steel);
+                text-transform: uppercase;
+            }
+
+            .form-header h2 {
+                font-family: "Playfair Display", serif;
+                font-size: clamp(2rem, 4vw, 3.5rem);
+                margin-top: 1rem;
+                margin-bottom: 1rem;
+                color: #fff;
+            }
+
+            .form-header p {
+                max-width: 700px;
+                color: var(--text-dim);
+                line-height: 1.8;
+                font-size: 1rem;
+            }
+
+            .form-embed {
+                border: 1px solid var(--border2);
+                background: rgba(255, 255, 255, 0.02);
+                padding: 1.5rem;
+                border-radius: 18px;
+                overflow: hidden;
+                backdrop-filter: blur(10px);
+            }
+
+            .form-embed iframe {
+                width: 100%;
+                border: none;
+                background: transparent;
+            }
+
+            /* ── FOOTER ── */
+            footer {
+                background: #060608;
+                border-top: 1px solid var(--border);
+                padding: 5rem 3rem 3rem;
+            }
+            .ft-grid {
+                display: grid;
+                grid-template-columns: 2fr 1fr 1fr 1fr;
+                gap: 3rem;
+                max-width: 1280px;
+                margin: 0 auto;
+            }
+            .ft-brand .logo {
+                font-size: 1.1rem;
+                display: block;
+                margin-bottom: 1rem;
+            }
+            .ft-desc {
+                font-size: 0.82rem;
+                color: var(--text-dim);
+                line-height: 1.7;
+                max-width: 220px;
+            }
+            .ft-col h4 {
+                font-family: "Space Mono", monospace;
+                font-size: 0.6rem;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                color: var(--steel);
+                margin-bottom: 1.25rem;
+            }
+            .ft-col ul {
+                list-style: none;
+            }
+            .ft-col li {
+                margin-bottom: 0.55rem;
+            }
+            .ft-col a {
+                color: var(--text-dim);
+                text-decoration: none;
+                font-size: 0.84rem;
+                transition: color 0.2s;
+            }
+            .ft-col a:hover {
+                color: #fff;
+            }
+            .ft-bottom {
+                max-width: 1280px;
+                margin: 3rem auto 0;
+                padding-top: 2rem;
+                border-top: 1px solid var(--border);
+                display: flex;
+                justify-content: space-between;
+                font-size: 0.75rem;
+                color: var(--text-dim);
+            }
+
+            /* ── REVEAL ── */
+            .reveal {
+                opacity: 0;
+                transform: translateY(28px);
+                transition:
+                    opacity 0.7s ease,
+                    transform 0.7s ease;
+            }
+            .reveal.visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            /* ── RESPONSIVE ── */
+            @media (max-width: 1024px) {
+                nav {
+                    padding: 1.25rem 1.5rem;
+                }
+                .nav-links {
+                    display: none;
+                }
+                .hero {
+                    grid-template-columns: 1fr;
+                    min-height: auto;
+                }
+                .hero-right {
+                    height: 55vw;
+                }
+                .hero-left {
+                    padding: 8rem 1.5rem 3rem;
+                }
+                .hero-divider {
+                    display: none;
+                }
+                .about-grid {
+                    grid-template-columns: 1fr;
+                }
+                .offer-head {
+                    grid-template-columns: 1fr;
+                }
+                .events-grid {
+                    grid-template-columns: 1fr;
+                }
+                .ev {
+                    border-right: none;
+                    border-bottom: 1px solid var(--border);
+                }
+                .council-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+                .insights-grid {
+                    grid-template-columns: 1fr;
+                }
+                .ins-main {
+                    border-right: none;
+                    border-bottom: 1px solid var(--border);
+                }
+                .ft-grid {
+                    grid-template-columns: 1fr 1fr;
+                }
+                .council-head {
+                    grid-template-columns: 1fr;
+                }
+                .s {
+                    padding: 5rem 1.5rem;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="cur" id="cur"></div>
+        <div class="cur-r" id="cur-r"></div>
+
+        <!-- NAV -->
+        <nav id="nav">
+            <a href="#" class="logo">GCC <em>Dcode</em></a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#events">Events</a></li>
+                <li><a href="#insights">Insights</a></li>
+                <li><a href="#council">Council</a></li>
+            </ul>
+            <button class="nav-btn"><li><a href="#network-form">Join the Network</a></li></button>
+        </nav>
+
+        <!-- HERO -->
+        <section class="hero" id="hero">
+            <div class="hero-divider"></div>
+
+            <div class="hero-left">
+                <div class="hero-kicker">The GCC Intelligence Platform</div>
+                <h1>Decode.<br />Lead.<br /><em>Accelerate.</em></h1>
+                <p class="hero-sub">
+                    The exclusive platform for GCC leaders — verified
+                    intelligence, peer networks, original research, and curated
+                    events across India.
+                </p>
+                <div class="hero-actions">
+                    <a href="#network-form" class="btn-p">Join the Network →</a>
+                    <a href="#consultation-form" class="btn-g"
+                        >Book a Consultation</a
+                    >
+                </div>
+            </div>
+
+            <div class="hero-right">
+                <div id="globeViz"></div>
+            </div>
+        </section>
+
+        <!-- TICKER -->
+        <div class="ticker-wrap">
+            <div class="ticker-track">
+                <div class="ticker-item">
+                    <span class="ticker-dot"></span>GCC Intelligence
+                </div>
+                <div class="ticker-item">
+                    <span class="ticker-dot"></span>Leadership Network
+                </div>
+                <div class="ticker-item">
+                    <span class="ticker-dot"></span>Original Research
+                </div>
+                <div class="ticker-item">
+                    <span class="ticker-dot"></span>Peer Events
+                </div>
+                <div class="ticker-item">
+                    <span class="ticker-dot"></span>5,000+ GCCs Tracked
+                </div>
+                <div class="ticker-item">
+                    <span class="ticker-dot"></span>Decoded Insights
+                </div>
+                <div class="ticker-item">
+                    <span class="ticker-dot"></span>Exclusive Community
+                </div>
+                <div class="ticker-item">
+                    <span class="ticker-dot"></span>Benchmarking Data
+                </div>
+                <div class="ticker-item">
+                    <span class="ticker-dot"></span>GCC Intelligence
+                </div>
+                <div class="ticker-item">
+                    <span class="ticker-dot"></span>Leadership Network
+                </div>
+                <div class="ticker-item">
+                    <span class="ticker-dot"></span>Original Research
+                </div>
+                <div class="ticker-item">
+                    <span class="ticker-dot"></span>Peer Events
+                </div>
+                <div class="ticker-item">
+                    <span class="ticker-dot"></span>5,000+ GCCs Tracked
+                </div>
+                <div class="ticker-item">
+                    <span class="ticker-dot"></span>Decoded Insights
+                </div>
+                <div class="ticker-item">
+                    <span class="ticker-dot"></span>Exclusive Community
+                </div>
+                <div class="ticker-item">
+                    <span class="ticker-dot"></span>Benchmarking Data
+                </div>
+            </div>
+        </div>
+
+        <!-- Serivces / OFFER -->
+        <div class="offer-section" id="services">
+            <div class="offer-wrap">
+                <div class="offer-head reveal">
+                    <div>
+                        <div class="eyebrow">Services</div>
+                        <h2 class="st">
+                            What GCC<br /><em>Dcode</em> gives you
+                        </h2>
+                    </div>
+                    <p class="sd">
+                        From verified intelligence to curated peer connections —
+                        everything a GCC leader needs to operate at the highest
+                        level.
+                    </p>
+                </div>
+                <ul class="offer-list reveal">
+                    <li class="offer-item">
+                        <span class="offer-idx">01</span>
+                        <div>
+                            <div class="offer-title">
+                                GCC Intelligence Database
+                            </div>
+                            <div class="offer-desc">
+                                Verified data on 5,000+ GCCs — org structure,
+                                tech stack, talent metrics, strategic direction.
+                            </div>
+                        </div>
+                    </li>
+                    <li class="offer-item">
+                        <span class="offer-idx">02</span>
+                        <div>
+                            <div class="offer-title">
+                                Industry Council Access
+                            </div>
+                            <div class="offer-desc">
+                                Invite-only peer council of 35+ senior GCC
+                                leaders. Exclusive roundtables, off-the-record
+                                dialogue.
+                            </div>
+                        </div>
+                    </li>
+                    <li class="offer-item">
+                        <span class="offer-idx">03</span>
+                        <div>
+                            <div class="offer-title">Original Research</div>
+                            <div class="offer-desc">
+                                Deep-dive reports, benchmarking studies, and
+                                trend analyses produced exclusively for the GCC
+                                ecosystem.
+                            </div>
+                        </div>
+                    </li>
+                    <li class="offer-item">
+                        <span class="offer-idx">04</span>
+                        <div>
+                            <div class="offer-title">Curated Peer Events</div>
+                            <div class="offer-desc">
+                                Hyper-curated in-person events across India —
+                                designed for genuine connection, not just
+                                networking.
+                            </div>
+                        </div>
+                    </li>
+                    <li class="offer-item">
+                        <span class="offer-idx">05</span>
+                        <div>
+                            <div class="offer-title">Talent Benchmarking</div>
+                            <div class="offer-desc">
+                                Salary benchmarks, talent density maps, hiring
+                                intelligence for GCC-specific functions and
+                                roles.
+                            </div>
+                        </div>
+                    </li>
+                    <li class="offer-item">
+                        <span class="offer-idx">06</span>
+                        <div>
+                            <div class="offer-title">
+                                Content & Insights Hub
+                            </div>
+                            <div class="offer-desc">
+                                Practitioner-authored articles, case studies,
+                                interviews — signal over noise, always.
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ABOUT -->
+        <div class="about-section" id="about">
+            <div class="about-grid">
+                <div class="about-text reveal">
+                    <div class="eyebrow">Our Mission</div>
+                    <h2 class="st">
+                        Built by a GCC leader.<br />For <em>GCC leaders.</em>
+                    </h2>
+                    <p class="sd" style="margin-bottom: 2rem">
+                        We know the complexity, the challenges, and the untapped
+                        opportunity inside every global capability centre. GCC
+                        Dcode exists to surface intelligence, spark connection,
+                        and accelerate the maturity of GCC leadership across
+                        India.
+                    </p>
+                    <p class="sd">
+                        India's 1,800+ GCCs represent the world's largest
+                        concentration of global capability — yet most leaders
+                        operate in silos. We change that.
+                    </p>
+                </div>
+                <div class="about-visual-side">
+                    <canvas id="aboutCanvas" class="about-canvas"></canvas>
+                    <div class="about-stat-overlay">
+                        <div class="big-stat">
+                            <div class="big-num" data-target="5000">
+                                0<span>+</span>
+                            </div>
+                            <div class="big-label">GCCs Indexed</div>
+                        </div>
+                        <div class="big-stat">
+                            <div class="big-num" data-target="35">
+                                0<span>+</span>
+                            </div>
+                            <div class="big-label">Council Leaders</div>
+                        </div>
+                        <div class="big-stat">
+                            <div class="big-num" data-target="240">
+                                0<span>%</span>
+                            </div>
+                            <div class="big-label">
+                                GCC growth decade-on-decade
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MARQUEE -->
+        <div class="mq-wrap">
+            <div class="mq-track">
+                <div class="mq-item">
+                    <span class="mq-dot"></span>Microsoft GCC India
+                </div>
+                <div class="mq-item">
+                    <span class="mq-dot"></span>Goldman Sachs Bengaluru
+                </div>
+                <div class="mq-item">
+                    <span class="mq-dot"></span>JP Morgan Hyderabad
+                </div>
+                <div class="mq-item">
+                    <span class="mq-dot"></span>Adobe India
+                </div>
+                <div class="mq-item">
+                    <span class="mq-dot"></span>Walmart Global Tech
+                </div>
+                <div class="mq-item">
+                    <span class="mq-dot"></span>Bosch India
+                </div>
+                <div class="mq-item">
+                    <span class="mq-dot"></span>SAP Labs India
+                </div>
+                <div class="mq-item">
+                    <span class="mq-dot"></span>Citi Technology Centre
+                </div>
+                <div class="mq-item">
+                    <span class="mq-dot"></span>Google India
+                </div>
+                <div class="mq-item">
+                    <span class="mq-dot"></span>Honeywell Technology
+                </div>
+                <div class="mq-item">
+                    <span class="mq-dot"></span>Microsoft GCC India
+                </div>
+                <div class="mq-item">
+                    <span class="mq-dot"></span>Goldman Sachs Bengaluru
+                </div>
+                <div class="mq-item">
+                    <span class="mq-dot"></span>JP Morgan Hyderabad
+                </div>
+                <div class="mq-item">
+                    <span class="mq-dot"></span>Adobe India
+                </div>
+                <div class="mq-item">
+                    <span class="mq-dot"></span>Walmart Global Tech
+                </div>
+                <div class="mq-item">
+                    <span class="mq-dot"></span>Bosch India
+                </div>
+                <div class="mq-item">
+                    <span class="mq-dot"></span>SAP Labs India
+                </div>
+                <div class="mq-item">
+                    <span class="mq-dot"></span>Citi Technology Centre
+                </div>
+                <div class="mq-item">
+                    <span class="mq-dot"></span>Google India
+                </div>
+                <div class="mq-item">
+                    <span class="mq-dot"></span>Honeywell Technology
+                </div>
+            </div>
+        </div>
+
+        <!-- EVENTS -->
+        <div class="events-section" id="events">
+            <div class="events-wrap">
+                <div class="events-head reveal">
+                    <div>
+                        <div class="eyebrow">Events</div>
+                        <h2 class="st">
+                            Where GCC leaders<br /><em>actually</em> connect
+                        </h2>
+                    </div>
+                    <a href="#" class="btn-g">View All Events →</a>
+                </div>
+                <div class="events-grid reveal">
+                    <div class="ev">
+                        <div class="ev-date">June 14, 2026 · Bengaluru</div>
+                        <div class="ev-title">GCC Dcode Summit 2026</div>
+                        <div class="ev-loc">
+                            The flagship annual gathering of India's GCC
+                            leadership community. Keynotes, peer sessions,
+                            exclusive roundtables.
+                        </div>
+                        <span class="ev-tag hi">Flagship</span>&nbsp;<span
+                            class="ev-tag"
+                            >In-Person</span
+                        >
+                    </div>
+                    <div class="ev">
+                        <div class="ev-date">July 8, 2026 · Virtual</div>
+                        <div class="ev-title">AI Transformation in GCCs</div>
+                        <div class="ev-loc">
+                            Deploying AI at scale within Global Capability
+                            Centres. CTO-level peer exchange, off the record.
+                        </div>
+                        <span class="ev-tag">Virtual</span>&nbsp;<span
+                            class="ev-tag hi"
+                            >AI Focus</span
+                        >
+                    </div>
+                    <div class="ev">
+                        <div class="ev-date">August 22, 2026 · Mumbai</div>
+                        <div class="ev-title">BFSI Leaders Roundtable</div>
+                        <div class="ev-loc">
+                            Intimate roundtable for senior leaders in Banking,
+                            Financial Services & Insurance GCCs. Candid
+                            conversations only.
+                        </div>
+                        <span class="ev-tag">BFSI</span>&nbsp;<span
+                            class="ev-tag hi"
+                            >Invite-Only</span
+                        >
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- INSIGHTS -->
+        <div class="insights-section" id="insights">
+            <div class="insights-wrap">
+                <div class="reveal">
+                    <div class="eyebrow">Insights</div>
+                    <h2 class="st">
+                        Everything a GCC leader <em>needs to thrive</em>
+                    </h2>
+                </div>
+                <div class="insights-grid reveal">
+                    <div class="ins-main">
+                        <div class="ins-hero-img">
+                            <canvas
+                                id="insCanvas"
+                                class="ins-hero-canvas"
+                            ></canvas>
+                            <div class="ins-hero-label">
+                                Research Report · 2026
+                            </div>
+                        </div>
+                        <div class="ins-body">
+                            <div class="ins-cat">Flagship Report</div>
+                            <div class="ins-title">
+                                State of GCC India 2026: From Cost Centre to
+                                Innovation Engine
+                            </div>
+                            <div class="ins-excerpt">
+                                India's 1,800+ GCCs are no longer just delivery
+                                hubs. This landmark report maps the strategic
+                                shift — AI adoption rates, talent density,
+                                autonomy indices, and what separates Tier 1 GCCs
+                                from the rest.
+                            </div>
+                            <div class="ins-foot">
+                                <div class="ins-by">
+                                    GCC Dcode Research · 42 min read
+                                </div>
+                                <a href="#" class="ins-link">Read Report →</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ins-list">
+                        <div class="ins-item">
+                            <div class="ins-cat">Leadership</div>
+                            <div class="ins-title">
+                                How top GCC leaders are building boards of trust
+                                with global HQ
+                            </div>
+                            <div class="ins-foot">
+                                <div class="ins-by">8 min read</div>
+                                <a href="#" class="ins-link">Read →</a>
+                            </div>
+                        </div>
+                        <div class="ins-item">
+                            <div class="ins-cat">Talent</div>
+                            <div class="ins-title">
+                                The talent war for AI engineers: a GCC playbook
+                                for 2026
+                            </div>
+                            <div class="ins-foot">
+                                <div class="ins-by">12 min read</div>
+                                <a href="#" class="ins-link">Read →</a>
+                            </div>
+                        </div>
+                        <div class="ins-item">
+                            <div class="ins-cat">Strategy</div>
+                            <div class="ins-title">
+                                Why 60% of GCCs are restructuring their
+                                operating models right now
+                            </div>
+                            <div class="ins-foot">
+                                <div class="ins-by">6 min read</div>
+                                <a href="#" class="ins-link">Read →</a>
+                            </div>
+                        </div>
+                        <div class="ins-item">
+                            <div class="ins-cat">Technology</div>
+                            <div class="ins-title">
+                                Generative AI deployment patterns in India's top
+                                50 GCCs
+                            </div>
+                            <div class="ins-foot">
+                                <div class="ins-by">15 min read</div>
+                                <a href="#" class="ins-link">Read →</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- COUNCIL -->
+        <div class="council-section" id="council">
+            <div class="council-wrap">
+                <div class="council-head reveal">
+                    <div>
+                        <div class="eyebrow">Industry Council</div>
+                        <h2 class="st">
+                            35+ leaders<br /><em>shaping GCC India</em>
+                        </h2>
+                    </div>
+                    <p class="sd">
+                        An invite-only cohort of India's most senior GCC leaders
+                        — collaborating, challenging, building the future of the
+                        ecosystem together.
+                    </p>
+                </div>
+                <div class="council-grid reveal">
+                    <div class="mem">
+                        <div class="mem-av">M1</div>
+                        <div class="mem-name">Member 1</div>
+                        <div class="mem-role">VP Engineering & Head of GCC</div>
+                        <div class="mem-co">Fortune 100 Fintech</div>
+                    </div>
+                    <div class="mem">
+                        <div class="mem-av">M2</div>
+                        <div class="mem-name">Member 2</div>
+                        <div class="mem-role">MD, India Technology Centre</div>
+                        <div class="mem-co">Global Healthcare Corp</div>
+                    </div>
+                    <div class="mem">
+                        <div class="mem-av">M3</div>
+                        <div class="mem-name">Member 3</div>
+                        <div class="mem-role">Chief Capability Officer</div>
+                        <div class="mem-co">Retail Technology Leader</div>
+                    </div>
+                    <div class="mem">
+                        <div class="mem-av">M4</div>
+                        <div class="mem-name">Member 4</div>
+                        <div class="mem-role">SVP, Global Operations Hub</div>
+                        <div class="mem-co">BFSI Giant</div>
+                    </div>
+                    <div class="mem">
+                        <div class="mem-av">M5</div>
+                        <div class="mem-name">Member 5</div>
+                        <div class="mem-role">Head of GCC Transformation</div>
+                        <div class="mem-co">Automotive Technology</div>
+                    </div>
+                    <div class="mem">
+                        <div class="mem-av">M6</div>
+                        <div class="mem-name">Member 6</div>
+                        <div class="mem-role">Director, India Strategy</div>
+                        <div class="mem-co">Global SaaS Leader</div>
+                    </div>
+                    <div class="mem">
+                        <div class="mem-av">M7</div>
+                        <div class="mem-name">Member</div>
+                        <div class="mem-role">Country Head, GCC Operations</div>
+                        <div class="mem-co">Insurance Conglomerate</div>
+                    </div>
+                    <div
+                        class="mem"
+                        style="
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            flex-direction: column;
+                            text-align: center;
+                            border-style: dashed;
+                        "
+                    >
+                        <div
+                            style="
+                                font-size: 1.5rem;
+                                color: var(--blue-light);
+                                margin-bottom: 0.5rem;
+                            "
+                        >
+                            +
+                        </div>
+                        <div style="font-size: 0.78rem; color: var(--text-dim)">
+                            28 more members
+                        </div>
+                        <a
+                            href="#"
+                            style="
+                                font-size: 0.7rem;
+                                color: var(--blue-light);
+                                margin-top: 0.4rem;
+                                text-decoration: none;
+                                font-weight: 600;
+                            "
+                            >Apply to join →</a
+                        >
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA BAND -->
+        <div class="cta-band">
+            <canvas id="ctaCanvas" class="cta-canvas"></canvas>
+            <div class="cta-content">
+                <h2>Ready to <em>Dcode</em><br />your GCC?</h2>
+                <p>
+                    Join the network that's redefining what GCC leadership looks
+                    like in India and beyond.
+                </p>
+                <div class="cta-acts">
+                    <a href="#" class="btn-p">Request Access →</a>
+                    <a href="#" class="btn-g">View Membership Plans</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- FORMS SECTION -->
+        <section class="forms-section">
+            <!-- CONSULTATION FORM -->
+            <div class="form-block" id="consultation-form">
+                <div class="form-header">
+                    <span>CONSULTING</span>
+                    <h2>Book a Consultation</h2>
+                    <p>
+                        Connect with GCC transformation experts for strategic
+                        advisory, operating model guidance, and enterprise-scale
+                        consulting.
+                    </p>
+                </div>
+
+                <div class="form-embed">
+                    <iframe data-tally-src="https://tally.so/embed/A7jPae?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="100%" height="1454" frameborder="0" marginheight="0" marginwidth="0" title="Book a Consultation"></iframe>
+                    <script>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s);}</script>
+                </div>
+            </div>
+
+            <!-- NETWORK FORM -->
+            <div class="form-block" id="network-form">
+                <div class="form-header">
+                    <span>NETWORK</span>
+                    <h2>Join the GCC Network</h2>
+                    <p>
+                        Join a curated ecosystem of GCC leaders, operators,
+                        advisors, and transformation professionals across India.
+                    </p>
+                </div>
+
+                <div class="form-embed">
+                <iframe data-tally-src="https://tally.so/embed/rjkybR?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="100%" height="1162" frameborder="0" marginheight="0" marginwidth="0" title="Join the Network"></iframe>
+                <script>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s);}</script>
+
+        <!-- FOOTER -->
+        <footer>
+            <div class="ft-grid">
+                <div class="ft-brand">
+                    <a href="#" class="logo">GCC <em>Dcode</em></a>
+                    <p class="ft-desc">
+                        The world's GCC intelligence platform. Decoding the
+                        future of global capability — one insight at a time.
+                    </p>
+                </div>
+                <div class="ft-col">
+                    <h4>Serivces</h4>
+                    <ul>
+                        <li><a href="#">GCC Database</a></li>
+                        <li><a href="#">Industry Council</a></li>
+                        <li><a href="#">Research Hub</a></li>
+                        <li><a href="#">Events</a></li>
+                        <li><a href="#">Benchmarking</a></li>
+                    </ul>
+                </div>
+                <div class="ft-col">
+                    <h4>Community</h4>
+                    <ul>
+                        <li><a href="#">Join the Network</a></li>
+                        <li><a href="#">Council Members</a></li>
+                        <li><a href="#">Speaker Bureau</a></li>
+                        <li><a href="#">Partner With Us</a></li>
+                    </ul>
+                </div>
+                <div class="ft-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Privacy</a></li>
+                        <li><a href="#">Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="ft-bottom">
+                <span>© 2026 GCC Dcode. All rights reserved.</span>
+                <span>Built for GCC leaders, by a GCC leader.</span>
+            </div>
+        </footer>
+        <script src="//cdn.jsdelivr.net/npm/globe.gl"></script>
+        <script type="module">
+
+        import * as THREE from 'https://esm.sh/three';
+
+        const globeContainer = document.getElementById('globeViz');
+
+        const world = new Globe(globeContainer, {
+            animateIn: false
+        })
+
+        .globeImageUrl(
+            '//cdn.jsdelivr.net/npm/three-globe/example/img/earth-blue-marble.jpg'
+        )
+
+        .bumpImageUrl(
+            '//cdn.jsdelivr.net/npm/three-globe/example/img/earth-topology.png'
+        );
+
+        /* CAMERA */
+
+        world.camera().position.z = 350;
+
+        /* CONTROLS */
+
+        world.controls().autoRotate = true;
+        world.controls().autoRotateSpeed = 0.35;
+        world.controls().enableZoom = false;
+        world.controls().enablePan = false;
+        world.camera().position.z = 290;
+
+        /* CLOUDS */
+
+        const CLOUDS_IMG_URL =
+            '//cdn.jsdelivr.net/npm/three-globe/example/img/earth-clouds.png';
+
+        const CLOUDS_ALT = 0.004;
+        const CLOUDS_ROTATION_SPEED = -0.006;
+
+        new THREE.TextureLoader().load(CLOUDS_IMG_URL, cloudsTexture => {
+
+            const clouds = new THREE.Mesh(
+                new THREE.SphereGeometry(
+                    world.getGlobeRadius() * (1 + CLOUDS_ALT),
+                    75,
+                    75
+                ),
+                new THREE.MeshPhongMaterial({
+                    map: cloudsTexture,
+                    transparent: true
+                })
+            );
+
+            world.scene().add(clouds);
+
+            (function rotateClouds() {
+
+                clouds.rotation.y +=
+                    CLOUDS_ROTATION_SPEED * Math.PI / 180;
+
+                requestAnimationFrame(rotateClouds);
+
+            })();
+
+        });
+
+        </script>
+        <script>
+            /* ── CURSOR ── */
+
+            const cur = document.getElementById("cur"),
+                curR = document.getElementById("cur-r");
+            let mx = 0,
+                my = 0,
+                rx = 0,
+                ry = 0;
+            document.addEventListener("mousemove", (e) => {
+                mx = e.clientX;
+                my = e.clientY;
+                cur.style.left = mx + "px";
+                cur.style.top = my + "px";
+            });
+            (function loop() {
+                rx += (mx - rx) * 0.1;
+                ry += (my - ry) * 0.1;
+                curR.style.left = rx + "px";
+                curR.style.top = ry + "px";
+                requestAnimationFrame(loop);
+            })();
+            document
+                .querySelectorAll(
+                    "a,button,.ev,.ins-main,.ins-item,.mem,.offer-item",
+                )
+                .forEach((el) => {
+                    el.addEventListener("mouseenter", () => {
+                        cur.style.width = "16px";
+                        cur.style.height = "16px";
+                        curR.style.width = "48px";
+                        curR.style.height = "48px";
+                    });
+                    el.addEventListener("mouseleave", () => {
+                        cur.style.width = "8px";
+                        cur.style.height = "8px";
+                        curR.style.width = "32px";
+                        curR.style.height = "32px";
+                    });
+                });
+
+            /* ── NAV SCROLL ── */
+            const nav = document.getElementById("nav");
+            window.addEventListener("scroll", () =>
+                nav.classList.toggle("scrolled", scrollY > 60),
+            );
+
+            /* ── REVEAL ── */
+            const revEls = document.querySelectorAll(".reveal");
+            new IntersectionObserver(
+                (es) =>
+                    es.forEach((e) => {
+                        if (e.isIntersecting) {
+                            e.target.classList.add("visible");
+                        }
+                    }),
+                { threshold: 0.1 },
+            ).observe || revEls.forEach((r) => r.classList.add("visible"));
+            const ro = new IntersectionObserver(
+                (es) =>
+                    es.forEach((e) => {
+                        if (e.isIntersecting) {
+                            setTimeout(
+                                () => e.target.classList.add("visible"),
+                                80,
+                            );
+                            ro.unobserve(e.target);
+                        }
+                    }),
+                { threshold: 0.08 },
+            );
+            revEls.forEach((r) => ro.observe(r));
+
+            /* ── COUNTERS ── */
+            function countUp(el, target) {
+                const suffix = el.querySelector("span")
+                    ? el.querySelector("span").outerHTML
+                    : "";
+                const numEl = el;
+                let v = 0;
+                const step = target / 55;
+                const t = setInterval(() => {
+                    v += step;
+                    if (v >= target) {
+                        v = target;
+                        clearInterval(t);
+                    }
+                    numEl.innerHTML =
+                        Math.floor(v).toLocaleString() +
+                        (el.dataset.target >= 1000 ? "+" : "") +
+                        suffix;
+                }, 18);
+            }
+            const cEls = document.querySelectorAll("[data-target]");
+            new IntersectionObserver(
+                (es) =>
+                    es.forEach((e) => {
+                        if (e.isIntersecting) {
+                            countUp(e.target, +e.target.dataset.target);
+                        }
+                    }),
+                { threshold: 0.5 },
+            ).observe || null;
+            const co = new IntersectionObserver(
+                (es) =>
+                    es.forEach((e) => {
+                        if (e.isIntersecting) {
+                            countUp(e.target, +e.target.dataset.target);
+                            co.unobserve(e.target);
+                        }
+                    }),
+                { threshold: 0.5 },
+            );
+            cEls.forEach((c) => co.observe(c));
+
+            /* ── 3D METALLIC SPHERE RENDERER ── */
+            function drawMetallicSphere(canvas, opts) {
+                const ctx = canvas.getContext("2d");
+                let W = 0,
+                    H = 0,
+                    frame = 0,
+                    animId;
+
+                function resize() {
+                    W = canvas.offsetWidth;
+                    H = canvas.offsetHeight;
+                    canvas.width = W * devicePixelRatio;
+                    canvas.height = H * devicePixelRatio;
+                    ctx.scale(devicePixelRatio, devicePixelRatio);
+                }
+
+                function drawSphere(cx, cy, r, t, palette) {
+                    // Main sphere gradient — metallic look
+                    const grd = ctx.createRadialGradient(
+                        cx - r * 0.3,
+                        cy - r * 0.3,
+                        r * 0.05,
+                        cx,
+                        cy,
+                        r,
+                    );
+                    grd.addColorStop(0, palette.hi);
+                    grd.addColorStop(0.35, palette.mid);
+                    grd.addColorStop(0.7, palette.lo);
+                    grd.addColorStop(1, palette.shadow);
+                    ctx.beginPath();
+                    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+                    ctx.fillStyle = grd;
+                    ctx.fill();
+
+                    // Specular highlight
+                    const spec = ctx.createRadialGradient(
+                        cx - r * 0.28,
+                        cy - r * 0.32,
+                        0,
+                        cx - r * 0.2,
+                        cy - r * 0.2,
+                        r * 0.45,
+                    );
+                    spec.addColorStop(0, "rgba(255,255,255,0.55)");
+                    spec.addColorStop(0.4, "rgba(255,255,255,0.1)");
+                    spec.addColorStop(1, "rgba(255,255,255,0)");
+                    ctx.beginPath();
+                    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+                    ctx.fillStyle = spec;
+                    ctx.fill();
+
+                    // Rim light (opposite side)
+                    const rim = ctx.createRadialGradient(
+                        cx + r * 0.6,
+                        cy + r * 0.5,
+                        0,
+                        cx + r * 0.5,
+                        cy + r * 0.4,
+                        r * 0.6,
+                    );
+                    rim.addColorStop(0, palette.rim);
+                    rim.addColorStop(1, "rgba(0,0,0,0)");
+                    ctx.beginPath();
+                    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+                    ctx.fillStyle = rim;
+                    ctx.fill();
+
+                    // Animated reflection band
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+                    ctx.clip();
+                    const bandX =
+                        cx - r + ((Math.sin(t * 0.6) + 1) / 2) * (r * 2);
+                    const bandGrd = ctx.createLinearGradient(
+                        bandX - r * 0.25,
+                        0,
+                        bandX + r * 0.25,
+                        0,
+                    );
+                    bandGrd.addColorStop(0, "rgba(255,255,255,0)");
+                    bandGrd.addColorStop(
+                        0.5,
+                        `rgba(255,255,255,${palette.bandAlpha})`,
+                    );
+                    bandGrd.addColorStop(1, "rgba(255,255,255,0)");
+                    ctx.fillStyle = bandGrd;
+                    ctx.fillRect(cx - r, cy - r, r * 2, r * 2);
+                    ctx.restore();
+                }
+
+                function drawScene(t) {
+                    ctx.clearRect(0, 0, W, H);
+
+                    if (opts.bg) {
+                        ctx.fillStyle = opts.bg;
+                        ctx.fillRect(0, 0, W, H);
+                    }
+
+                    // Draw each sphere from config
+                    opts.spheres.forEach((s) => {
+                        const x =
+                            W * s.xPct +
+                            Math.sin(t * s.driftX + s.phase) * s.driftAmp;
+                        const y =
+                            H * s.yPct +
+                            Math.cos(t * s.driftY + s.phase) * s.driftAmp * 0.6;
+                        const r = Math.min(W, H) * s.rPct;
+                        // Drop shadow
+                        ctx.save();
+                        ctx.shadowColor = s.palette.shadow;
+                        ctx.shadowBlur = r * 0.8;
+                        ctx.shadowOffsetX = r * 0.15;
+                        ctx.shadowOffsetY = r * 0.15;
+                        drawSphere(x, y, r, t, s.palette);
+                        ctx.restore();
+                    });
+                }
+
+                function loop() {
+                    animId = requestAnimationFrame(loop);
+                    frame += 0.008;
+                    drawScene(frame);
+                }
+
+                resize();
+                window.addEventListener("resize", () => {
+                    resize();
+                });
+                loop();
+                return () => cancelAnimationFrame(animId);
+            }
+
+            /* ── PALETTE DEFINITIONS — business-themed metallic ── */
+            const steelBlue = {
+                hi: "rgba(180,210,240,1)",
+                mid: "rgba(74,128,196,1)",
+                lo: "rgba(20,55,110,1)",
+                shadow: "rgba(5,15,40,0.9)",
+                rim: "rgba(100,160,230,0.35)",
+                bandAlpha: 0.18,
+            };
+            const darkSteel = {
+                hi: "rgba(200,215,230,1)",
+                mid: "rgba(90,110,140,1)",
+                lo: "rgba(18,28,44,1)",
+                shadow: "rgba(0,0,0,0.95)",
+                rim: "rgba(120,180,240,0.2)",
+                bandAlpha: 0.12,
+            };
+            const mirrorChrome = {
+                hi: "rgba(230,235,245,1)",
+                mid: "rgba(120,140,170,1)",
+                lo: "rgba(25,32,48,1)",
+                shadow: "rgba(0,5,20,0.95)",
+                rim: "rgba(160,200,255,0.3)",
+                bandAlpha: 0.2,
+            };
+            const warmSteel = {
+                hi: "rgba(210,220,235,1)",
+                mid: "rgba(85,105,135,1)",
+                lo: "rgba(15,25,45,1)",
+                shadow: "rgba(2,5,18,0.9)",
+                rim: "rgba(100,150,210,0.25)",
+                bandAlpha: 0.15,
+            };
+
+
+            /* ── HERO CLOUD GLOBE ── */
+
+            const container = document.getElementById('globeViz');
+
+            const world = Globe()
+                .globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
+                .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')
+                .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
+                .width(container.clientWidth)
+                .height(container.clientHeight)
+                (container);
+
+            /* CONTROLS */
+
+            world.controls().autoRotate = true;
+            world.pointOfView(
+              { lat: 0, lng: -35, altitude: 10 },
+              0
+            );
+            world.controls().autoRotateSpeed = 0.45;
+            world.controls().enableZoom = false;
+
+            world.camera().position.z = 350;
+
+            /* CLOUDS */
+
+            const CLOUDS_IMG =
+                '//unpkg.com/three-globe/example/img/earth-clouds.png';
+
+            const CLOUDS_ALT = 0.004;
+            const CLOUDS_ROTATION_SPEED = -0.002;
+
+            new THREE.TextureLoader().load(CLOUDS_IMG, cloudsTexture => {
+
+                const clouds = new THREE.Mesh(
+                    new THREE.SphereGeometry(
+                        world.getGlobeRadius() * (1 + CLOUDS_ALT),
+                        75,
+                        75
+                    ),
+                    new THREE.MeshPhongMaterial({
+                        map: cloudsTexture,
+                        transparent: true
+                    })
+                );
+
+                world.scene().add(clouds);
+
+                (function rotateClouds() {
+                    clouds.rotation.y +=
+                        CLOUDS_ROTATION_SPEED * Math.PI / 180;
+
+                    requestAnimationFrame(rotateClouds);
+                })();
+
+            });
+
+
+            /* About canvas */
+            const aboutC = document.getElementById("aboutCanvas");
+            drawMetallicSphere(aboutC, {
+                bg: "#111111",
+                spheres: [
+                    {
+                        xPct: 0.5,
+                        yPct: 0.45,
+                        rPct: 0.32,
+                        driftX: 0.3,
+                        driftY: 0.28,
+                        driftAmp: 8,
+                        phase: 1.2,
+                        palette: mirrorChrome,
+                    },
+                    {
+                        xPct: 0.82,
+                        yPct: 0.2,
+                        rPct: 0.14,
+                        driftX: 0.5,
+                        driftY: 0.45,
+                        driftAmp: 6,
+                        phase: 3.3,
+                        palette: steelBlue,
+                    },
+                ],
+            });
+
+            /* Insights canvas */
+            const insC = document.getElementById("insCanvas");
+            drawMetallicSphere(insC, {
+                bg: "#0A0A0A",
+                spheres: [
+                    {
+                        xPct: 0.75,
+                        yPct: 0.5,
+                        rPct: 0.38,
+                        driftX: 0.25,
+                        driftY: 0.22,
+                        driftAmp: 6,
+                        phase: 0.8,
+                        palette: darkSteel,
+                    },
+                    {
+                        xPct: 0.15,
+                        yPct: 0.35,
+                        rPct: 0.18,
+                        driftX: 0.4,
+                        driftY: 0.35,
+                        driftAmp: 8,
+                        phase: 2.5,
+                        palette: warmSteel,
+                    },
+                ],
+            });
+
+            /* CTA canvas */
+            const ctaC = document.getElementById("ctaCanvas");
+            drawMetallicSphere(ctaC, {
+                bg: "#060608",
+                spheres: [
+                    {
+                        xPct: 0.82,
+                        yPct: 0.5,
+                        rPct: 0.4,
+                        driftX: 0.2,
+                        driftY: 0.18,
+                        driftAmp: 10,
+                        phase: 1.5,
+                        palette: steelBlue,
+                    },
+                    {
+                        xPct: 0.6,
+                        yPct: 0.75,
+                        rPct: 0.16,
+                        driftX: 0.45,
+                        driftY: 0.4,
+                        driftAmp: 7,
+                        phase: 3.0,
+                        palette: mirrorChrome,
+                    },
+                    {
+                        xPct: 0.95,
+                        yPct: 0.15,
+                        rPct: 0.1,
+                        driftX: 0.35,
+                        driftY: 0.3,
+                        driftAmp: 5,
+                        phase: 0.3,
+                        palette: darkSteel,
+                    },
+                ],
+            });
+        </script>
+    </body>
+</html>
