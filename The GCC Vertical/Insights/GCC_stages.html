@@ -1,0 +1,1860 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>
+            From Transactional to Cognitive: The Three Maturity Stages of a
+            Modern GCC | GCC Dcode
+        </title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Source+Sans+3:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap"
+            rel="stylesheet"
+        />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            html {
+                scroll-behavior: smooth;
+            }
+            :root {
+                --ink: #0a0a0a;
+                --border: #222228;
+                --border2: #2e2e38;
+                --text: #eaeaea;
+                --text-dim: #8a8f98;
+                --steel: #7a8fa6;
+                --blue-light: #4a80c4;
+                /* level colors */
+                --l1: #c0392b;
+                --l1-glow: rgba(192, 57, 43, 0.18);
+                --l1-dim: rgba(192, 57, 43, 0.08);
+                --l2: #d4820a;
+                --l2-glow: rgba(212, 130, 10, 0.18);
+                --l2-dim: rgba(212, 130, 10, 0.08);
+                --l3: #1aab87;
+                --l3-glow: rgba(26, 171, 135, 0.18);
+                --l3-dim: rgba(26, 171, 135, 0.08);
+            }
+            body {
+                background: var(--ink);
+                color: var(--text);
+                font-family: "Source Sans 3", sans-serif;
+                font-size: 16px;
+                line-height: 1.6;
+                overflow-x: hidden;
+            }
+
+            /* NAV */
+            nav {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 200;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 1.5rem 3rem;
+                background: rgba(10, 10, 10, 0);
+                transition:
+                    background 0.4s,
+                    border 0.4s;
+            }
+            nav.scrolled {
+                background: rgba(10, 10, 10, 0.96);
+                border-bottom: 1px solid var(--border);
+            }
+            .logo {
+                font-family: "Playfair Display", serif;
+                font-size: 1.25rem;
+                font-weight: 800;
+                color: #fff;
+                text-decoration: none;
+            }
+            .logo em {
+                font-style: italic;
+                color: var(--blue-light);
+            }
+            .nav-back {
+                background: transparent;
+                border: 1px solid var(--border2);
+                color: var(--text-dim);
+                padding: 0.55rem 1.25rem;
+                font-size: 0.75rem;
+                font-weight: 500;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                transition: all 0.2s;
+                font-family: "Source Sans 3", sans-serif;
+                text-decoration: none;
+                display: inline-block;
+            }
+            .nav-back:hover {
+                border-color: #fff;
+                color: #fff;
+            }
+
+            /* HERO — dark gradient with faint particle dots */
+            .article-hero {
+                min-height: 62vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                padding: 10rem 3rem 6rem;
+                background: linear-gradient(
+                    145deg,
+                    #0a0a12 0%,
+                    #0f0f1e 40%,
+                    #141428 100%
+                );
+                position: relative;
+                overflow: hidden;
+                text-align: center;
+            }
+            .hero-canvas {
+                position: absolute;
+                inset: 0;
+                z-index: 0;
+                opacity: 0.5;
+            }
+            .article-hero .overlay {
+                position: absolute;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.45);
+                z-index: 1;
+            }
+            .hero-content {
+                position: relative;
+                z-index: 10;
+                max-width: 860px;
+            }
+            .hero-kicker {
+                font-family: "Space Mono", monospace;
+                font-size: 0.7rem;
+                color: var(--steel);
+                letter-spacing: 0.15em;
+                text-transform: uppercase;
+                margin-bottom: 2rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.75rem;
+            }
+            .hero-kicker::before,
+            .hero-kicker::after {
+                content: "";
+                display: block;
+                width: 20px;
+                height: 1px;
+                background: var(--steel);
+            }
+            .article-hero h1 {
+                font-family: "Playfair Display", serif;
+                font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+                font-weight: 800;
+                line-height: 1.15;
+                letter-spacing: -0.03em;
+                color: #fff;
+                margin-bottom: 1.5rem;
+            }
+            .article-hero h1 em {
+                font-style: italic;
+                color: var(--l3);
+            }
+            .hero-pill-row {
+                display: flex;
+                justify-content: center;
+                gap: 1rem;
+                margin-top: 2rem;
+                flex-wrap: wrap;
+            }
+            .hero-pill {
+                font-family: "Space Mono", monospace;
+                font-size: 0.65rem;
+                padding: 0.4rem 1rem;
+                border-radius: 2px;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+            }
+            .pill-1 {
+                background: var(--l1-dim);
+                border: 1px solid rgba(192, 57, 43, 0.35);
+                color: #e07060;
+            }
+            .pill-2 {
+                background: var(--l2-dim);
+                border: 1px solid rgba(212, 130, 10, 0.35);
+                color: #e0a060;
+            }
+            .pill-3 {
+                background: var(--l3-dim);
+                border: 1px solid rgba(26, 171, 135, 0.35);
+                color: #1aab87;
+            }
+
+            /* MATURITY EXPLORER — the centrepiece */
+            .explorer-wrap {
+                background: linear-gradient(
+                    180deg,
+                    rgba(255, 255, 255, 0.015) 0%,
+                    rgba(255, 255, 255, 0.005) 100%
+                );
+                border: 1px solid var(--border2);
+                border-radius: 12px;
+                overflow: hidden;
+                margin: 3rem 0;
+            }
+            .explorer-tabs {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                border-bottom: 1px solid var(--border2);
+            }
+            .etab {
+                padding: 1.5rem 1rem;
+                text-align: center;
+                cursor: pointer;
+                border: none;
+                background: transparent;
+                transition: background 0.25s;
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            .etab::after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 2px;
+                background: transparent;
+                transition: background 0.25s;
+            }
+            .etab.active-1::after {
+                background: var(--l1);
+            }
+            .etab.active-2::after {
+                background: var(--l2);
+            }
+            .etab.active-3::after {
+                background: var(--l3);
+            }
+            .etab.active-1 {
+                background: var(--l1-dim);
+            }
+            .etab.active-2 {
+                background: var(--l2-dim);
+            }
+            .etab.active-3 {
+                background: var(--l3-dim);
+            }
+            .etab-num {
+                font-family: "Space Mono", monospace;
+                font-size: 0.6rem;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                color: var(--text-dim);
+            }
+            .etab-label {
+                font-family: "Playfair Display", serif;
+                font-size: 1rem;
+                font-weight: 700;
+                color: #fff;
+                line-height: 1.2;
+            }
+            .etab-sub {
+                font-family: "Space Mono", monospace;
+                font-size: 0.62rem;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+            }
+            .etab[data-lvl="1"] .etab-sub {
+                color: var(--l1);
+            }
+            .etab[data-lvl="2"] .etab-sub {
+                color: var(--l2);
+            }
+            .etab[data-lvl="3"] .etab-sub {
+                color: var(--l3);
+            }
+            .explorer-body {
+                display: none;
+                padding: 2.5rem;
+                animation: fadeUp 0.3s ease forwards;
+            }
+            .explorer-body.visible {
+                display: grid;
+                grid-template-columns: 1.1fr 1fr;
+                gap: 2.5rem;
+            }
+            @keyframes fadeUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(8px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            .ebody-left {
+            }
+            .ebody-right {
+                display: flex;
+                flex-direction: column;
+                gap: 1.25rem;
+            }
+            .level-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.6rem;
+                font-family: "Space Mono", monospace;
+                font-size: 0.65rem;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                padding: 0.45rem 1rem;
+                border-radius: 3px;
+                margin-bottom: 1rem;
+            }
+            .badge-1 {
+                background: var(--l1-dim);
+                border: 1px solid rgba(192, 57, 43, 0.4);
+                color: #e07060;
+            }
+            .badge-2 {
+                background: var(--l2-dim);
+                border: 1px solid rgba(212, 130, 10, 0.4);
+                color: #e0a060;
+            }
+            .badge-3 {
+                background: var(--l3-dim);
+                border: 1px solid rgba(26, 171, 135, 0.4);
+                color: #1aab87;
+            }
+            .ebody-left h3 {
+                font-family: "Playfair Display", serif;
+                font-size: 1.5rem;
+                font-weight: 700;
+                color: #fff;
+                margin-bottom: 0.75rem;
+                line-height: 1.2;
+            }
+            .ebody-left p {
+                font-size: 0.95rem;
+                color: var(--text-dim);
+                line-height: 1.7;
+                margin-bottom: 1.25rem;
+            }
+            .char-list {
+                list-style: none;
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+                margin-bottom: 1.5rem;
+            }
+            .char-list li {
+                font-size: 0.9rem;
+                color: var(--text);
+                display: flex;
+                gap: 0.75rem;
+                align-items: flex-start;
+            }
+            .char-list li .dot {
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                flex-shrink: 0;
+                margin-top: 0.45rem;
+            }
+            .dot-1 {
+                background: var(--l1);
+            }
+            .dot-2 {
+                background: var(--l2);
+            }
+            .dot-3 {
+                background: var(--l3);
+            }
+            .strategic-box {
+                padding: 1rem 1.2rem;
+                border-radius: 6px;
+                font-size: 0.88rem;
+                line-height: 1.65;
+                color: var(--text-dim);
+                font-style: italic;
+                margin-top: 0.25rem;
+            }
+            .sbox-1 {
+                background: var(--l1-dim);
+                border-left: 2px solid rgba(192, 57, 43, 0.5);
+            }
+            .sbox-2 {
+                background: var(--l2-dim);
+                border-left: 2px solid rgba(212, 130, 10, 0.5);
+            }
+            .sbox-3 {
+                background: var(--l3-dim);
+                border-left: 2px solid rgba(26, 171, 135, 0.5);
+            }
+            .fn-title {
+                font-family: "Space Mono", monospace;
+                font-size: 0.65rem;
+                color: var(--steel);
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                margin-bottom: 0.75rem;
+            }
+            .fn-tags {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            .fn-tag {
+                font-size: 0.78rem;
+                padding: 0.3rem 0.7rem;
+                border-radius: 3px;
+                border: 1px solid var(--border2);
+                color: var(--text-dim);
+                background: rgba(255, 255, 255, 0.025);
+            }
+            .fn-tag.active-1 {
+                border-color: rgba(192, 57, 43, 0.4);
+                color: #e07060;
+                background: var(--l1-dim);
+            }
+            .fn-tag.active-2 {
+                border-color: rgba(212, 130, 10, 0.4);
+                color: #e0a060;
+                background: var(--l2-dim);
+            }
+            .fn-tag.active-3 {
+                border-color: rgba(26, 171, 135, 0.4);
+                color: #1aab87;
+                background: var(--l3-dim);
+            }
+            .metrics-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 0.75rem;
+            }
+            .metric-card {
+                padding: 0.9rem 1rem;
+                border-radius: 6px;
+                border: 1px solid var(--border2);
+            }
+            .metric-label {
+                font-family: "Space Mono", monospace;
+                font-size: 0.6rem;
+                color: var(--text-dim);
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                margin-bottom: 0.3rem;
+            }
+            .metric-val {
+                font-size: 0.9rem;
+                font-weight: 600;
+                color: #fff;
+            }
+            .metric-1 {
+                background: var(--l1-dim);
+            }
+            .metric-2 {
+                background: var(--l2-dim);
+            }
+            .metric-3 {
+                background: var(--l3-dim);
+            }
+
+            /* PROGRESS BARS — maturity dimension viz */
+            .dimension-bars {
+                margin: 2rem 0;
+            }
+            .dim-row {
+                display: grid;
+                grid-template-columns: 160px 1fr 42px;
+                align-items: center;
+                gap: 1rem;
+                margin-bottom: 0.75rem;
+            }
+            .dim-name {
+                font-size: 0.85rem;
+                color: var(--text-dim);
+                text-align: right;
+            }
+            .dim-track {
+                height: 6px;
+                background: rgba(255, 255, 255, 0.08);
+                border-radius: 3px;
+                overflow: hidden;
+                position: relative;
+            }
+            .dim-fill {
+                height: 100%;
+                border-radius: 3px;
+                transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+            .dim-pct {
+                font-family: "Space Mono", monospace;
+                font-size: 0.65rem;
+                color: var(--text-dim);
+                text-align: right;
+            }
+
+            /* COMPARISON TABLE */
+            .comp-table-wrap {
+                overflow-x: auto;
+                margin: 2rem 0;
+            }
+            .comp-table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            .comp-table th {
+                font-family: "Space Mono", monospace;
+                font-size: 0.65rem;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                padding: 0.9rem 1.2rem;
+                text-align: left;
+                border-bottom: 1px solid var(--border2);
+            }
+            .comp-table th.h-dim {
+                color: var(--steel);
+            }
+            .comp-table th.h-l1 {
+                color: #e07060;
+            }
+            .comp-table th.h-l2 {
+                color: #e0a060;
+            }
+            .comp-table th.h-l3 {
+                color: #1aab87;
+            }
+            .comp-table td {
+                padding: 0.85rem 1.2rem;
+                font-size: 0.9rem;
+                color: var(--text-dim);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+                vertical-align: middle;
+            }
+            .comp-table td.dim-cell {
+                font-size: 0.88rem;
+                color: var(--text);
+                font-weight: 500;
+            }
+            .comp-table tr:last-child td {
+                border-bottom: none;
+            }
+            .comp-table tr:hover td {
+                background: rgba(255, 255, 255, 0.015);
+            }
+            .t-tag {
+                display: inline-block;
+                font-size: 0.75rem;
+                padding: 0.2rem 0.65rem;
+                border-radius: 3px;
+            }
+            .tt-1 {
+                background: var(--l1-dim);
+                color: #e07060;
+                border: 1px solid rgba(192, 57, 43, 0.3);
+            }
+            .tt-2 {
+                background: var(--l2-dim);
+                color: #e0a060;
+                border: 1px solid rgba(212, 130, 10, 0.3);
+            }
+            .tt-3 {
+                background: var(--l3-dim);
+                color: #1aab87;
+                border: 1px solid rgba(26, 171, 135, 0.3);
+            }
+
+            /* JOURNEY CHART */
+            .chart-block {
+                margin: 2rem 0;
+                padding: 2rem;
+                background: rgba(255, 255, 255, 0.02);
+                border: 1px solid var(--border2);
+                border-radius: 8px;
+            }
+            .chart-label {
+                font-family: "Space Mono", monospace;
+                font-size: 0.7rem;
+                color: var(--steel);
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                margin-bottom: 1.25rem;
+            }
+            .chart-wrap {
+                position: relative;
+                width: 100%;
+            }
+
+            /* FORWARD PATH */
+            .path-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 1.25rem;
+                margin: 2rem 0;
+            }
+            @media (max-width: 640px) {
+                .path-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+            .path-card {
+                padding: 1.5rem 1.4rem;
+                border: 1px solid var(--border2);
+                border-radius: 8px;
+                background: rgba(255, 255, 255, 0.02);
+                transition: background 0.2s;
+            }
+            .path-card:hover {
+                background: rgba(255, 255, 255, 0.04);
+            }
+            .path-icon {
+                font-size: 1.4rem;
+                margin-bottom: 0.75rem;
+            }
+            .path-card h4 {
+                font-family: "Playfair Display", serif;
+                font-size: 1rem;
+                font-weight: 700;
+                color: #fff;
+                margin-bottom: 0.5rem;
+            }
+            .path-card p {
+                font-size: 0.88rem;
+                color: var(--text-dim);
+                line-height: 1.55;
+                margin: 0;
+            }
+
+            /* CLOSING QUESTION */
+            .question-block {
+                margin: 4rem 0;
+                padding: 3rem;
+                background: linear-gradient(
+                    135deg,
+                    rgba(26, 171, 135, 0.06) 0%,
+                    rgba(74, 128, 196, 0.04) 100%
+                );
+                border: 1px solid rgba(26, 171, 135, 0.18);
+                border-radius: 10px;
+                text-align: center;
+            }
+            .question-block h3 {
+                font-family: "Playfair Display", serif;
+                font-size: 1.6rem;
+                font-weight: 800;
+                color: #fff;
+                line-height: 1.3;
+                margin-bottom: 1.25rem;
+            }
+            .question-block p {
+                font-size: 1rem;
+                color: var(--text-dim);
+                max-width: 540px;
+                margin: 0 auto;
+            }
+
+            /* GENERAL */
+            .article-wrap {
+                max-width: 920px;
+                margin: 0 auto;
+                padding: 4rem 3rem;
+            }
+            .section-block {
+                margin: 4rem 0;
+                padding: 2.5rem;
+                background: rgba(255, 255, 255, 0.02);
+                border-left: 3px solid var(--l3);
+                border-radius: 4px;
+            }
+            .section-block h2 {
+                font-family: "Playfair Display", serif;
+                font-size: 1.8rem;
+                font-weight: 700;
+                color: #fff;
+                margin-bottom: 1.5rem;
+                line-height: 1.2;
+            }
+            .section-block p {
+                font-size: 1.05rem;
+                line-height: 1.85;
+                margin-bottom: 1.5rem;
+                color: var(--text);
+            }
+            .source-note {
+                font-family: "Space Mono", monospace;
+                font-size: 0.65rem;
+                color: var(--text-dim);
+                letter-spacing: 0.06em;
+                opacity: 0.6;
+                margin-top: 1rem;
+            }
+            .article-footer {
+                max-width: 920px;
+                margin: 0 auto;
+                padding: 3rem;
+                border-top: 1px solid var(--border);
+            }
+            .footer-nav {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 3rem;
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            .footer-back {
+                color: var(--text-dim);
+                text-decoration: none;
+                font-size: 0.9rem;
+                transition: color 0.2s;
+            }
+            .footer-back:hover {
+                color: #fff;
+            }
+            .article-meta {
+                font-family: "Space Mono", monospace;
+                font-size: 0.75rem;
+                color: var(--text-dim);
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+            }
+            .related-articles {
+                margin-top: 4rem;
+                padding-top: 3rem;
+                border-top: 1px solid var(--border);
+            }
+            .related-title {
+                font-family: "Playfair Display", serif;
+                font-size: 1.4rem;
+                font-weight: 700;
+                color: #fff;
+                margin-bottom: 2rem;
+            }
+            .related-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 1.5rem;
+            }
+            @media (max-width: 768px) {
+                .related-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+            .related-card {
+                padding: 1.5rem;
+                border: 1px solid var(--border2);
+                border-radius: 8px;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+            .related-card:hover {
+                background: rgba(255, 255, 255, 0.02);
+                border-color: var(--l3);
+            }
+            .related-card .cat {
+                font-family: "Space Mono", monospace;
+                font-size: 0.65rem;
+                color: var(--l3);
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                margin-bottom: 0.5rem;
+            }
+            .related-card h4 {
+                font-family: "Playfair Display", serif;
+                font-size: 1rem;
+                font-weight: 700;
+                color: #fff;
+                line-height: 1.3;
+            }
+            @media (max-width: 1024px) {
+                nav {
+                    padding: 1.25rem 1.5rem;
+                }
+                .article-wrap {
+                    padding: 3rem 1.5rem;
+                }
+                .article-hero {
+                    padding: 8rem 1.5rem 4rem;
+                }
+                .explorer-body.visible {
+                    grid-template-columns: 1fr;
+                }
+            }
+            @media (max-width: 768px) {
+                .article-hero h1 {
+                    font-size: 2rem;
+                }
+                .dim-row {
+                    grid-template-columns: 100px 1fr 36px;
+                }
+                .section-block {
+                    padding: 1.5rem;
+                }
+                .path-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <nav id="navbar">
+            <a href="../index.html" class="logo">GCC <em>Dcode</em></a>
+            <a href="../index.html" class="nav-back">← Back to Home</a>
+        </nav>
+
+        <!-- HERO -->
+        <section class="article-hero">
+            <canvas class="hero-canvas" id="heroCanvas"></canvas>
+            <div class="overlay"></div>
+            <div class="hero-content">
+                <div class="hero-kicker">Research & Intelligence</div>
+                <h1>
+                    From Transactional to <em>Cognitive</em><br />The Three
+                    Maturity Stages of a Modern GCC
+                </h1>
+                <div class="hero-pill-row">
+                    <span class="hero-pill pill-1"
+                        >Level 1 — Transactional</span
+                    >
+                    <span class="hero-pill pill-2"
+                        >Level 2 — Judgment-Based</span
+                    >
+                    <span class="hero-pill pill-3">Level 3 — Cognitive</span>
+                </div>
+            </div>
+        </section>
+
+        <div class="article-wrap">
+            <!-- WHY MATURITY MATTERS -->
+            <section class="section-block">
+                <h2>Why Maturity Matters More Than Size</h2>
+                <p>
+                    In the early days of offshore centers, success was measured
+                    in headcount and cost saved. That era is over. Today, the
+                    most valuable Global Capability Centers are not the
+                    largest—they are the most mature.
+                </p>
+                <p>
+                    Maturity, in this context, refers to the complexity of work
+                    performed, the degree of decision-making authority
+                    delegated, and the center's integration into enterprise
+                    strategy. Drawing on proprietary research and industry
+                    benchmarks, three distinct maturity levels emerge.
+                </p>
+                <p>
+                    Understanding where your GCC sits—and where it needs to
+                    go—is the difference between a cost center and a competitive
+                    weapon.
+                </p>
+            </section>
+
+            <!-- ★ MATURITY EXPLORER — interactive centrepiece -->
+            <section
+                class="section-block"
+                style="
+                    border-left-color: transparent;
+                    background: transparent;
+                    padding: 0;
+                "
+            >
+                <h2
+                    style="
+                        padding: 0 0 1.5rem;
+                        font-family: &quot;Playfair Display&quot;, serif;
+                        font-size: 1.8rem;
+                        font-weight: 700;
+                        color: #fff;
+                        line-height: 1.2;
+                    "
+                >
+                    Explore Each Maturity Level
+                </h2>
+                <div class="explorer-wrap">
+                    <div class="explorer-tabs">
+                        <button
+                            class="etab active-1"
+                            data-lvl="1"
+                            onclick="showLevel(1)"
+                        >
+                            <span class="etab-num">Level 01</span>
+                            <span class="etab-label">Typical GCC</span>
+                            <span class="etab-sub">Transactional</span>
+                        </button>
+                        <button
+                            class="etab"
+                            data-lvl="2"
+                            onclick="showLevel(2)"
+                        >
+                            <span class="etab-num">Level 02</span>
+                            <span class="etab-label">Evolving GCC</span>
+                            <span class="etab-sub">Judgment-Based</span>
+                        </button>
+                        <button
+                            class="etab"
+                            data-lvl="3"
+                            onclick="showLevel(3)"
+                        >
+                            <span class="etab-num">Level 03</span>
+                            <span class="etab-label">Leading GCC</span>
+                            <span class="etab-sub">Cognitive & Predictive</span>
+                        </button>
+                    </div>
+
+                    <!-- LEVEL 1 -->
+                    <div class="explorer-body visible" id="body-1">
+                        <div class="ebody-left">
+                            <span class="level-badge badge-1"
+                                >● Level 1 — Transactional</span
+                            >
+                            <h3>The Typical GCC</h3>
+                            <p>
+                                This is where most GCCs start—but where none
+                                should stay. The transactional GCC delivers
+                                predictable cost arbitrage but remains
+                                vulnerable to automation and competition from
+                                lower-cost locations.
+                            </p>
+                            <ul class="char-list">
+                                <li>
+                                    <span class="dot dot-1"></span>Focus on
+                                    routine, rule-based, repeatable processes
+                                </li>
+                                <li>
+                                    <span class="dot dot-1"></span>High volume,
+                                    low judgment required
+                                </li>
+                                <li>
+                                    <span class="dot dot-1"></span>Standardized
+                                    workflows with limited exception handling
+                                </li>
+                                <li>
+                                    <span class="dot dot-1"></span>Performance
+                                    measured primarily on speed and accuracy
+                                </li>
+                            </ul>
+                            <div class="strategic-box sbox-1">
+                                Cost arbitrage is the primary value lever. The
+                                center is useful, but it is not
+                                irreplaceable—two risks that compound over time.
+                            </div>
+                        </div>
+                        <div class="ebody-right">
+                            <div>
+                                <div class="fn-title">Typical functions</div>
+                                <div class="fn-tags">
+                                    <span class="fn-tag active-1"
+                                        >Data entry & validation</span
+                                    >
+                                    <span class="fn-tag active-1"
+                                        >Invoice processing</span
+                                    >
+                                    <span class="fn-tag active-1"
+                                        >Tier-1 helpdesk</span
+                                    >
+                                    <span class="fn-tag active-1"
+                                        >Transactional finance</span
+                                    >
+                                    <span class="fn-tag active-1"
+                                        >Basic accounting</span
+                                    >
+                                </div>
+                            </div>
+                            <div>
+                                <div class="fn-title">Maturity dimensions</div>
+                                <div class="metrics-grid">
+                                    <div class="metric-card metric-1">
+                                        <div class="metric-label">
+                                            Decision authority
+                                        </div>
+                                        <div class="metric-val">None</div>
+                                    </div>
+                                    <div class="metric-card metric-1">
+                                        <div class="metric-label">
+                                            Work complexity
+                                        </div>
+                                        <div class="metric-val">Rule-based</div>
+                                    </div>
+                                    <div class="metric-card metric-1">
+                                        <div class="metric-label">
+                                            Value driver
+                                        </div>
+                                        <div class="metric-val">
+                                            Cost arbitrage
+                                        </div>
+                                    </div>
+                                    <div class="metric-card metric-1">
+                                        <div class="metric-label">
+                                            Integration level
+                                        </div>
+                                        <div class="metric-val">Siloed</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="fn-title">
+                                    Capability score vs. leading GCC
+                                </div>
+                                <div class="dimension-bars" id="dims-1"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- LEVEL 2 -->
+                    <div class="explorer-body" id="body-2">
+                        <div class="ebody-left">
+                            <span class="level-badge badge-2"
+                                >● Level 2 — Judgment-Based</span
+                            >
+                            <h3>The Evolving GCC</h3>
+                            <p>
+                                The evolving GCC has moved beyond arbitrage. It
+                                now delivers differentiated value through domain
+                                expertise and judgment. However, it still
+                                operates largely in reactive mode—responding to
+                                requests rather than anticipating them.
+                            </p>
+                            <ul class="char-list">
+                                <li>
+                                    <span class="dot dot-2"></span>Increasing
+                                    complexity and exception-based processing
+                                </li>
+                                <li>
+                                    <span class="dot dot-2"></span>Local
+                                    decision-making authority within defined
+                                    parameters
+                                </li>
+                                <li>
+                                    <span class="dot dot-2"></span
+                                    >Cross-functional collaboration begins to
+                                    emerge
+                                </li>
+                                <li>
+                                    <span class="dot dot-2"></span>Performance
+                                    measured on outcomes, not just outputs
+                                </li>
+                            </ul>
+                            <div class="strategic-box sbox-2">
+                                A significant step forward from transactional,
+                                but still reactive. The center answers
+                                questions—it doesn't yet ask better ones.
+                            </div>
+                        </div>
+                        <div class="ebody-right">
+                            <div>
+                                <div class="fn-title">Typical functions</div>
+                                <div class="fn-tags">
+                                    <span class="fn-tag active-2"
+                                        >Tax compliance & reporting</span
+                                    >
+                                    <span class="fn-tag active-2">FP&A</span>
+                                    <span class="fn-tag active-2"
+                                        >Contract management</span
+                                    >
+                                    <span class="fn-tag active-2"
+                                        >Legal review</span
+                                    >
+                                    <span class="fn-tag active-2"
+                                        >Data analytics</span
+                                    >
+                                    <span class="fn-tag active-2"
+                                        >Business intelligence</span
+                                    >
+                                </div>
+                            </div>
+                            <div>
+                                <div class="fn-title">Maturity dimensions</div>
+                                <div class="metrics-grid">
+                                    <div class="metric-card metric-2">
+                                        <div class="metric-label">
+                                            Decision authority
+                                        </div>
+                                        <div class="metric-val">
+                                            Local, within limits
+                                        </div>
+                                    </div>
+                                    <div class="metric-card metric-2">
+                                        <div class="metric-label">
+                                            Work complexity
+                                        </div>
+                                        <div class="metric-val">
+                                            Exception-based
+                                        </div>
+                                    </div>
+                                    <div class="metric-card metric-2">
+                                        <div class="metric-label">
+                                            Value driver
+                                        </div>
+                                        <div class="metric-val">
+                                            Domain expertise
+                                        </div>
+                                    </div>
+                                    <div class="metric-card metric-2">
+                                        <div class="metric-label">
+                                            Integration level
+                                        </div>
+                                        <div class="metric-val">
+                                            Cross-functional
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="fn-title">
+                                    Capability score vs. leading GCC
+                                </div>
+                                <div class="dimension-bars" id="dims-2"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- LEVEL 3 -->
+                    <div class="explorer-body" id="body-3">
+                        <div class="ebody-left">
+                            <span class="level-badge badge-3"
+                                >● Level 3 — Cognitive & Predictive</span
+                            >
+                            <h3>The Leading GCC</h3>
+                            <p>
+                                The leading GCC is no longer a service
+                                recipient—it is a strategic partner. It
+                                anticipates business needs, recommends actions,
+                                and executes autonomously. Cost is no longer the
+                                conversation; value creation is.
+                            </p>
+                            <ul class="char-list">
+                                <li>
+                                    <span class="dot dot-3"></span>Autonomous
+                                    decision-making within defined risk
+                                    parameters
+                                </li>
+                                <li>
+                                    <span class="dot dot-3"></span>Predictive
+                                    analytics driving proactive recommendations
+                                </li>
+                                <li>
+                                    <span class="dot dot-3"></span>End-to-end
+                                    process ownership across multiple functions
+                                </li>
+                                <li>
+                                    <span class="dot dot-3"></span>Continuous
+                                    optimisation through automation and AI
+                                </li>
+                                <li>
+                                    <span class="dot dot-3"></span>Performance
+                                    measured on strategic business impact
+                                </li>
+                            </ul>
+                            <div class="strategic-box sbox-3">
+                                The center anticipates business needs,
+                                recommends actions, and executes autonomously.
+                                This is the architecture of irreplaceability.
+                            </div>
+                        </div>
+                        <div class="ebody-right">
+                            <div>
+                                <div class="fn-title">Typical functions</div>
+                                <div class="fn-tags">
+                                    <span class="fn-tag active-3"
+                                        >Strategic tax planning</span
+                                    >
+                                    <span class="fn-tag active-3"
+                                        >Policy advisory</span
+                                    >
+                                    <span class="fn-tag active-3"
+                                        >Predictive supply chain</span
+                                    >
+                                    <span class="fn-tag active-3"
+                                        >Automated contract gen.</span
+                                    >
+                                    <span class="fn-tag active-3"
+                                        >Risk scoring</span
+                                    >
+                                    <span class="fn-tag active-3"
+                                        >Real-time forecasting</span
+                                    >
+                                    <span class="fn-tag active-3"
+                                        >Scenario modeling</span
+                                    >
+                                </div>
+                            </div>
+                            <div>
+                                <div class="fn-title">Maturity dimensions</div>
+                                <div class="metrics-grid">
+                                    <div class="metric-card metric-3">
+                                        <div class="metric-label">
+                                            Decision authority
+                                        </div>
+                                        <div class="metric-val">Autonomous</div>
+                                    </div>
+                                    <div class="metric-card metric-3">
+                                        <div class="metric-label">
+                                            Work complexity
+                                        </div>
+                                        <div class="metric-val">Predictive</div>
+                                    </div>
+                                    <div class="metric-card metric-3">
+                                        <div class="metric-label">
+                                            Value driver
+                                        </div>
+                                        <div class="metric-val">
+                                            Innovation & agility
+                                        </div>
+                                    </div>
+                                    <div class="metric-card metric-3">
+                                        <div class="metric-label">
+                                            Integration level
+                                        </div>
+                                        <div class="metric-val">
+                                            Enterprise-wide
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="fn-title">
+                                    Capability score vs. leading GCC
+                                </div>
+                                <div class="dimension-bars" id="dims-3"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- COMPARISON TABLE -->
+            <section class="section-block">
+                <h2>Maturity at a Glance</h2>
+                <p>
+                    Five dimensions separate the transactional GCC from the
+                    cognitive one. The gap is not cosmetic—it represents a
+                    fundamentally different relationship between the center and
+                    the enterprise.
+                </p>
+                <div class="comp-table-wrap">
+                    <table class="comp-table">
+                        <thead>
+                            <tr>
+                                <th class="h-dim">Dimension</th>
+                                <th class="h-l1">Typical (Transactional)</th>
+                                <th class="h-l2">Evolving (Judgment-Based)</th>
+                                <th class="h-l3">Leading (Cognitive)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="dim-cell">Work complexity</td>
+                                <td>
+                                    <span class="t-tag tt-1">Rule-based</span>
+                                </td>
+                                <td>
+                                    <span class="t-tag tt-2"
+                                        >Exception-based</span
+                                    >
+                                </td>
+                                <td>
+                                    <span class="t-tag tt-3">Predictive</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="dim-cell">Decision authority</td>
+                                <td><span class="t-tag tt-1">None</span></td>
+                                <td>
+                                    <span class="t-tag tt-2"
+                                        >Local, within limits</span
+                                    >
+                                </td>
+                                <td>
+                                    <span class="t-tag tt-3">Autonomous</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="dim-cell">Performance metric</td>
+                                <td>
+                                    <span class="t-tag tt-1"
+                                        >Speed & accuracy</span
+                                    >
+                                </td>
+                                <td>
+                                    <span class="t-tag tt-2">Outcomes</span>
+                                </td>
+                                <td>
+                                    <span class="t-tag tt-3"
+                                        >Strategic impact</span
+                                    >
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="dim-cell">Integration level</td>
+                                <td><span class="t-tag tt-1">Siloed</span></td>
+                                <td>
+                                    <span class="t-tag tt-2"
+                                        >Cross-functional</span
+                                    >
+                                </td>
+                                <td>
+                                    <span class="t-tag tt-3"
+                                        >Enterprise-wide</span
+                                    >
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="dim-cell">Value driver</td>
+                                <td>
+                                    <span class="t-tag tt-1"
+                                        >Cost arbitrage</span
+                                    >
+                                </td>
+                                <td>
+                                    <span class="t-tag tt-2"
+                                        >Domain expertise</span
+                                    >
+                                </td>
+                                <td>
+                                    <span class="t-tag tt-3"
+                                        >Innovation & agility</span
+                                    >
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="source-note">
+                    Source: PwC Research / NASSCOM Landscape Report (synthesized
+                    and adapted)
+                </div>
+
+                <!-- RADAR CHART -->
+                <div class="chart-block" style="margin-top: 2rem">
+                    <div class="chart-label">
+                        Capability profile across dimensions — all three levels
+                    </div>
+                    <div
+                        style="
+                            display: flex;
+                            flex-wrap: wrap;
+                            gap: 14px;
+                            margin-bottom: 14px;
+                            font-size: 12px;
+                            color: var(--text-dim);
+                        "
+                    >
+                        <span
+                            style="display: flex; align-items: center; gap: 5px"
+                            ><span
+                                style="
+                                    width: 10px;
+                                    height: 10px;
+                                    border-radius: 2px;
+                                    background: #c0392b;
+                                    opacity: 0.8;
+                                "
+                            ></span
+                            >Typical (L1)</span
+                        >
+                        <span
+                            style="display: flex; align-items: center; gap: 5px"
+                            ><span
+                                style="
+                                    width: 10px;
+                                    height: 10px;
+                                    border-radius: 2px;
+                                    background: #d4820a;
+                                    opacity: 0.8;
+                                "
+                            ></span
+                            >Evolving (L2)</span
+                        >
+                        <span
+                            style="display: flex; align-items: center; gap: 5px"
+                            ><span
+                                style="
+                                    width: 10px;
+                                    height: 10px;
+                                    border-radius: 2px;
+                                    background: #1aab87;
+                                    opacity: 0.8;
+                                "
+                            ></span
+                            >Leading (L3)</span
+                        >
+                    </div>
+                    <div class="chart-wrap" style="height: 300px">
+                        <canvas
+                            id="radarChart"
+                            role="img"
+                            aria-label="Radar chart comparing the three GCC maturity levels across five capability dimensions: work complexity, decision authority, performance sophistication, integration breadth, and value creation. Leading GCC scores highest across all dimensions."
+                            >L1 scores low on all dimensions; L2 scores mid; L3
+                            scores high across all five capability
+                            dimensions.</canvas
+                        >
+                    </div>
+                </div>
+            </section>
+
+            <!-- THE PATH FORWARD -->
+            <section class="section-block">
+                <h2>The Path Forward</h2>
+                <p>
+                    Moving from typical to leading is not automatic. It requires
+                    deliberate investment in three areas—without which maturity
+                    advancement stalls regardless of headcount or technology
+                    investment.
+                </p>
+                <div class="path-grid">
+                    <div class="path-card">
+                        <div class="path-icon">🧠</div>
+                        <h4>Talent Architecture</h4>
+                        <p>
+                            Hiring for judgment, not just execution. Building
+                            career pathways that develop domain expertise
+                            alongside technical skills across 8–10 job families.
+                        </p>
+                    </div>
+                    <div class="path-card">
+                        <div class="path-icon">⚙️</div>
+                        <h4>Process Re-Engineering</h4>
+                        <p>
+                            Automating the routine to free capacity for the
+                            complex. Every hour recovered from transactional
+                            work is an hour available for judgment and strategy.
+                        </p>
+                    </div>
+                    <div class="path-card">
+                        <div class="path-icon">🏛</div>
+                        <h4>Governance Evolution</h4>
+                        <p>
+                            Shifting from oversight to empowerment. Governance
+                            structures must expand the decision-making envelope
+                            as the center demonstrates reliability at each
+                            maturity stage.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- VALUE CREATION CHART -->
+                <div class="chart-block">
+                    <div class="chart-label">
+                        Value creation index vs. automation risk — by maturity
+                        level
+                    </div>
+                    <div
+                        style="
+                            display: flex;
+                            flex-wrap: wrap;
+                            gap: 14px;
+                            margin-bottom: 14px;
+                            font-size: 12px;
+                            color: var(--text-dim);
+                        "
+                    >
+                        <span
+                            style="display: flex; align-items: center; gap: 5px"
+                            ><span
+                                style="
+                                    width: 10px;
+                                    height: 10px;
+                                    border-radius: 2px;
+                                    background: #1aab87;
+                                "
+                            ></span
+                            >Value creation potential</span
+                        >
+                        <span
+                            style="display: flex; align-items: center; gap: 5px"
+                            ><span
+                                style="
+                                    width: 10px;
+                                    height: 3px;
+                                    border-radius: 2px;
+                                    background: #c0392b;
+                                    display: inline-block;
+                                "
+                            ></span
+                            ><span
+                                style="
+                                    width: 6px;
+                                    height: 3px;
+                                    border-radius: 2px;
+                                    background: transparent;
+                                    display: inline-block;
+                                "
+                            ></span
+                            ><span
+                                style="
+                                    width: 10px;
+                                    height: 3px;
+                                    border-radius: 2px;
+                                    background: #c0392b;
+                                    display: inline-block;
+                                "
+                            ></span
+                            >&nbsp;Automation displacement risk</span
+                        >
+                    </div>
+                    <div class="chart-wrap" style="height: 220px">
+                        <canvas
+                            id="valueChart"
+                            role="img"
+                            aria-label="Bar and line chart showing that as GCC maturity increases from Level 1 to Level 3, value creation potential rises sharply while automation displacement risk falls. Leading GCCs have the highest value and lowest risk."
+                            >Value creation rises and automation risk falls as
+                            GCC maturity advances from Level 1 to Level
+                            3.</canvas
+                        >
+                    </div>
+                </div>
+            </section>
+
+            <!-- CLOSING QUESTION -->
+            <div class="question-block">
+                <h3>
+                    "If your center disappeared tomorrow, would your
+                    headquarters lose a service provider — or a strategic
+                    advantage?"
+                </h3>
+                <p>
+                    The answer tells you exactly where you are on this maturity
+                    curve. The most sophisticated GCCs in India have already
+                    made this transition. They are not waiting for instructions
+                    — they are generating insights.
+                </p>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="article-footer">
+            <div class="footer-nav">
+                <a href="../index.html" class="footer-back">← Back to Home</a>
+                <div class="article-meta">
+                    Published: 2026 · GCC Dcode Research
+                </div>
+            </div>
+            <div class="related-articles">
+                <h3 class="related-title">Related Insights</h3>
+                <div class="related-grid">
+                    <div class="related-card">
+                        <div class="cat">Strategic Analysis</div>
+                        <h4>India's Ascendancy in the Global GCC Ecosystem</h4>
+                    </div>
+                    <div class="related-card">
+                        <div class="cat">Partnership Framework</div>
+                        <h4>
+                            The PwC Advantage – Architecting, Accelerating, and
+                            Future-Proofing Your GCC
+                        </h4>
+                    </div>
+                    <div class="related-card">
+                        <div class="cat">Strategic Playbook</div>
+                        <h4>Establishing a Functional COE in India</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            /* ── NAV ── */
+            window.addEventListener("scroll", () => {
+                document
+                    .getElementById("navbar")
+                    .classList.toggle("scrolled", window.pageYOffset > 50);
+            });
+
+            /* ── HERO CANVAS — particle field ── */
+            (function () {
+                const c = document.getElementById("heroCanvas");
+                const ctx = c.getContext("2d");
+                let W,
+                    H,
+                    pts = [];
+                function resize() {
+                    W = c.width = c.offsetWidth;
+                    H = c.height = c.offsetHeight;
+                    init();
+                }
+                function init() {
+                    pts = [];
+                    for (let i = 0; i < 90; i++)
+                        pts.push({
+                            x: Math.random() * W,
+                            y: Math.random() * H,
+                            vx: (Math.random() - 0.5) * 0.25,
+                            vy: (Math.random() - 0.5) * 0.25,
+                            r: Math.random() * 1.5 + 0.5,
+                        });
+                }
+                function draw() {
+                    ctx.clearRect(0, 0, W, H);
+                    for (let i = 0; i < pts.length; i++) {
+                        const p = pts[i];
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        if (p.x < 0 || p.x > W) p.vx *= -1;
+                        if (p.y < 0 || p.y > H) p.vy *= -1;
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                        ctx.fillStyle = "rgba(26,171,135,0.5)";
+                        ctx.fill();
+                        for (let j = i + 1; j < pts.length; j++) {
+                            const q = pts[j];
+                            const d = Math.hypot(p.x - q.x, p.y - q.y);
+                            if (d < 100) {
+                                ctx.beginPath();
+                                ctx.moveTo(p.x, p.y);
+                                ctx.lineTo(q.x, q.y);
+                                ctx.strokeStyle = `rgba(26,171,135,${0.12 * (1 - d / 100)})`;
+                                ctx.lineWidth = 0.5;
+                                ctx.stroke();
+                            }
+                        }
+                    }
+                    requestAnimationFrame(draw);
+                }
+                window.addEventListener("resize", resize);
+                resize();
+                draw();
+            })();
+
+            /* ── DIMENSION BAR DATA ── */
+            const dimData = {
+                1: {
+                    dims: [
+                        "Process sophistication",
+                        "Decision autonomy",
+                        "Cross-functional scope",
+                        "Technology leverage",
+                        "Strategic value",
+                    ],
+                    pcts: [22, 5, 15, 20, 18],
+                    color: "#c0392b",
+                },
+                2: {
+                    dims: [
+                        "Process sophistication",
+                        "Decision autonomy",
+                        "Cross-functional scope",
+                        "Technology leverage",
+                        "Strategic value",
+                    ],
+                    pcts: [58, 42, 55, 50, 52],
+                    color: "#d4820a",
+                },
+                3: {
+                    dims: [
+                        "Process sophistication",
+                        "Decision autonomy",
+                        "Cross-functional scope",
+                        "Technology leverage",
+                        "Strategic value",
+                    ],
+                    pcts: [95, 90, 92, 88, 96],
+                    color: "#1aab87",
+                },
+            };
+
+            function buildDims(lvl) {
+                const cont = document.getElementById("dims-" + lvl);
+                cont.innerHTML = "";
+                const d = dimData[lvl];
+                d.dims.forEach((name, i) => {
+                    const row = document.createElement("div");
+                    row.className = "dim-row";
+                    row.innerHTML = `<span class="dim-name">${name}</span>
+            <div class="dim-track"><div class="dim-fill" style="width:0%;background:${d.color}" data-pct="${d.pcts[i]}"></div></div>
+            <span class="dim-pct">${d.pcts[i]}%</span>`;
+                    cont.appendChild(row);
+                });
+                setTimeout(() => {
+                    cont.querySelectorAll(".dim-fill").forEach((f) => {
+                        f.style.width = f.dataset.pct + "%";
+                    });
+                }, 80);
+            }
+            [1, 2, 3].forEach(buildDims);
+
+            /* ── EXPLORER TABS ── */
+            let currentLevel = 1;
+            function showLevel(n) {
+                [1, 2, 3].forEach((i) => {
+                    document.querySelector(`.etab[data-lvl="${i}"]`).className =
+                        `etab${i === n ? " active-" + n : ""}`;
+                    const b = document.getElementById("body-" + i);
+                    b.className = "explorer-body" + (i === n ? " visible" : "");
+                });
+                currentLevel = n;
+            }
+
+            /* ── RADAR CHART ── */
+            new Chart(document.getElementById("radarChart").getContext("2d"), {
+                type: "radar",
+                data: {
+                    labels: [
+                        "Work complexity",
+                        "Decision authority",
+                        "Performance sophistication",
+                        "Integration breadth",
+                        "Value creation",
+                    ],
+                    datasets: [
+                        {
+                            label: "Typical (L1)",
+                            data: [20, 10, 20, 15, 18],
+                            backgroundColor: "rgba(192,57,43,.12)",
+                            borderColor: "rgba(192,57,43,.8)",
+                            borderDash: [4, 3],
+                            borderWidth: 1.5,
+                            pointBackgroundColor: "rgba(192,57,43,.9)",
+                            pointRadius: 3,
+                        },
+                        {
+                            label: "Evolving (L2)",
+                            data: [55, 42, 55, 52, 50],
+                            backgroundColor: "rgba(212,130,10,.1)",
+                            borderColor: "rgba(212,130,10,.75)",
+                            borderDash: [3, 2],
+                            borderWidth: 1.5,
+                            pointBackgroundColor: "rgba(212,130,10,.9)",
+                            pointRadius: 3,
+                        },
+                        {
+                            label: "Leading (L3)",
+                            data: [95, 92, 95, 90, 96],
+                            backgroundColor: "rgba(26,171,135,.13)",
+                            borderColor: "rgba(26,171,135,.9)",
+                            borderWidth: 2,
+                            pointBackgroundColor: "#1aab87",
+                            pointRadius: 4,
+                        },
+                    ],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            min: 0,
+                            max: 100,
+                            grid: { color: "rgba(255,255,255,.07)" },
+                            angleLines: { color: "rgba(255,255,255,.07)" },
+                            pointLabels: {
+                                color: "#8a8f98",
+                                font: { size: 11 },
+                            },
+                            ticks: { display: false },
+                        },
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: "#1a1a24",
+                            titleColor: "#eaeaea",
+                            bodyColor: "#8a8f98",
+                            borderColor: "#2e2e38",
+                            borderWidth: 1,
+                        },
+                    },
+                },
+            });
+
+            /* ── VALUE CHART ── */
+            new Chart(document.getElementById("valueChart").getContext("2d"), {
+                type: "bar",
+                data: {
+                    labels: [
+                        "Level 1 — Typical",
+                        "Level 2 — Evolving",
+                        "Level 3 — Leading",
+                    ],
+                    datasets: [
+                        {
+                            type: "bar",
+                            label: "Value creation potential",
+                            data: [22, 58, 95],
+                            backgroundColor: [
+                                "rgba(192,57,43,.5)",
+                                "rgba(212,130,10,.5)",
+                                "rgba(26,171,135,.65)",
+                            ],
+                            borderColor: [
+                                "rgba(192,57,43,.8)",
+                                "rgba(212,130,10,.8)",
+                                "rgba(26,171,135,.9)",
+                            ],
+                            borderWidth: 1,
+                            borderRadius: 4,
+                            order: 2,
+                        },
+                        {
+                            type: "line",
+                            label: "Automation displacement risk",
+                            data: [82, 48, 14],
+                            borderColor: "rgba(192,57,43,.8)",
+                            borderWidth: 2,
+                            borderDash: [5, 4],
+                            pointBackgroundColor: [
+                                "#c0392b",
+                                "#c0392b",
+                                "#c0392b",
+                            ],
+                            pointRadius: 5,
+                            fill: false,
+                            tension: 0.35,
+                            order: 1,
+                            yAxisID: "y",
+                        },
+                    ],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            grid: { color: "rgba(255,255,255,.05)" },
+                            ticks: { color: "#eaeaea", font: { size: 11 } },
+                            border: { color: "transparent" },
+                        },
+                        y: {
+                            min: 0,
+                            max: 100,
+                            grid: { color: "rgba(255,255,255,.05)" },
+                            ticks: {
+                                color: "#8a8f98",
+                                font: { size: 11 },
+                                callback: (v) => v + "%",
+                            },
+                            border: { color: "transparent" },
+                        },
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: "#1a1a24",
+                            titleColor: "#eaeaea",
+                            bodyColor: "#8a8f98",
+                            borderColor: "#2e2e38",
+                            borderWidth: 1,
+                            callbacks: {
+                                label: (ctx) =>
+                                    ` ${ctx.dataset.label}: ${ctx.raw}%`,
+                            },
+                        },
+                    },
+                },
+            });
+        </script>
+    </body>
+</html>

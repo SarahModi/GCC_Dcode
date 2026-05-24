@@ -1,0 +1,1014 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>
+            The PwC Advantage – Architecting, Accelerating, and Future-Proofing
+            Your GCC in India | GCC Dcode
+        </title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Source+Sans+3:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            html {
+                scroll-behavior: smooth;
+            }
+
+            :root {
+                --ink: #0a0a0a;
+                --ink2: #111111;
+                --paper: #f2f0eb;
+                --off: #e8e5df;
+                --accent: #1a1a2e;
+                --blue: #1c3f6e;
+                --blue-mid: #2b5fa0;
+                --blue-light: #4a80c4;
+                --steel: #7a8fa6;
+                --muted: #9aa3b0;
+                --text: #eaeaea;
+                --text-dim: #8a8f98;
+                --border: #222228;
+                --border2: #2e2e38;
+                --pwc-orange: #d94f00;
+                --pwc-orange-light: #e8713a;
+            }
+
+            body {
+                background: var(--ink);
+                color: var(--text);
+                font-family: "Source Sans 3", sans-serif;
+                font-size: 16px;
+                line-height: 1.6;
+                overflow-x: hidden;
+            }
+
+            /* ── NAV ── */
+            nav {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 200;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 1.5rem 3rem;
+                background: rgba(10, 10, 10, 0);
+                transition:
+                    background 0.4s,
+                    border 0.4s;
+            }
+
+            nav.scrolled {
+                background: rgba(10, 10, 10, 0.96);
+                border-bottom: 1px solid var(--border);
+            }
+
+            .logo {
+                font-family: "Playfair Display", serif;
+                font-size: 1.25rem;
+                font-weight: 800;
+                color: #fff;
+                text-decoration: none;
+                letter-spacing: -0.01em;
+            }
+
+            .logo em {
+                font-style: italic;
+                color: var(--blue-light);
+            }
+
+            .nav-back {
+                background: transparent;
+                border: 1px solid var(--border2);
+                color: var(--text-dim);
+                padding: 0.55rem 1.25rem;
+                font-size: 0.75rem;
+                font-weight: 500;
+                cursor: pointer;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                transition: all 0.2s;
+                font-family: "Source Sans 3", sans-serif;
+                text-decoration: none;
+                display: inline-block;
+            }
+
+            .nav-back:hover {
+                border-color: #fff;
+                color: #fff;
+            }
+
+            /* ── HERO ── */
+            .article-hero {
+                min-height: 60vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                padding: 10rem 3rem 6rem;
+                background: linear-gradient(
+                    135deg,
+                    #1a1208 0%,
+                    #1e1810 30%,
+                    #2a1a08 60%,
+                    #1c1206 100%
+                );
+                position: relative;
+                overflow: hidden;
+                text-align: center;
+            }
+
+            .article-hero::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(217,79,0,0.06)" stroke-width="1"/></pattern></defs><rect width="1200" height="600" fill="url(%23grid)"/></svg>');
+                opacity: 0.6;
+            }
+
+            /* Decorative accent arc */
+            .article-hero::after {
+                content: "";
+                position: absolute;
+                bottom: -120px;
+                right: -120px;
+                width: 500px;
+                height: 500px;
+                border-radius: 50%;
+                border: 1px solid rgba(217, 79, 0, 0.12);
+                pointer-events: none;
+            }
+
+            .hero-arc {
+                position: absolute;
+                bottom: -60px;
+                right: -60px;
+                width: 350px;
+                height: 350px;
+                border-radius: 50%;
+                border: 1px solid rgba(217, 79, 0, 0.08);
+                pointer-events: none;
+            }
+
+            .article-hero .overlay {
+                position: absolute;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.55);
+            }
+
+            .hero-content {
+                position: relative;
+                z-index: 10;
+                max-width: 900px;
+            }
+
+            .hero-section-label {
+                font-family: "Space Mono", monospace;
+                font-size: 0.65rem;
+                color: var(--pwc-orange-light);
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                margin-bottom: 0.75rem;
+                opacity: 0.8;
+            }
+
+            .hero-kicker {
+                font-family: "Space Mono", monospace;
+                font-size: 0.7rem;
+                color: var(--steel);
+                letter-spacing: 0.15em;
+                text-transform: uppercase;
+                margin-bottom: 2rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.75rem;
+            }
+
+            .hero-kicker::before {
+                content: "";
+                display: block;
+                width: 20px;
+                height: 1px;
+                background: var(--steel);
+            }
+
+            .hero-kicker::after {
+                content: "";
+                display: block;
+                width: 20px;
+                height: 1px;
+                background: var(--steel);
+            }
+
+            .article-hero h1 {
+                font-family: "Playfair Display", serif;
+                font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+                font-weight: 800;
+                line-height: 1.2;
+                letter-spacing: -0.03em;
+                color: #fff;
+                margin-bottom: 1.5rem;
+            }
+
+            .article-hero h1 em {
+                font-style: italic;
+                color: var(--pwc-orange-light);
+            }
+
+            .hero-meta {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 2rem;
+                font-size: 0.9rem;
+                color: var(--text-dim);
+                margin-top: 2rem;
+                flex-wrap: wrap;
+            }
+
+            .hero-meta span {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+            /* ── CONTENT ── */
+            .article-wrap {
+                max-width: 880px;
+                margin: 0 auto;
+                padding: 4rem 3rem;
+            }
+
+            .article-content {
+                color: var(--text);
+            }
+
+            .article-content p {
+                font-size: 1.05rem;
+                line-height: 1.85;
+                margin-bottom: 2rem;
+                color: var(--text);
+            }
+
+            /* Section blocks — orange accent for PwC theme */
+            .section-block {
+                margin: 4rem 0;
+                padding: 2.5rem;
+                background: rgba(255, 255, 255, 0.02);
+                border-left: 3px solid var(--pwc-orange);
+                border-radius: 4px;
+            }
+
+            .section-block h2 {
+                font-family: "Playfair Display", serif;
+                font-size: 1.8rem;
+                font-weight: 700;
+                color: #fff;
+                margin-bottom: 1.5rem;
+                line-height: 1.2;
+            }
+
+            .section-block h3 {
+                font-family: "Playfair Display", serif;
+                font-size: 1.3rem;
+                font-weight: 700;
+                color: var(--pwc-orange-light);
+                margin: 2rem 0 1rem 0;
+            }
+
+            /* Highlight box — orange tint */
+            .highlight-box {
+                background: rgba(217, 79, 0, 0.07);
+                border: 1px solid rgba(217, 79, 0, 0.22);
+                padding: 1.5rem;
+                border-radius: 8px;
+                margin: 2rem 0;
+            }
+
+            .highlight-box h4 {
+                font-family: "Space Mono", monospace;
+                font-size: 0.8rem;
+                color: var(--pwc-orange-light);
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                margin-bottom: 1rem;
+            }
+
+            .highlight-box p {
+                color: var(--text);
+                margin-bottom: 0.75rem;
+                font-size: 0.97rem;
+            }
+
+            .highlight-box p:last-child {
+                margin-bottom: 0;
+            }
+
+            /* Stat row */
+            .stat-row {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 1.5rem;
+                margin: 2rem 0;
+            }
+
+            @media (max-width: 768px) {
+                .stat-row {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            @media (max-width: 1024px) and (min-width: 769px) {
+                .stat-row {
+                    grid-template-columns: 1fr 1fr;
+                }
+            }
+
+            .stat-item {
+                padding: 1.5rem;
+                background: rgba(217, 79, 0, 0.05);
+                border: 1px solid var(--border2);
+                border-radius: 8px;
+            }
+
+            .stat-label {
+                font-family: "Space Mono", monospace;
+                font-size: 0.7rem;
+                color: var(--steel);
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                margin-bottom: 0.5rem;
+            }
+
+            .stat-value {
+                font-size: 1.8rem;
+                font-weight: 700;
+                color: var(--pwc-orange-light);
+                margin-bottom: 0.5rem;
+            }
+
+            .stat-desc {
+                font-size: 0.9rem;
+                color: var(--text-dim);
+                line-height: 1.6;
+            }
+
+            /* Key point bullets */
+            .key-point {
+                display: flex;
+                gap: 1.5rem;
+                margin: 1.5rem 0;
+                padding: 1rem;
+                background: rgba(217, 79, 0, 0.03);
+                border-radius: 4px;
+            }
+
+            .key-point::before {
+                content: "▸";
+                color: var(--pwc-orange-light);
+                font-size: 1.5rem;
+                flex-shrink: 0;
+            }
+
+            .key-point p {
+                margin: 0;
+                font-size: 0.95rem;
+            }
+
+            /* Offering grid — 2-col cards */
+            .offering-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1.25rem;
+                margin: 2rem 0;
+            }
+
+            @media (max-width: 768px) {
+                .offering-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            .offering-card {
+                padding: 1.4rem 1.6rem;
+                background: rgba(255, 255, 255, 0.025);
+                border: 1px solid var(--border2);
+                border-top: 2px solid var(--pwc-orange);
+                border-radius: 6px;
+                transition:
+                    background 0.2s,
+                    border-color 0.2s;
+            }
+
+            .offering-card:hover {
+                background: rgba(217, 79, 0, 0.06);
+                border-color: var(--pwc-orange-light);
+            }
+
+            .offering-card .offering-num {
+                font-family: "Space Mono", monospace;
+                font-size: 0.65rem;
+                color: var(--pwc-orange-light);
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                margin-bottom: 0.6rem;
+                opacity: 0.75;
+            }
+
+            .offering-card h4 {
+                font-family: "Playfair Display", serif;
+                font-size: 1.05rem;
+                font-weight: 700;
+                color: #fff;
+                margin-bottom: 0.6rem;
+                line-height: 1.3;
+            }
+
+            .offering-card p {
+                font-size: 0.88rem;
+                color: var(--text-dim);
+                line-height: 1.6;
+                margin-bottom: 0;
+            }
+
+            /* Maturity ladder */
+            .maturity-ladder {
+                display: flex;
+                flex-direction: column;
+                gap: 0;
+                margin: 2rem 0;
+            }
+
+            .maturity-step {
+                display: flex;
+                align-items: stretch;
+                gap: 1.5rem;
+                position: relative;
+            }
+
+            .maturity-step:not(:last-child) .step-line {
+                border-left: 2px solid var(--border2);
+                position: absolute;
+                left: 19px;
+                top: 44px;
+                bottom: 0;
+                height: calc(100% - 12px);
+            }
+
+            .step-circle {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                border: 2px solid var(--pwc-orange);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-family: "Space Mono", monospace;
+                font-size: 0.75rem;
+                font-weight: 700;
+                color: var(--pwc-orange-light);
+                flex-shrink: 0;
+                background: rgba(217, 79, 0, 0.1);
+                position: relative;
+                z-index: 1;
+                margin-top: 0.25rem;
+            }
+
+            .step-content {
+                padding: 0.4rem 0 1.8rem 0;
+                flex: 1;
+            }
+
+            .step-content h4 {
+                font-family: "Playfair Display", serif;
+                font-size: 1.05rem;
+                font-weight: 700;
+                color: #fff;
+                margin-bottom: 0.3rem;
+            }
+
+            .step-content p {
+                font-size: 0.9rem;
+                color: var(--text-dim);
+                margin-bottom: 0;
+                line-height: 1.55;
+            }
+
+            /* Closing CTA block */
+            .cta-block {
+                border-left-color: var(--pwc-orange-light);
+                background: rgba(217, 79, 0, 0.09) !important;
+            }
+
+            .cta-block p {
+                font-size: 1.1rem !important;
+            }
+
+            /* ── FOOTER ── */
+            .article-footer {
+                max-width: 880px;
+                margin: 0 auto;
+                padding: 3rem;
+                border-top: 1px solid var(--border);
+            }
+
+            .footer-nav {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 3rem;
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .footer-back {
+                color: var(--text-dim);
+                text-decoration: none;
+                font-size: 0.9rem;
+                transition: color 0.2s;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+            .footer-back:hover {
+                color: #fff;
+            }
+
+            .article-meta {
+                font-family: "Space Mono", monospace;
+                font-size: 0.75rem;
+                color: var(--text-dim);
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+            }
+
+            .related-articles {
+                margin-top: 4rem;
+                padding-top: 3rem;
+                border-top: 1px solid var(--border);
+            }
+
+            .related-title {
+                font-family: "Playfair Display", serif;
+                font-size: 1.4rem;
+                font-weight: 700;
+                color: #fff;
+                margin-bottom: 2rem;
+            }
+
+            .related-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+
+            @media (max-width: 768px) {
+                .related-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            .related-card {
+                padding: 1.5rem;
+                border: 1px solid var(--border2);
+                border-radius: 8px;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+
+            .related-card:hover {
+                background: rgba(255, 255, 255, 0.02);
+                border-color: var(--pwc-orange-light);
+            }
+
+            .related-card .cat {
+                font-family: "Space Mono", monospace;
+                font-size: 0.65rem;
+                color: var(--pwc-orange-light);
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                margin-bottom: 0.5rem;
+            }
+
+            .related-card h4 {
+                font-family: "Playfair Display", serif;
+                font-size: 1.1rem;
+                font-weight: 700;
+                color: #fff;
+                line-height: 1.3;
+            }
+
+            /* ── RESPONSIVE ── */
+            @media (max-width: 1024px) {
+                nav {
+                    padding: 1.25rem 1.5rem;
+                }
+
+                .article-wrap {
+                    padding: 3rem 1.5rem;
+                }
+
+                .article-hero {
+                    padding: 8rem 1.5rem 3rem;
+                }
+            }
+
+            @media (max-width: 768px) {
+                .article-hero h1 {
+                    font-size: 2rem;
+                }
+
+                .hero-meta {
+                    gap: 1rem;
+                    font-size: 0.8rem;
+                }
+
+                .article-content p {
+                    font-size: 1rem;
+                }
+
+                .section-block {
+                    padding: 1.5rem;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Navigation -->
+        <nav id="navbar">
+            <a href="../index.html" class="logo">GCC <em>Dcode</em></a>
+            <a href="../index.html" class="nav-back">← Back to Home</a>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="article-hero">
+            <div class="overlay"></div>
+            <div class="hero-arc"></div>
+            <div class="hero-content">
+                <div class="hero-section-label">Section 3</div>
+                <div class="hero-kicker">Partnership Framework</div>
+                <h1>
+                    The <em>PwC Advantage</em> – Architecting, Accelerating, and
+                    Future-Proofing Your GCC in India
+                </h1>
+                <div class="hero-meta">
+                    <span>Strategic Advisory</span>
+                    <span>Execution</span>
+                    <span>10 min read</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Article Content -->
+        <div class="article-wrap">
+            <article class="article-content">
+                <!-- Introduction -->
+                <section class="section-block">
+                    <p>
+                        Establishing a Global Capability Center in India is not
+                        a real estate or hiring exercise—it is a strategic
+                        engineering challenge. The choice of collaboration model
+                        directly determines whether a GCC operates as a cost
+                        center or a competitive weapon. PwC offers a spectrum of
+                        engagement frameworks, each calibrated to different
+                        maturity levels, risk appetites, and strategic
+                        ambitions.
+                    </p>
+                </section>
+
+                <!-- Flexible Commercial Models -->
+                <section class="section-block">
+                    <h2>
+                        Flexible Commercial Models for Every Stage of the GCC
+                        Lifecycle
+                    </h2>
+                    <p>
+                        We deploy a range of commercial models—from fully
+                        managed setups to co-innovation partnerships—tailored to
+                        your specific context. In practice, a single engagement
+                        may combine multiple models, evolving as your GCC
+                        matures from foundational setup to operational
+                        optimization to strategic expansion.
+                    </p>
+
+                    <div class="maturity-ladder">
+                        <div class="maturity-step">
+                            <div class="step-circle">01</div>
+                            <div class="step-line"></div>
+                            <div class="step-content">
+                                <h4>Fully Managed Setup</h4>
+                                <p>
+                                    End-to-end ownership of GCC
+                                    establishment—location, legal entity,
+                                    facility, talent, and technology—with PwC
+                                    carrying execution risk through operational
+                                    handover.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="maturity-step">
+                            <div class="step-circle">02</div>
+                            <div class="step-line"></div>
+                            <div class="step-content">
+                                <h4>Build-Operate-Transfer</h4>
+                                <p>
+                                    PwC builds and stabilizes the center before
+                                    transitioning full ownership to your
+                                    organization, with embedded capability
+                                    development throughout.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="maturity-step">
+                            <div class="step-circle">03</div>
+                            <div class="step-line"></div>
+                            <div class="step-content">
+                                <h4>Advisory & Governance</h4>
+                                <p>
+                                    Strategic oversight and governance
+                                    frameworks for organizations with existing
+                                    GCC infrastructure seeking performance
+                                    optimization or strategic repositioning.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="maturity-step">
+                            <div class="step-circle">04</div>
+                            <div class="step-content">
+                                <h4>Co-Innovation Partnership</h4>
+                                <p>
+                                    Joint investment in capability development,
+                                    R&D, and transformation initiatives—designed
+                                    for leading GCCs pursuing autonomous,
+                                    predictive operating models.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Consolidated Offerings -->
+                <section class="section-block">
+                    <h2>Consolidated Offerings Across the GCC Value Chain</h2>
+                    <p>
+                        Our end-to-end capabilities span the full lifecycle of
+                        GCC establishment and maturation—from initial business
+                        case through optimization and strategic expansion.
+                    </p>
+
+                    <div class="offering-grid">
+                        <div class="offering-card">
+                            <div class="offering-num">Capability 01</div>
+                            <h4>Strategy & Business Case Development</h4>
+                            <p>
+                                Location scoring, FTE sizing, and total cost of
+                                ownership modeling. A 550-FTE GCC across HR,
+                                marketing, accounting, IT, and ER&D with
+                                function-specific salary bands benchmarked to
+                                Bengaluru, adjusted for 3–5% YoY inflation, and
+                                inclusive of 3-month parallel run and 6-month
+                                severance assumptions.
+                            </p>
+                        </div>
+                        <div class="offering-card">
+                            <div class="offering-num">Capability 02</div>
+                            <h4>Policy & Incentive Navigation</h4>
+                            <p>
+                                Leveraging state-specific GCC policies with
+                                fiscal benefits ranging from 15–25% of
+                                operational expenditure in select hubs.
+                                Proprietary mapping of incentive landscapes
+                                across all major GCC corridors.
+                            </p>
+                        </div>
+                        <div class="offering-card">
+                            <div class="offering-num">Capability 03</div>
+                            <h4>Talent Architecture</h4>
+                            <p>
+                                Accessing India's multi-layered tech talent pool
+                                across 8–10 job families—from automation
+                                engineers to advanced analytics leads—with
+                                structured career pathways and retention
+                                frameworks.
+                            </p>
+                        </div>
+                        <div class="offering-card">
+                            <div class="offering-num">Capability 04</div>
+                            <h4>Setup & Operational Launch</h4>
+                            <p>
+                                Facility build-out, technology stack
+                                integration, and vendor ecosystem orchestration.
+                                Proven playbooks for reducing
+                                time-to-productivity across all function types.
+                            </p>
+                        </div>
+                        <div class="offering-card">
+                            <div class="offering-num">Capability 05</div>
+                            <h4>Optimization & Maturity Acceleration</h4>
+                            <p>
+                                Transitioning GCC operating models from typical
+                                (transactional) to evolving (judgment-based) to
+                                leading (predictive and autonomous)—with
+                                structured roadmaps and benchmark-driven
+                                governance.
+                            </p>
+                        </div>
+                        <div class="offering-card">
+                            <div class="offering-num">Capability 06</div>
+                            <h4>Ecosystem Orchestration</h4>
+                            <p>
+                                Coordinating regulatory, real estate,
+                                technology, and talent ecosystems across India's
+                                established and emerging GCC hubs—ensuring
+                                execution coherence at every stage.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- GCC Maturity Model -->
+                <section class="section-block">
+                    <h2>The GCC Maturity Spectrum</h2>
+                    <p>
+                        PwC's maturity acceleration framework recognizes that no
+                        two GCCs occupy the same position on the value creation
+                        curve. Our engagement models are calibrated to where you
+                        are—and engineered to get you where you need to be.
+                    </p>
+
+                    <div class="stat-row">
+                        <div class="stat-item">
+                            <div class="stat-label">Typical GCC</div>
+                            <div class="stat-value">Transactional</div>
+                            <div class="stat-desc">
+                                Rule-based, process-driven execution. Cost
+                                arbitrage is the primary value lever.
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Evolving GCC</div>
+                            <div class="stat-value">Judgment-Based</div>
+                            <div class="stat-desc">
+                                Analytics-enabled, outcome-oriented. Value
+                                extends into operational efficiency and
+                                capability depth.
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Leading GCC</div>
+                            <div class="stat-value">Autonomous</div>
+                            <div class="stat-desc">
+                                Predictive, self-optimizing, and
+                                innovation-generating. A genuine strategic asset
+                                to the enterprise.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="highlight-box">
+                        <h4>Maturity Acceleration in Practice</h4>
+                        <p>
+                            <strong>15–25% fiscal benefit</strong> unlocked
+                            through state-specific GCC policy navigation in
+                            select Indian hubs
+                        </p>
+                        <p>
+                            <strong>8–10 job families</strong> accessible across
+                            India's multi-layered talent pool, from automation
+                            engineers to advanced analytics leads
+                        </p>
+                        <p>
+                            <strong>3–5% YoY inflation modelling</strong>
+                            integrated into all long-range business cases for
+                            structural accuracy
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Why PwC -->
+                <section class="section-block">
+                    <h2>Why PwC</h2>
+                    <p>
+                        We do not simply advise on GCCs—we build, operate, and
+                        scale them. With on-the-ground presence in every major
+                        Indian GCC hub, proprietary benchmarking data, and a
+                        track record spanning over a decade, we act as a true
+                        partner of choice.
+                    </p>
+
+                    <div class="key-point">
+                        <p>
+                            <strong>On-the-ground presence</strong> in every
+                            major Indian GCC hub—Bengaluru, Hyderabad, Mumbai,
+                            Chennai, and emerging corridors—enabling real-time
+                            execution oversight
+                        </p>
+                    </div>
+
+                    <div class="key-point">
+                        <p>
+                            <strong>Proprietary benchmarking data</strong>
+                            across salary structures, operational costs, talent
+                            availability, and policy landscapes—updated
+                            continuously
+                        </p>
+                    </div>
+
+                    <div class="key-point">
+                        <p>
+                            <strong>Decade-long track record</strong> spanning
+                            first-center establishments through large-scale
+                            maturity transformations across sectors
+                        </p>
+                    </div>
+
+                    <div class="key-point">
+                        <p>
+                            <strong>De-risked execution</strong> through proven
+                            delivery frameworks that compress setup timelines
+                            and reduce operational variance
+                        </p>
+                    </div>
+
+                    <div class="key-point">
+                        <p>
+                            <strong>Amplified strategic return</strong> through
+                            engagement models that evolve with your GCC—not
+                            static advisory relationships
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Closing -->
+                <section class="section-block cta-block">
+                    <p>
+                        Whether you are opening your first center or
+                        transforming an existing one, PwC's models de-risk
+                        execution while amplifying strategic return.
+                        <strong
+                            >The question is no longer whether India is the
+                            right destination—it is how to architect your GCC
+                            for maximum competitive impact.</strong
+                        >
+                        That is the work we do.
+                    </p>
+                </section>
+            </article>
+        </div>
+
+        <!-- Footer -->
+        <div class="article-footer">
+            <div class="footer-nav">
+                <a href="../index.html" class="footer-back">← Back to Home</a>
+                <div class="article-meta">
+                    Published: 2026 · GCC Dcode Research
+                </div>
+            </div>
+
+            <div class="related-articles">
+                <h3 class="related-title">Related Insights</h3>
+                <div class="related-grid">
+                    <div class="related-card">
+                        <div class="cat">Strategic Analysis</div>
+                        <h4>India's Ascendancy in the Global GCC Ecosystem</h4>
+                    </div>
+                    <div class="related-card">
+                        <div class="cat">Talent Strategy</div>
+                        <h4>
+                            Building Tier-1 GCC Teams: Talent Acquisition in the
+                            AI Era
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Scroll Effect -->
+        <script>
+            const navbar = document.getElementById("navbar");
+
+            window.addEventListener("scroll", () => {
+                let scrollTop =
+                    window.pageYOffset || document.documentElement.scrollTop;
+                if (scrollTop > 50) {
+                    navbar.classList.add("scrolled");
+                } else {
+                    navbar.classList.remove("scrolled");
+                }
+            });
+        </script>
+    </body>
+</html>

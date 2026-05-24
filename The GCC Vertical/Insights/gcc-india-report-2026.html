@@ -1,0 +1,2075 @@
+<!doctype html>
+<html lang="en-IN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="description"
+            content="Discover how India's 1,700+ Global Capability Centers are driving innovation. This 2026 executive brief covers key stats, leadership models, AI adoption trends, and talent strategies."
+        />
+        <title>
+            Future-Ready GCCs 2026: India's Innovation Hubs & Trends | GCC Dcode
+        </title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Source+Sans+3:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap"
+            rel="stylesheet"
+        />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            html {
+                scroll-behavior: smooth;
+            }
+            :root {
+                --ink: #0a0a0a;
+                --ink2: #111111;
+                --border: #222228;
+                --border2: #2e2e38;
+                --text: #eaeaea;
+                --text-dim: #8a8f98;
+                --steel: #7a8fa6;
+                --blue: #1c3f6e;
+                --blue-mid: #2b5fa0;
+                --blue-light: #4a80c4;
+                --cyan: #0097b2;
+                --cyan-light: #00bcd4;
+                --cyan-glow: rgba(0, 188, 212, 0.15);
+            }
+            body {
+                background: var(--ink);
+                color: var(--text);
+                font-family: "Source Sans 3", sans-serif;
+                font-size: 16px;
+                line-height: 1.6;
+                overflow-x: hidden;
+            }
+
+            /* ── NAV ── */
+            nav {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 200;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 1.5rem 3rem;
+                background: rgba(10, 10, 10, 0);
+                transition:
+                    background 0.4s,
+                    border 0.4s;
+            }
+            nav.scrolled {
+                background: rgba(10, 10, 10, 0.96);
+                border-bottom: 1px solid var(--border);
+            }
+            .logo {
+                font-family: "Playfair Display", serif;
+                font-size: 1.25rem;
+                font-weight: 800;
+                color: #fff;
+                text-decoration: none;
+                letter-spacing: -0.01em;
+            }
+            .logo em {
+                font-style: italic;
+                color: var(--blue-light);
+            }
+            .nav-links {
+                display: flex;
+                align-items: center;
+                gap: 2rem;
+            }
+            .nav-link {
+                color: var(--text-dim);
+                text-decoration: none;
+                font-size: 0.75rem;
+                font-weight: 500;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                transition: color 0.2s;
+            }
+            .nav-link:hover {
+                color: #fff;
+            }
+            .nav-back {
+                background: transparent;
+                border: 1px solid var(--border2);
+                color: var(--text-dim);
+                padding: 0.55rem 1.25rem;
+                font-size: 0.75rem;
+                font-weight: 500;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                transition: all 0.2s;
+                font-family: "Source Sans 3", sans-serif;
+                text-decoration: none;
+                display: inline-block;
+            }
+            .nav-back:hover {
+                border-color: #fff;
+                color: #fff;
+            }
+
+            /* ── HERO ── */
+            .article-hero {
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                padding: 8rem 3rem 6rem;
+                background: linear-gradient(
+                    135deg,
+                    #1a1a2e 0%,
+                    #16213e 50%,
+                    #0f3460 100%
+                );
+                position: relative;
+                overflow: hidden;
+                text-align: center;
+            }
+            .article-hero::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(0,188,212,0.05)" stroke-width="1"/></pattern></defs><rect width="1200" height="800" fill="url(%23grid)"/></svg>');
+                opacity: 0.5;
+            }
+            .article-hero .overlay {
+                position: absolute;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.55);
+            }
+            .hero-content {
+                position: relative;
+                z-index: 10;
+                max-width: 920px;
+            }
+            .hero-eyebrow {
+                font-family: "Space Mono", monospace;
+                font-size: 0.65rem;
+                color: var(--cyan-light);
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                margin-bottom: 1rem;
+                opacity: 0.85;
+            }
+            .hero-kicker {
+                font-family: "Space Mono", monospace;
+                font-size: 0.7rem;
+                color: var(--steel);
+                letter-spacing: 0.15em;
+                text-transform: uppercase;
+                margin-bottom: 2rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.75rem;
+            }
+            .hero-kicker::before,
+            .hero-kicker::after {
+                content: "";
+                display: block;
+                width: 20px;
+                height: 1px;
+                background: var(--steel);
+            }
+            .article-hero h1 {
+                font-family: "Playfair Display", serif;
+                font-size: clamp(2.4rem, 5vw, 4.2rem);
+                font-weight: 800;
+                line-height: 1.15;
+                letter-spacing: -0.03em;
+                color: #fff;
+                margin-bottom: 1.5rem;
+            }
+            .article-hero h1 em {
+                font-style: italic;
+                color: var(--cyan-light);
+            }
+            .article-hero .hero-sub {
+                font-size: 1.15rem;
+                color: var(--text-dim);
+                max-width: 640px;
+                margin: 0 auto 2.5rem;
+                line-height: 1.7;
+            }
+            .hero-stat-strip {
+                display: flex;
+                justify-content: center;
+                gap: 3rem;
+                flex-wrap: wrap;
+                margin-top: 2.5rem;
+                padding-top: 2.5rem;
+                border-top: 1px solid rgba(255, 255, 255, 0.08);
+            }
+            .hss-item {
+                text-align: center;
+            }
+            .hss-val {
+                font-family: "Playfair Display", serif;
+                font-size: 2rem;
+                font-weight: 800;
+                color: var(--cyan-light);
+                line-height: 1;
+            }
+            .hss-label {
+                font-family: "Space Mono", monospace;
+                font-size: 0.6rem;
+                color: var(--steel);
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                margin-top: 0.4rem;
+            }
+            .scroll-indicator {
+                position: absolute;
+                bottom: 2.5rem;
+                left: 50%;
+                transform: translateX(-50%);
+                z-index: 10;
+                animation: bounce 2s infinite;
+            }
+            @keyframes bounce {
+                0%,
+                100% {
+                    transform: translateX(-50%) translateY(0);
+                }
+                50% {
+                    transform: translateX(-50%) translateY(8px);
+                }
+            }
+            .scroll-indicator svg {
+                width: 22px;
+                height: 22px;
+                stroke: var(--cyan-light);
+                fill: none;
+                stroke-width: 1.5;
+                opacity: 0.7;
+            }
+
+            /* ── LAYOUT ── */
+            .article-wrap {
+                max-width: 1100px;
+                margin: 0 auto;
+                padding: 4rem 3rem;
+            }
+
+            /* ── SECTION BLOCKS ── */
+            .section-block {
+                margin: 4rem 0;
+                padding: 2.5rem;
+                background: rgba(255, 255, 255, 0.02);
+                border-left: 3px solid var(--cyan-light);
+                border-radius: 4px;
+            }
+            .section-block h2 {
+                font-family: "Playfair Display", serif;
+                font-size: 1.8rem;
+                font-weight: 700;
+                color: #fff;
+                margin-bottom: 1.5rem;
+                line-height: 1.2;
+            }
+            .section-block h3 {
+                font-family: "Playfair Display", serif;
+                font-size: 1.2rem;
+                font-weight: 700;
+                color: var(--cyan-light);
+                margin: 1.75rem 0 0.75rem;
+            }
+            .section-block p {
+                font-size: 1rem;
+                line-height: 1.85;
+                margin-bottom: 1.25rem;
+                color: var(--text);
+            }
+            .section-block p:last-child {
+                margin-bottom: 0;
+            }
+
+            /* ── GLOBAL H2 ── */
+            .content-h2 {
+                font-family: "Playfair Display", serif;
+                font-size: 1.8rem;
+                font-weight: 700;
+                color: #fff;
+                margin: 4rem 0 1.5rem;
+                padding-bottom: 1rem;
+                border-bottom: 1px solid var(--border2);
+                line-height: 1.2;
+            }
+            .content-h2 em {
+                font-style: italic;
+                color: var(--cyan-light);
+            }
+
+            /* ── EXEC BAND ── */
+            .exec-band {
+                background: rgba(0, 188, 212, 0.06);
+                border-top: 1px solid rgba(0, 188, 212, 0.18);
+                border-bottom: 1px solid rgba(0, 188, 212, 0.18);
+                padding: 2.5rem 3rem;
+            }
+            .exec-inner {
+                max-width: 1100px;
+                margin: 0 auto;
+                display: grid;
+                grid-template-columns: 130px 1fr;
+                gap: 2rem;
+                align-items: start;
+            }
+            .exec-label {
+                font-family: "Space Mono", monospace;
+                font-size: 0.7rem;
+                color: var(--cyan-light);
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                padding-top: 0.25rem;
+            }
+            .exec-text {
+                font-size: 1.05rem;
+                line-height: 1.8;
+                color: var(--text);
+            }
+            .hl {
+                color: var(--cyan-light);
+                font-weight: 600;
+            }
+
+            /* ── STATS GRID ── */
+            .stats-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+                gap: 1.25rem;
+                margin: 2.5rem 0;
+            }
+            .stat-block {
+                padding: 1.5rem;
+                background: rgba(0, 188, 212, 0.04);
+                border: 1px solid var(--border2);
+                border-top: 2px solid var(--cyan-light);
+                border-radius: 6px;
+                text-align: center;
+                transition:
+                    background 0.25s,
+                    border-color 0.25s;
+                opacity: 0;
+                transform: translateY(16px);
+                animation: statIn 0.5s ease forwards;
+            }
+            .stat-block:hover {
+                background: rgba(0, 188, 212, 0.08);
+                border-color: rgba(0, 188, 212, 0.4);
+            }
+            @keyframes statIn {
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            .stat-block:nth-child(1) {
+                animation-delay: 0.05s;
+            }
+            .stat-block:nth-child(2) {
+                animation-delay: 0.12s;
+            }
+            .stat-block:nth-child(3) {
+                animation-delay: 0.19s;
+            }
+            .stat-block:nth-child(4) {
+                animation-delay: 0.26s;
+            }
+            .stat-block:nth-child(5) {
+                animation-delay: 0.33s;
+            }
+            .stat-block:nth-child(6) {
+                animation-delay: 0.4s;
+            }
+            .stat-number {
+                font-family: "Playfair Display", serif;
+                font-size: 2.2rem;
+                font-weight: 800;
+                color: var(--cyan-light);
+                margin-bottom: 0.4rem;
+                line-height: 1;
+            }
+            .stat-label {
+                font-family: "Space Mono", monospace;
+                font-size: 0.62rem;
+                color: var(--steel);
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+            }
+
+            /* ── TEXT SECTION (inline highlight blocks) ── */
+            .text-section {
+                margin: 1.5rem 0;
+                padding: 1.4rem 1.8rem;
+                background: rgba(255, 255, 255, 0.02);
+                border-left: 2px solid rgba(0, 188, 212, 0.3);
+                border-radius: 0 4px 4px 0;
+            }
+            .text-section h3 {
+                font-family: "Playfair Display", serif;
+                font-size: 1.1rem;
+                font-weight: 700;
+                color: #fff;
+                margin-bottom: 0.6rem;
+            }
+            .text-section p {
+                font-size: 0.97rem;
+                line-height: 1.8;
+                color: var(--text-dim);
+                margin-bottom: 0.75rem;
+            }
+            .text-section p:last-child {
+                margin-bottom: 0;
+            }
+
+            /* ── CHART BLOCK ── */
+            .chart-block {
+                padding: 2rem;
+                background: rgba(255, 255, 255, 0.02);
+                border: 1px solid var(--border2);
+                border-radius: 8px;
+                margin: 2rem 0;
+            }
+            .chart-label {
+                font-family: "Space Mono", monospace;
+                font-size: 0.7rem;
+                color: var(--cyan-light);
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                margin-bottom: 1.25rem;
+            }
+            .chart-wrap {
+                position: relative;
+                width: 100%;
+            }
+            .chart-grid-2 {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1.5rem;
+                margin: 2rem 0;
+            }
+            @media (max-width: 768px) {
+                .chart-grid-2 {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            /* ── INSIGHT CARDS ── */
+            .insight-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1.5rem;
+                margin: 2rem 0;
+            }
+            @media (max-width: 768px) {
+                .insight-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+            .insight-card {
+                padding: 1.8rem;
+                border: 1px solid var(--border2);
+                border-radius: 8px;
+                background: rgba(255, 255, 255, 0.02);
+                transition:
+                    background 0.2s,
+                    border-color 0.2s;
+            }
+            .insight-card:hover {
+                background: rgba(0, 188, 212, 0.04);
+                border-color: rgba(0, 188, 212, 0.3);
+            }
+            .insight-icon {
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+            }
+            .insight-card h4 {
+                font-family: "Playfair Display", serif;
+                font-size: 1.1rem;
+                font-weight: 700;
+                color: #fff;
+                margin-bottom: 0.6rem;
+                line-height: 1.3;
+            }
+            .insight-card p {
+                font-size: 0.9rem;
+                color: var(--text-dim);
+                line-height: 1.65;
+                margin: 0;
+            }
+
+            /* ── HIGHLIGHT BOX ── */
+            .highlight-box {
+                background: rgba(0, 188, 212, 0.06);
+                border: 1px solid rgba(0, 188, 212, 0.2);
+                padding: 1.5rem;
+                border-radius: 8px;
+                margin: 2rem 0;
+            }
+            .highlight-box h4 {
+                font-family: "Space Mono", monospace;
+                font-size: 0.75rem;
+                color: var(--cyan-light);
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                margin-bottom: 1rem;
+            }
+            .highlight-box p {
+                color: var(--text);
+                margin-bottom: 0.75rem;
+                font-size: 0.97rem;
+            }
+            .highlight-box p:last-child {
+                margin-bottom: 0;
+            }
+
+            /* ── TIMELINE ── */
+            .timeline-track {
+                margin: 2.5rem 0;
+                position: relative;
+                padding-left: 2rem;
+                border-left: 2px solid var(--border2);
+            }
+            .tl-entry {
+                position: relative;
+                margin-bottom: 2.5rem;
+                padding-left: 1.5rem;
+            }
+            .tl-entry:last-child {
+                margin-bottom: 0;
+            }
+            .tl-dot {
+                position: absolute;
+                left: -2.65rem;
+                top: 0.25rem;
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                border: 2px solid var(--cyan-light);
+                background: var(--ink);
+                transition: background 0.3s;
+            }
+            .tl-dot.major {
+                background: var(--cyan-light);
+                box-shadow: 0 0 12px rgba(0, 188, 212, 0.5);
+            }
+            .tl-year {
+                font-family: "Space Mono", monospace;
+                font-size: 0.65rem;
+                color: var(--cyan-light);
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                margin-bottom: 0.3rem;
+            }
+            .tl-title {
+                font-family: "Playfair Display", serif;
+                font-size: 1rem;
+                font-weight: 700;
+                color: #fff;
+                margin-bottom: 0.4rem;
+            }
+            .tl-desc {
+                font-size: 0.9rem;
+                color: var(--text-dim);
+                line-height: 1.6;
+            }
+
+            /* ── GEO TABLE ── */
+            .geo-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 1.5rem 0;
+            }
+            .geo-table th {
+                font-family: "Space Mono", monospace;
+                font-size: 0.65rem;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                padding: 0.9rem 1.2rem;
+                text-align: left;
+                border-bottom: 1px solid var(--border2);
+                color: var(--steel);
+            }
+            .geo-table td {
+                padding: 0.85rem 1.2rem;
+                font-size: 0.92rem;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+                vertical-align: middle;
+                color: var(--text-dim);
+            }
+            .geo-table td.city {
+                color: #fff;
+                font-weight: 500;
+            }
+            .geo-table tr:hover td {
+                background: rgba(255, 255, 255, 0.015);
+            }
+            .geo-table tr:last-child td {
+                border-bottom: none;
+            }
+            .bar-wrap {
+                height: 6px;
+                background: rgba(255, 255, 255, 0.07);
+                border-radius: 3px;
+                overflow: hidden;
+                min-width: 120px;
+            }
+            .bar-fill {
+                height: 100%;
+                border-radius: 3px;
+                background: var(--cyan-light);
+            }
+
+            /* ── PRIORITY CARDS ── */
+            .priority-list {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+                margin: 1.5rem 0;
+            }
+            .priority-card {
+                display: grid;
+                grid-template-columns: 48px 1fr;
+                gap: 1.25rem;
+                align-items: start;
+                padding: 1.4rem 1.5rem;
+                border: 1px solid var(--border2);
+                border-radius: 8px;
+                background: rgba(255, 255, 255, 0.02);
+                transition: background 0.2s;
+            }
+            .priority-card:hover {
+                background: rgba(0, 188, 212, 0.04);
+            }
+            .priority-num {
+                font-family: "Space Mono", monospace;
+                font-size: 1.3rem;
+                font-weight: 700;
+                color: var(--cyan-light);
+                opacity: 0.5;
+                line-height: 1;
+            }
+            .priority-card h4 {
+                font-family: "Playfair Display", serif;
+                font-size: 1rem;
+                font-weight: 700;
+                color: #fff;
+                margin-bottom: 0.4rem;
+            }
+            .priority-card p {
+                font-size: 0.9rem;
+                color: var(--text-dim);
+                line-height: 1.6;
+                margin: 0;
+            }
+
+            /* ── CLOSING CTA ── */
+            .cta-block {
+                margin: 4rem 0;
+                padding: 3rem;
+                background: linear-gradient(
+                    135deg,
+                    rgba(0, 188, 212, 0.07) 0%,
+                    rgba(74, 128, 196, 0.05) 100%
+                );
+                border: 1px solid rgba(0, 188, 212, 0.18);
+                border-radius: 10px;
+                text-align: center;
+            }
+            .cta-block p {
+                font-family: "Playfair Display", serif;
+                font-size: 1.3rem;
+                font-style: italic;
+                color: #fff;
+                line-height: 1.55;
+                max-width: 680px;
+                margin: 0 auto;
+            }
+            .source-note {
+                font-family: "Space Mono", monospace;
+                font-size: 0.62rem;
+                color: var(--text-dim);
+                letter-spacing: 0.06em;
+                opacity: 0.6;
+                margin-top: 1.5rem;
+            }
+
+            /* ── FOOTER ── */
+            .article-footer {
+                max-width: 1100px;
+                margin: 0 auto;
+                padding: 3rem;
+                border-top: 1px solid var(--border);
+            }
+            .footer-nav {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 3rem;
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            .footer-back {
+                color: var(--text-dim);
+                text-decoration: none;
+                font-size: 0.9rem;
+                transition: color 0.2s;
+            }
+            .footer-back:hover {
+                color: #fff;
+            }
+            .article-meta {
+                font-family: "Space Mono", monospace;
+                font-size: 0.75rem;
+                color: var(--text-dim);
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+            }
+            .related-articles {
+                padding-top: 3rem;
+                border-top: 1px solid var(--border);
+            }
+            .related-title {
+                font-family: "Playfair Display", serif;
+                font-size: 1.4rem;
+                font-weight: 700;
+                color: #fff;
+                margin-bottom: 2rem;
+            }
+            .related-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1.5rem;
+            }
+            .related-card {
+                padding: 1.5rem;
+                border: 1px solid var(--border2);
+                border-radius: 8px;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+            .related-card:hover {
+                background: rgba(255, 255, 255, 0.02);
+                border-color: var(--cyan-light);
+            }
+            .related-card .cat {
+                font-family: "Space Mono", monospace;
+                font-size: 0.65rem;
+                color: var(--cyan-light);
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                margin-bottom: 0.5rem;
+            }
+            .related-card h4 {
+                font-family: "Playfair Display", serif;
+                font-size: 1rem;
+                font-weight: 700;
+                color: #fff;
+                line-height: 1.3;
+            }
+            .footer-bottom {
+                text-align: center;
+                margin-top: 3rem;
+                padding-top: 2rem;
+                border-top: 1px solid var(--border);
+                font-family: "Space Mono", monospace;
+                font-size: 0.65rem;
+                color: var(--text-dim);
+                letter-spacing: 0.06em;
+            }
+
+            @media (max-width: 1024px) {
+                nav {
+                    padding: 1.25rem 1.5rem;
+                }
+                .article-wrap {
+                    padding: 3rem 1.5rem;
+                }
+                .exec-band {
+                    padding: 2rem 1.5rem;
+                }
+                .exec-inner {
+                    grid-template-columns: 1fr;
+                }
+            }
+            @media (max-width: 768px) {
+                .article-hero h1 {
+                    font-size: 2.2rem;
+                }
+                .hero-stat-strip {
+                    gap: 1.5rem;
+                }
+                .stats-grid {
+                    grid-template-columns: 1fr 1fr;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- NAV -->
+        <nav id="navbar">
+            <a href="../index.html" class="logo">GCC <em>Dcode</em></a>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-back">← BACK TO HOME</a>
+            </div>
+        </nav>
+
+        <!-- HERO -->
+        <section class="article-hero">
+            <div class="overlay"></div>
+            <div class="hero-content">
+                <div class="hero-eyebrow">Flagship Report · 2026</div>
+                <div class="hero-kicker">Executive Intelligence</div>
+                <h1>
+                    Future-Ready GCCs in India<br /><em
+                        >From Cost Centres to Innovation Hubs</em
+                    >
+                </h1>
+                <p class="hero-sub">
+                    How India's 1,700+ Global Capability Centers are redefining
+                    enterprise strategy—and why the next five years will be
+                    transformational.
+                </p>
+                <div class="hero-stat-strip">
+                    <div class="hss-item">
+                        <div class="hss-val">
+                            1,700<sup style="font-size: 0.5em">+</sup>
+                        </div>
+                        <div class="hss-label">Active GCCs</div>
+                    </div>
+                    <div class="hss-item">
+                        <div class="hss-val">
+                            $64.6<sup style="font-size: 0.5em">B</sup>
+                        </div>
+                        <div class="hss-label">FY24 Revenue</div>
+                    </div>
+                    <div class="hss-item">
+                        <div class="hss-val">
+                            1.9<sup style="font-size: 0.5em">M</sup>
+                        </div>
+                        <div class="hss-label">Workforce</div>
+                    </div>
+                    <div class="hss-item">
+                        <div class="hss-val">
+                            9.8<sup style="font-size: 0.5em">%</sup>
+                        </div>
+                        <div class="hss-label">Annual Growth</div>
+                    </div>
+                    <div class="hss-item">
+                        <div class="hss-val">
+                            55<sup style="font-size: 0.5em">%</sup>
+                        </div>
+                        <div class="hss-label">Global Footprint</div>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                <svg viewBox="0 0 24 24">
+                    <path
+                        d="M12 5v14M5 12l7 7 7-7"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
+                </svg>
+            </div>
+        </section>
+
+        <!-- EXEC SUMMARY BAND -->
+        <div class="exec-band">
+            <div class="exec-inner">
+                <div class="exec-label">Executive Summary</div>
+                <div class="exec-text">
+                    India's GCCs have crossed a structural threshold. As of
+                    2024, the sector hosts over
+                    <span class="hl">1,700 centers</span>, employs
+                    <span class="hl">1.9 million professionals</span>, and
+                    generates <span class="hl">$64.6 billion</span> in annual
+                    revenue—growing at 9.8% annually and accounting for
+                    approximately 55% of the world's GCC footprint. The sector
+                    is on track to reach
+                    <span class="hl">2,100–2,400 centers</span> and
+                    <span class="hl">~$100–105 billion</span> in revenue by
+                    2030.
+                </div>
+            </div>
+        </div>
+
+        <div class="article-wrap">
+            <!-- KEY STATISTICS -->
+            <div id="overview">
+                <h2 class="content-h2">Key Statistics — 2024–2026</h2>
+                <div class="stats-grid">
+                    <div class="stat-block">
+                        <div class="stat-number">
+                            1,700<span style="font-size: 0.55em">+</span>
+                        </div>
+                        <div class="stat-label">Active GCCs (FY24)</div>
+                    </div>
+                    <div class="stat-block">
+                        <div class="stat-number">
+                            1.9<span style="font-size: 0.55em">M</span>
+                        </div>
+                        <div class="stat-label">Workforce Size</div>
+                    </div>
+                    <div class="stat-block">
+                        <div class="stat-number">
+                            $64.6<span style="font-size: 0.55em">B</span>
+                        </div>
+                        <div class="stat-label">FY24 Revenue (USD)</div>
+                    </div>
+                    <div class="stat-block">
+                        <div class="stat-number">
+                            9.8<span style="font-size: 0.55em">%</span>
+                        </div>
+                        <div class="stat-label">Annual Growth Rate</div>
+                    </div>
+                    <div class="stat-block">
+                        <div class="stat-number">
+                            70<span style="font-size: 0.55em">%</span>
+                        </div>
+                        <div class="stat-label">AI Adoption by 2026 (Est.)</div>
+                    </div>
+                    <div class="stat-block">
+                        <div class="stat-number">
+                            90<span style="font-size: 0.55em">+</span>
+                        </div>
+                        <div class="stat-label">New Centers in 2025</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTOR DEEP DIVE -->
+            <div id="insights">
+                <h2 class="content-h2">
+                    Sector Deep Dive — <em>Key Metrics</em>
+                </h2>
+
+                <div class="text-section">
+                    <h3>GCC Count & Size</h3>
+                    <p>
+                        India hosts <span class="hl">1,700+ GCCs</span> as of
+                        FY24, with approximately
+                        <span class="hl">2,975 organizational units</span
+                        >—meaning many companies operate multiple centers across
+                        geographies and function areas. The installed workforce
+                        stands at approximately
+                        <span class="hl">1.9 million</span> professionals.
+                    </p>
+                </div>
+                <div class="text-section">
+                    <h3>Revenue Growth & Trajectory</h3>
+                    <p>
+                        GCCs generated <span class="hl">$64.6 billion</span> in
+                        FY24, up from $40.4B in FY19—a CAGR of approximately
+                        9.8%. The sector is projected to reach
+                        <span class="hl">$99–105 billion by 2030</span>,
+                        demonstrating sustained market confidence across
+                        economic cycles.
+                    </p>
+                </div>
+                <div class="text-section">
+                    <h3>Employment & Job Creation</h3>
+                    <p>
+                        GCC employment is forecast to hit
+                        <span class="hl">3.0 million by 2030</span>, up from
+                        1.9M now. This growth will create approximately
+                        <span class="hl">400,000 entry-level jobs</span> for
+                        freshers by 2030. Hiring in GCCs is growing
+                        approximately 4× faster than in traditional IT services.
+                    </p>
+                </div>
+                <div class="text-section">
+                    <h3>Talent & Diversity</h3>
+                    <p>
+                        India supplies
+                        <span class="hl"
+                            >28% of the world's STEM workforce</span
+                        >
+                        and 23% of its software engineers—the primary draw for
+                        multinationals. Women constitute approximately
+                        <span class="hl">40% of GCC staff</span>, high by global
+                        tech standards, and gender diversity continues to
+                        improve across the sector.
+                    </p>
+                </div>
+                <div class="text-section">
+                    <h3>Strategic Transformation</h3>
+                    <p>
+                        Over <span class="hl">50% of GCCs</span> now drive
+                        strategic R&D and portfolio initiatives rather than
+                        serving purely operational functions. Approximately
+                        <span class="hl">40% of projects</span> inside GCCs
+                        involve digital transformation or AI, reflecting the
+                        sector's structural evolution toward higher-value work.
+                    </p>
+                </div>
+                <div class="text-section">
+                    <h3>Cost Competitiveness</h3>
+                    <p>
+                        Operating costs in Indian GCCs remain
+                        <span class="hl">~30–40% lower</span> than similar hubs
+                        in Eastern Europe or North America, even as they deliver
+                        higher-value services. This dual advantage of cost and
+                        capability is what makes India structurally
+                        irreplaceable in global GCC strategy.
+                    </p>
+                </div>
+            </div>
+
+            <!-- DATA VISUALIZATIONS -->
+            <div id="data">
+                <h2 class="content-h2">Data <em>Visualizations</em></h2>
+
+                <div class="chart-grid-2">
+                    <div class="chart-block">
+                        <div class="chart-label">
+                            GCC Revenue Growth — FY19 to FY24 (USD $B)
+                        </div>
+                        <div
+                            style="
+                                display: flex;
+                                flex-wrap: wrap;
+                                gap: 12px;
+                                margin-bottom: 14px;
+                                font-size: 12px;
+                                color: var(--text-dim);
+                            "
+                        >
+                            <span
+                                style="
+                                    display: flex;
+                                    align-items: center;
+                                    gap: 5px;
+                                "
+                                ><span
+                                    style="
+                                        width: 10px;
+                                        height: 3px;
+                                        border-radius: 2px;
+                                        background: var(--cyan-light);
+                                        display: inline-block;
+                                    "
+                                ></span
+                                >Revenue ($B)</span
+                            >
+                        </div>
+                        <div class="chart-wrap" style="height: 240px">
+                            <canvas
+                                id="revenueChart"
+                                role="img"
+                                aria-label="Line chart showing GCC revenue growth from $40.4B in FY2019 to $64.6B in FY2024."
+                                >Revenue grew from $40.4B (FY19) to $64.6B
+                                (FY24).</canvas
+                            >
+                        </div>
+                    </div>
+                    <div class="chart-block">
+                        <div class="chart-label">
+                            GCC Count by Year — 2019 to 2024
+                        </div>
+                        <div
+                            style="
+                                display: flex;
+                                flex-wrap: wrap;
+                                gap: 12px;
+                                margin-bottom: 14px;
+                                font-size: 12px;
+                                color: var(--text-dim);
+                            "
+                        >
+                            <span
+                                style="
+                                    display: flex;
+                                    align-items: center;
+                                    gap: 5px;
+                                "
+                                ><span
+                                    style="
+                                        width: 10px;
+                                        height: 10px;
+                                        border-radius: 2px;
+                                        background: var(--cyan-light);
+                                        opacity: 0.7;
+                                    "
+                                ></span
+                                >No. of GCCs</span
+                            >
+                        </div>
+                        <div class="chart-wrap" style="height: 240px">
+                            <canvas
+                                id="gccCountChart"
+                                role="img"
+                                aria-label="Horizontal bar chart showing GCC count growing from 1300 in 2019 to 1700+ in 2024."
+                                >GCC count rose steadily from 1,300 in 2019 to
+                                1,700+ in 2024.</canvas
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GEO TABLE + DONUT side by side -->
+                <div class="chart-grid-2">
+                    <div class="chart-block">
+                        <div class="chart-label">
+                            Geographic Distribution — GCC Workforce Share (H1
+                            2025)
+                        </div>
+                        <table class="geo-table">
+                            <thead>
+                                <tr>
+                                    <th>City / Region</th>
+                                    <th>Workforce Share</th>
+                                    <th>Distribution</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="city">Bengaluru</td>
+                                    <td>36%</td>
+                                    <td>
+                                        <div class="bar-wrap">
+                                            <div
+                                                class="bar-fill"
+                                                style="width: 36%"
+                                            ></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="city">Mumbai / Pune</td>
+                                    <td>31%</td>
+                                    <td>
+                                        <div class="bar-wrap">
+                                            <div
+                                                class="bar-fill"
+                                                style="width: 31%; opacity: 0.8"
+                                            ></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="city">Delhi-NCR</td>
+                                    <td>22%</td>
+                                    <td>
+                                        <div class="bar-wrap">
+                                            <div
+                                                class="bar-fill"
+                                                style="
+                                                    width: 22%;
+                                                    opacity: 0.65;
+                                                "
+                                            ></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="city">Hyderabad</td>
+                                    <td>14%</td>
+                                    <td>
+                                        <div class="bar-wrap">
+                                            <div
+                                                class="bar-fill"
+                                                style="width: 14%; opacity: 0.5"
+                                            ></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="city">Others (emerging)</td>
+                                    <td>7%</td>
+                                    <td>
+                                        <div class="bar-wrap">
+                                            <div
+                                                class="bar-fill"
+                                                style="width: 7%; opacity: 0.35"
+                                            ></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p
+                            style="
+                                font-size: 0.8rem;
+                                color: var(--text-dim);
+                                margin-top: 1rem;
+                                font-family: &quot;Space Mono&quot;, monospace;
+                                line-height: 1.5;
+                                opacity: 0.6;
+                            "
+                        >
+                            Note: Bengaluru anchors 36% of total GCC workforce.
+                            Emerging hubs (Chennai, Kochi, Ahmedabad) represent
+                            the fastest-growing segment.
+                        </p>
+                    </div>
+                    <div class="chart-block">
+                        <div class="chart-label">
+                            Hub Distribution — Workforce % by City
+                        </div>
+                        <div
+                            style="
+                                display: flex;
+                                flex-wrap: wrap;
+                                gap: 12px;
+                                margin-bottom: 10px;
+                                font-size: 12px;
+                                color: var(--text-dim);
+                            "
+                        >
+                            <span
+                                style="
+                                    display: flex;
+                                    align-items: center;
+                                    gap: 5px;
+                                "
+                                ><span
+                                    style="
+                                        width: 10px;
+                                        height: 10px;
+                                        border-radius: 50%;
+                                        background: var(--cyan-light);
+                                    "
+                                ></span
+                                >Bengaluru</span
+                            >
+                            <span
+                                style="
+                                    display: flex;
+                                    align-items: center;
+                                    gap: 5px;
+                                "
+                                ><span
+                                    style="
+                                        width: 10px;
+                                        height: 10px;
+                                        border-radius: 50%;
+                                        background: rgba(0, 188, 212, 0.7);
+                                    "
+                                ></span
+                                >Mumbai/Pune</span
+                            >
+                            <span
+                                style="
+                                    display: flex;
+                                    align-items: center;
+                                    gap: 5px;
+                                "
+                                ><span
+                                    style="
+                                        width: 10px;
+                                        height: 10px;
+                                        border-radius: 50%;
+                                        background: rgba(0, 188, 212, 0.5);
+                                    "
+                                ></span
+                                >Delhi-NCR</span
+                            >
+                            <span
+                                style="
+                                    display: flex;
+                                    align-items: center;
+                                    gap: 5px;
+                                "
+                                ><span
+                                    style="
+                                        width: 10px;
+                                        height: 10px;
+                                        border-radius: 50%;
+                                        background: rgba(0, 188, 212, 0.35);
+                                    "
+                                ></span
+                                >Hyderabad</span
+                            >
+                            <span
+                                style="
+                                    display: flex;
+                                    align-items: center;
+                                    gap: 5px;
+                                "
+                                ><span
+                                    style="
+                                        width: 10px;
+                                        height: 10px;
+                                        border-radius: 50%;
+                                        background: rgba(0, 188, 212, 0.2);
+                                    "
+                                ></span
+                                >Others</span
+                            >
+                        </div>
+                        <div class="chart-wrap" style="height: 220px">
+                            <canvas
+                                id="hubChart"
+                                role="img"
+                                aria-label="Doughnut chart showing geographic distribution of GCC workforce. Bengaluru leads at 36%, followed by Mumbai/Pune 31%, Delhi-NCR 22%, Hyderabad 14%, others 7%."
+                                >Bengaluru 36%, Mumbai/Pune 31%, Delhi-NCR 22%,
+                                Hyderabad 14%, Others 7%.</canvas
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-block">
+                    <div class="chart-label">
+                        Annual Jobs Created in GCCs — 2022 to 2026E (thousands)
+                    </div>
+                    <div
+                        style="
+                            display: flex;
+                            flex-wrap: wrap;
+                            gap: 12px;
+                            margin-bottom: 14px;
+                            font-size: 12px;
+                            color: var(--text-dim);
+                        "
+                    >
+                        <span
+                            style="display: flex; align-items: center; gap: 5px"
+                            ><span
+                                style="
+                                    width: 10px;
+                                    height: 10px;
+                                    border-radius: 2px;
+                                    background: var(--cyan-light);
+                                    opacity: 0.7;
+                                "
+                            ></span
+                            >Jobs created (K)</span
+                        >
+                        <span
+                            style="
+                                display: flex;
+                                align-items: center;
+                                gap: 5px;
+                                margin-left: 8px;
+                                font-style: italic;
+                            "
+                            >2026E = estimated</span
+                        >
+                    </div>
+                    <div class="chart-wrap" style="height: 200px">
+                        <canvas
+                            id="jobsChart"
+                            role="img"
+                            aria-label="Bar chart showing GCC job creation rising from 200K in 2022 to an estimated 500K in 2026."
+                            >Job creation grew from 200K (2022) to an estimated
+                            500K in 2026.</canvas
+                        >
+                    </div>
+                </div>
+
+                <!-- FORECAST CHART -->
+                <div class="chart-block">
+                    <div class="chart-label">
+                        Revenue & Workforce Forecast — FY24 to FY30 (projected)
+                    </div>
+                    <div
+                        style="
+                            display: flex;
+                            flex-wrap: wrap;
+                            gap: 12px;
+                            margin-bottom: 14px;
+                            font-size: 12px;
+                            color: var(--text-dim);
+                        "
+                    >
+                        <span
+                            style="display: flex; align-items: center; gap: 5px"
+                            ><span
+                                style="
+                                    width: 10px;
+                                    height: 10px;
+                                    border-radius: 2px;
+                                    background: var(--cyan-light);
+                                    opacity: 0.8;
+                                "
+                            ></span
+                            >Revenue ($B, left axis)</span
+                        >
+                        <span
+                            style="display: flex; align-items: center; gap: 5px"
+                            ><span
+                                style="
+                                    width: 10px;
+                                    height: 3px;
+                                    border-radius: 2px;
+                                    background: #4a80c4;
+                                    display: inline-block;
+                                "
+                            ></span
+                            ><span
+                                style="
+                                    width: 4px;
+                                    height: 3px;
+                                    display: inline-block;
+                                "
+                            ></span
+                            ><span
+                                style="
+                                    width: 6px;
+                                    height: 3px;
+                                    border-radius: 2px;
+                                    background: #4a80c4;
+                                    display: inline-block;
+                                "
+                            ></span
+                            >&nbsp;Workforce (M, right axis)</span
+                        >
+                    </div>
+                    <div class="chart-wrap" style="height: 220px">
+                        <canvas
+                            id="forecastChart"
+                            role="img"
+                            aria-label="Dual-axis chart showing GCC revenue projected to grow from $64.6B in FY24 to $102B by FY30, and workforce from 1.9M to 3.0M."
+                            >Revenue and workforce both projected to grow
+                            significantly by FY30.</canvas
+                        >
+                    </div>
+                </div>
+            </div>
+
+            <!-- KEY TRENDS -->
+            <div id="insights2">
+                <h2 class="content-h2">
+                    Key Trends & <em>Strategic Insights</em>
+                </h2>
+                <div class="insight-grid">
+                    <div class="insight-card">
+                        <div class="insight-icon">🤖</div>
+                        <h4>AI & Automation Driving Value</h4>
+                        <p>
+                            By 2026, an estimated 70% of GCCs will deploy AI/ML
+                            capabilities across analytics, R&D, and customer
+                            support. This shift requires significant upskilling
+                            and attracts specialized talent in prompt
+                            engineering, model fine-tuning, and responsible AI
+                            governance.
+                        </p>
+                    </div>
+                    <div class="insight-card">
+                        <div class="insight-icon">🌐</div>
+                        <h4>Aggressive Expansion & Localisation</h4>
+                        <p>
+                            2025 marked a landmark year with 90+ new
+                            tech-focused GCCs established across India.
+                            Companies are adopting multi-city strategies to
+                            reduce concentration risk and tap local talent
+                            markets—creating approximately 450,000 new jobs in
+                            FY25 alone.
+                        </p>
+                    </div>
+                    <div class="insight-card">
+                        <div class="insight-icon">⚡</div>
+                        <h4>Shift from Cost Centres to Innovation Engines</h4>
+                        <p>
+                            Over 50% of GCCs now own strategic R&D, product
+                            development, and portfolio transformation. GCC heads
+                            now report to CTOs and Chief Innovation Officers—not
+                            just Finance—signaling their centrality to corporate
+                            strategy globally.
+                        </p>
+                    </div>
+                    <div class="insight-card">
+                        <div class="insight-icon">👥</div>
+                        <h4>Talent Diversity as Strategic Asset</h4>
+                        <p>
+                            GCCs have achieved approximately 40% female
+                            representation—significantly above global tech
+                            averages. Companies are intentionally building
+                            diverse teams across technical, product, and
+                            leadership roles to strengthen problem-solving and
+                            cultural competence.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>Digital & AI Adoption Snapshot</h4>
+                    <p>
+                        <strong>70% of GCCs</strong> will deploy AI/ML
+                        capabilities by 2026—in analytics, R&D, and customer
+                        support automation
+                    </p>
+                    <p>
+                        <strong>40% of projects</strong> inside GCCs currently
+                        involve digital transformation or AI integration
+                    </p>
+                    <p>
+                        <strong>4× faster</strong> hiring growth in GCCs vs.
+                        traditional IT services, with AI and cloud roles leading
+                        demand
+                    </p>
+                </div>
+            </div>
+
+            <!-- TIMELINE -->
+            <div id="timeline">
+                <h2 class="content-h2">
+                    India GCC Evolution — <em>2016 to 2030</em>
+                </h2>
+                <div
+                    class="section-block"
+                    style="border-left-color: var(--cyan-light)"
+                >
+                    <div class="timeline-track">
+                        <div class="tl-entry">
+                            <div class="tl-dot"></div>
+                            <div class="tl-year">2016</div>
+                            <div class="tl-title">Scale-Up Phase Begins</div>
+                            <div class="tl-desc">
+                                ~1,200 GCCs established. India secures its
+                                position as the world's preferred GCC
+                                destination. Infrastructure investment
+                                accelerates in Bengaluru and Hyderabad.
+                            </div>
+                        </div>
+                        <div class="tl-entry">
+                            <div class="tl-dot"></div>
+                            <div class="tl-year">2019</div>
+                            <div class="tl-title">
+                                1,300 GCCs · $40B Revenue
+                            </div>
+                            <div class="tl-desc">
+                                India solidifies its dominant position. GCCs
+                                begin transitioning from pure cost-center
+                                mandates to delivering differentiated domain
+                                expertise. Talent pipelines deepen across Tier-1
+                                cities.
+                            </div>
+                        </div>
+                        <div class="tl-entry">
+                            <div class="tl-dot major"></div>
+                            <div class="tl-year">2024</div>
+                            <div class="tl-title">
+                                1,700+ GCCs · $64.6B Revenue
+                            </div>
+                            <div class="tl-desc">
+                                40% of GCC projects now involve AI or digital
+                                transformation. Over 50% of centers own
+                                strategic R&D mandates. India accounts for 55%
+                                of the global GCC footprint.
+                            </div>
+                        </div>
+                        <div class="tl-entry">
+                            <div class="tl-dot major"></div>
+                            <div class="tl-year">2025</div>
+                            <div class="tl-title">
+                                90+ New Tech Centers · 450,000 Jobs Created
+                            </div>
+                            <div class="tl-desc">
+                                Landmark expansion year. Multi-city strategies
+                                accelerate. Emerging hubs (Chennai, Pune, Kochi)
+                                absorb significant new center establishment. AI
+                                competency becomes a mandatory hiring criterion.
+                            </div>
+                        </div>
+                        <div class="tl-entry">
+                            <div class="tl-dot"></div>
+                            <div class="tl-year">2030 (Projected)</div>
+                            <div class="tl-title">
+                                2,100–2,400 GCCs · $99–105B Revenue
+                            </div>
+                            <div class="tl-desc">
+                                Workforce reaches 2.5–3.0 million. Leading GCCs
+                                operate as autonomous strategic
+                                partners—predictive, AI-powered, and
+                                enterprise-integrated. Tier-II city ecosystems
+                                fully mature.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROAD AHEAD -->
+            <div>
+                <h2 class="content-h2">
+                    The Road Ahead — <em>Strategic Priorities</em>
+                </h2>
+                <div class="priority-list">
+                    <div class="priority-card">
+                        <div class="priority-num">01</div>
+                        <div>
+                            <h4>AI Competency Building</h4>
+                            <p>
+                                GCCs must invest aggressively in AI/ML
+                                upskilling, prompt engineering, and responsible
+                                AI governance. This is not optional—it is a core
+                                business requirement for relevance by 2026.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="priority-card">
+                        <div class="priority-num">02</div>
+                        <div>
+                            <h4>Talent Localisation & Retention</h4>
+                            <p>
+                                With ~400,000 entry-level jobs coming by 2030,
+                                GCCs must build effective campus recruitment,
+                                apprenticeship, and early-career development
+                                programs. Retention of mid-level and senior
+                                talent remains structurally critical.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="priority-card">
+                        <div class="priority-num">03</div>
+                        <div>
+                            <h4>Cross-Border Collaboration Models</h4>
+                            <p>
+                                Effective GCC leadership requires seamless
+                                collaboration between India centers and global
+                                headquarters. Organizations are adopting shared
+                                accountability models, synchronous work
+                                practices, and integrated performance metrics.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="priority-card">
+                        <div class="priority-num">04</div>
+                        <div>
+                            <h4>Ecosystem Expansion Beyond Traditional Hubs</h4>
+                            <p>
+                                The next wave of GCC growth will come from
+                                Tier-II and Tier-III cities. Companies must
+                                invest in infrastructure, talent pipelines, and
+                                quality-of-life improvements to build
+                                sustainable innovation ecosystems beyond
+                                Bengaluru and Mumbai.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="priority-card">
+                        <div class="priority-num">05</div>
+                        <div>
+                            <h4>Specialised Domain Expertise</h4>
+                            <p>
+                                GCCs are moving into verticals—fintech,
+                                healthtech, climate tech, semiconductor
+                                design—requiring deep domain knowledge. Building
+                                centers of excellence in specialised sectors is
+                                a key differentiation strategy.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CLOSING -->
+            <div class="cta-block">
+                <p>
+                    "India does not merely host GCCs—it accelerates them. The
+                    next five years will not be about establishment. They will
+                    be about dominance."
+                </p>
+            </div>
+
+            <div class="source-note">
+                Sources: Ministry of IT & E-commerce (MeitY) · NASSCOM Surveys ·
+                Zinnov Research · IBEF Reports · Economic Times · PwC Research.
+                All statistics and forecasts are grounded in original research
+                and validated sources as of May 2026.
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="article-footer">
+            <div class="footer-nav">
+                <a href="../index.html" class="footer-back">← Back to Home</a>
+                <div class="article-meta">
+                    Flagship Report · 2026 · GCC Dcode Research
+                </div>
+            </div>
+            <div class="related-articles">
+                <h3 class="related-title">Related Insights</h3>
+                <div class="related-grid">
+                    <div class="related-card">
+                        <div class="cat">Strategic Analysis</div>
+                        <h4>India's Ascendancy in the Global GCC Ecosystem</h4>
+                    </div>
+                    <div class="related-card">
+                        <div class="cat">Partnership Framework</div>
+                        <h4>The PwC Advantage – Architecting Your GCC</h4>
+                    </div>
+                    <div class="related-card">
+                        <div class="cat">Strategic Playbook</div>
+                        <h4>Establishing a Functional COE in India</h4>
+                    </div>
+                    <div class="related-card">
+                        <div class="cat">Research</div>
+                        <h4>The Three Maturity Stages of a Modern GCC</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                © 2026 GCC Dcode. All rights reserved. · Last updated: May 2026
+            </div>
+        </div>
+
+        <script>
+            /* ── NAV ── */
+            window.addEventListener("scroll", () => {
+                document
+                    .getElementById("navbar")
+                    .classList.toggle("scrolled", window.pageYOffset > 50);
+            });
+
+            const CYAN = "rgba(0,188,212,0.75)";
+            const CYAN_BORDER = "rgba(0,188,212,0.9)";
+            const CYAN_FILL = "rgba(0,188,212,0.12)";
+            const BLUE = "rgba(74,128,196,0.75)";
+            const TT = {
+                backgroundColor: "#1a1a24",
+                titleColor: "#eaeaea",
+                bodyColor: "#8a8f98",
+                borderColor: "#2e2e38",
+                borderWidth: 1,
+                padding: 12,
+            };
+
+            /* ── REVENUE LINE ── */
+            new Chart(
+                document.getElementById("revenueChart").getContext("2d"),
+                {
+                    type: "line",
+                    data: {
+                        labels: [
+                            "FY2019",
+                            "FY2020",
+                            "FY2021",
+                            "FY2022",
+                            "FY2023",
+                            "FY2024",
+                        ],
+                        datasets: [
+                            {
+                                label: "Revenue ($B)",
+                                data: [40.4, 48.0, 54.2, 59.0, 62.5, 64.6],
+                                borderColor: CYAN_BORDER,
+                                backgroundColor: CYAN_FILL,
+                                borderWidth: 2.5,
+                                fill: true,
+                                tension: 0.35,
+                                pointRadius: 5,
+                                pointBackgroundColor: "#0a0a0a",
+                                pointBorderColor: CYAN_BORDER,
+                                pointBorderWidth: 2,
+                                pointHoverRadius: 7,
+                                pointHoverBackgroundColor: CYAN_BORDER,
+                            },
+                        ],
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                min: 35,
+                                max: 70,
+                                grid: { color: "rgba(255,255,255,.05)" },
+                                ticks: {
+                                    color: "#8a8f98",
+                                    callback: (v) => "$" + v + "B",
+                                },
+                                border: { color: "transparent" },
+                            },
+                            x: {
+                                grid: { display: false },
+                                ticks: { color: "#8a8f98" },
+                                border: { color: "transparent" },
+                            },
+                        },
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                ...TT,
+                                callbacks: { label: (ctx) => ` $${ctx.raw}B` },
+                            },
+                        },
+                    },
+                },
+            );
+
+            /* ── GCC COUNT BAR ── */
+            new Chart(
+                document.getElementById("gccCountChart").getContext("2d"),
+                {
+                    type: "bar",
+                    data: {
+                        labels: [
+                            "2019",
+                            "2020",
+                            "2021",
+                            "2022",
+                            "2023",
+                            "2024",
+                        ],
+                        datasets: [
+                            {
+                                label: "No. of GCCs",
+                                data: [1300, 1400, 1500, 1600, 1650, 1700],
+                                backgroundColor: [
+                                    "rgba(0,188,212,.45)",
+                                    "rgba(0,188,212,.52)",
+                                    "rgba(0,188,212,.58)",
+                                    "rgba(0,188,212,.65)",
+                                    "rgba(0,188,212,.72)",
+                                    "rgba(0,188,212,.8)",
+                                ],
+                                borderColor: CYAN_BORDER,
+                                borderWidth: 1,
+                                borderRadius: 4,
+                            },
+                        ],
+                    },
+                    options: {
+                        indexAxis: "y",
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                min: 1100,
+                                max: 1800,
+                                grid: { color: "rgba(255,255,255,.05)" },
+                                ticks: { color: "#8a8f98" },
+                                border: { color: "transparent" },
+                            },
+                            y: {
+                                grid: { display: false },
+                                ticks: { color: "#eaeaea" },
+                                border: { color: "transparent" },
+                            },
+                        },
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                ...TT,
+                                callbacks: {
+                                    label: (ctx) =>
+                                        ` ${ctx.raw.toLocaleString()} centers`,
+                                },
+                            },
+                        },
+                    },
+                },
+            );
+
+            /* ── HUB DONUT ── */
+            new Chart(document.getElementById("hubChart").getContext("2d"), {
+                type: "doughnut",
+                data: {
+                    labels: [
+                        "Bengaluru",
+                        "Mumbai / Pune",
+                        "Delhi-NCR",
+                        "Hyderabad",
+                        "Others",
+                    ],
+                    datasets: [
+                        {
+                            data: [36, 31, 22, 14, 7],
+                            backgroundColor: [
+                                "rgba(0,188,212,.9)",
+                                "rgba(0,188,212,.7)",
+                                "rgba(0,188,212,.5)",
+                                "rgba(0,188,212,.35)",
+                                "rgba(0,188,212,.2)",
+                            ],
+                            borderColor: "#0a0a0a",
+                            borderWidth: 2,
+                            hoverOffset: 8,
+                        },
+                    ],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: "68%",
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            ...TT,
+                            callbacks: {
+                                label: (ctx) => ` ${ctx.label}: ${ctx.raw}%`,
+                            },
+                        },
+                    },
+                },
+            });
+
+            /* ── JOBS BAR ── */
+            new Chart(document.getElementById("jobsChart").getContext("2d"), {
+                type: "bar",
+                data: {
+                    labels: ["2022", "2023", "2024", "2025", "2026E"],
+                    datasets: [
+                        {
+                            label: "Jobs Created (K)",
+                            data: [200, 300, 350, 450, 500],
+                            backgroundColor: [
+                                "rgba(0,188,212,.5)",
+                                "rgba(0,188,212,.58)",
+                                "rgba(0,188,212,.66)",
+                                "rgba(0,188,212,.78)",
+                                "rgba(0,188,212,.4)",
+                            ],
+                            borderColor: [
+                                CYAN_BORDER,
+                                CYAN_BORDER,
+                                CYAN_BORDER,
+                                CYAN_BORDER,
+                                "rgba(0,188,212,.6)",
+                            ],
+                            borderWidth: 1,
+                            borderRadius: 4,
+                            borderDash: [0, 0, 0, 0, 4],
+                        },
+                    ],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            min: 0,
+                            max: 580,
+                            grid: { color: "rgba(255,255,255,.05)" },
+                            ticks: {
+                                color: "#8a8f98",
+                                callback: (v) => v + "K",
+                            },
+                            border: { color: "transparent" },
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: "#eaeaea" },
+                            border: { color: "transparent" },
+                        },
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            ...TT,
+                            callbacks: { label: (ctx) => ` ${ctx.raw}K jobs` },
+                        },
+                    },
+                },
+            });
+
+            /* ── FORECAST DUAL-AXIS ── */
+            new Chart(
+                document.getElementById("forecastChart").getContext("2d"),
+                {
+                    type: "bar",
+                    data: {
+                        labels: [
+                            "FY24",
+                            "FY25E",
+                            "FY26E",
+                            "FY27E",
+                            "FY28E",
+                            "FY29E",
+                            "FY30E",
+                        ],
+                        datasets: [
+                            {
+                                type: "bar",
+                                label: "Revenue ($B)",
+                                data: [64.6, 70, 76, 82, 89, 95, 102],
+                                backgroundColor: "rgba(0,188,212,.5)",
+                                borderColor: CYAN_BORDER,
+                                borderWidth: 1,
+                                borderRadius: 4,
+                                yAxisID: "y",
+                            },
+                            {
+                                type: "line",
+                                label: "Workforce (M)",
+                                data: [1.9, 2.1, 2.3, 2.5, 2.65, 2.8, 3.0],
+                                borderColor: "rgba(74,128,196,.9)",
+                                borderWidth: 2.5,
+                                borderDash: [5, 4],
+                                pointBackgroundColor: "#0a0a0a",
+                                pointBorderColor: "rgba(74,128,196,.9)",
+                                pointBorderWidth: 2,
+                                pointRadius: 4,
+                                fill: false,
+                                tension: 0.35,
+                                yAxisID: "y2",
+                            },
+                        ],
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                min: 0,
+                                max: 120,
+                                grid: { color: "rgba(255,255,255,.05)" },
+                                ticks: {
+                                    color: "#8a8f98",
+                                    callback: (v) => "$" + v + "B",
+                                },
+                                border: { color: "transparent" },
+                                title: {
+                                    display: true,
+                                    text: "Revenue ($B)",
+                                    color: "#8a8f98",
+                                    font: { size: 10 },
+                                },
+                            },
+                            y2: {
+                                min: 0,
+                                max: 4,
+                                position: "right",
+                                grid: { display: false },
+                                ticks: {
+                                    color: "rgba(74,128,196,.8)",
+                                    callback: (v) => v + "M",
+                                },
+                                border: { color: "transparent" },
+                                title: {
+                                    display: true,
+                                    text: "Workforce (M)",
+                                    color: "rgba(74,128,196,.8)",
+                                    font: { size: 10 },
+                                },
+                            },
+                            x: {
+                                grid: { display: false },
+                                ticks: { color: "#eaeaea" },
+                                border: { color: "transparent" },
+                            },
+                        },
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                ...TT,
+                                callbacks: {
+                                    label: (ctx) =>
+                                        ctx.dataset.label === "Revenue ($B)"
+                                            ? ` Revenue: $${ctx.raw}B`
+                                            : `Workforce: ${ctx.raw}M`,
+                                },
+                            },
+                        },
+                    },
+                },
+            );
+        </script>
+    </body>
+</html>
