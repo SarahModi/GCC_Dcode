@@ -970,6 +970,76 @@
                 transform: translateY(0);
             }
 
+            /* ── HAMBURGER BUTTON ── */
+            .nav-hamburger {
+                display: none;
+                flex-direction: column;
+                justify-content: center;
+                gap: 5px;
+                background: transparent;
+                border: 1px solid var(--border2);
+                padding: 0.5rem 0.6rem;
+                cursor: pointer;
+                z-index: 300;
+            }
+            .nav-hamburger span {
+                display: block;
+                width: 20px;
+                height: 1px;
+                background: var(--text-dim);
+                transition: all 0.3s;
+            }
+            .nav-hamburger.open span:nth-child(1) {
+                transform: translateY(6px) rotate(45deg);
+            }
+            .nav-hamburger.open span:nth-child(2) {
+                opacity: 0;
+            }
+            .nav-hamburger.open span:nth-child(3) {
+                transform: translateY(-6px) rotate(-45deg);
+            }
+
+            /* ── MOBILE DRAWER ── */
+            .mobile-menu {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(10, 10, 10, 0.98);
+                z-index: 250;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 2rem;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s;
+            }
+            .mobile-menu.open {
+                opacity: 1;
+                pointer-events: all;
+            }
+            .mobile-menu a {
+                color: var(--text-dim);
+                text-decoration: none;
+                font-size: 1.25rem;
+                font-weight: 500;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                transition: color 0.2s;
+            }
+            .mobile-menu a:hover {
+                color: #fff;
+            }
+            .mobile-menu .nav-btn {
+                margin-top: 1rem;
+                font-size: 0.85rem;
+                padding: 0.75rem 2rem;
+                cursor: pointer;
+            }
+
             /* ── RESPONSIVE ── */
             @media (max-width: 1024px) {
                 nav {
@@ -977,6 +1047,12 @@
                 }
                 .nav-links {
                     display: none;
+                }
+                .nav-hamburger {
+                    display: flex;
+                }
+                .mobile-menu {
+                    display: flex;
                 }
                 .hero {
                     grid-template-columns: 1fr;
@@ -994,8 +1070,33 @@
                 .about-grid {
                     grid-template-columns: 1fr;
                 }
+                .about-text {
+                    padding: 4rem 2rem;
+                    border-right: none;
+                    border-bottom: 1px solid var(--border);
+                }
+                .about-visual-side {
+                    min-height: 350px;
+                }
                 .offer-head {
                     grid-template-columns: 1fr;
+                    gap: 1.5rem;
+                    margin-bottom: 3rem;
+                }
+                .offer-wrap {
+                    padding: 5rem 1.5rem;
+                }
+                .offer-item {
+                    grid-template-columns: 2.5rem 1fr auto;
+                    gap: 1rem;
+                }
+                .events-wrap {
+                    padding: 5rem 1.5rem;
+                }
+                .events-head {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 1.5rem;
                 }
                 .events-grid {
                     grid-template-columns: 1fr;
@@ -1004,8 +1105,29 @@
                     border-right: none;
                     border-bottom: 1px solid var(--border);
                 }
+                .ev:last-child {
+                    border-bottom: none;
+                }
+                .council-wrap {
+                    padding: 5rem 1.5rem;
+                }
                 .council-grid {
                     grid-template-columns: repeat(2, 1fr);
+                }
+                .mem:nth-child(4n) {
+                    border-right: 1px solid var(--border);
+                }
+                .mem:nth-child(2n) {
+                    border-right: none;
+                }
+                .mem:nth-last-child(-n + 4) {
+                    border-bottom: 1px solid var(--border);
+                }
+                .mem:nth-last-child(-n + 2) {
+                    border-bottom: none;
+                }
+                .insights-wrap {
+                    padding: 5rem 1.5rem;
                 }
                 .insights-grid {
                     grid-template-columns: 1fr;
@@ -1016,12 +1138,150 @@
                 }
                 .ft-grid {
                     grid-template-columns: 1fr 1fr;
+                    gap: 2rem;
                 }
                 .council-head {
                     grid-template-columns: 1fr;
+                    gap: 1.5rem;
                 }
                 .s {
                     padding: 5rem 1.5rem;
+                }
+                .cta-content {
+                    padding: 4rem 1.5rem;
+                }
+                .forms-section {
+                    padding: 5rem 5%;
+                    gap: 5rem;
+                }
+                footer {
+                    padding: 4rem 1.5rem 2rem;
+                }
+                .ft-bottom {
+                    flex-direction: column;
+                    gap: 0.75rem;
+                }
+            }
+
+            @media (max-width: 768px) {
+                nav {
+                    padding: 1rem 1.25rem;
+                }
+                /* Hide the "Join the Network" button in nav on small screens */
+                nav > li {
+                    display: none;
+                }
+                .hero-left {
+                    padding: 7rem 1.25rem 2.5rem;
+                }
+                .hero-right {
+                    height: 70vw;
+                }
+                .hero-actions {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 0.75rem;
+                }
+                .btn-p, .btn-g {
+                    width: 100%;
+                    text-align: center;
+                }
+                .offer-item {
+                    grid-template-columns: 2rem 1fr;
+                    gap: 0.75rem;
+                    padding: 1.5rem 0;
+                }
+                .offer-item::after {
+                    display: none;
+                }
+                .offer-title {
+                    font-size: 1.25rem;
+                }
+                .about-stat-overlay {
+                    padding: 2rem;
+                    gap: 1.5rem;
+                }
+                .big-num {
+                    font-size: 2.5rem;
+                }
+                .council-grid {
+                    grid-template-columns: 1fr 1fr;
+                }
+                .ft-grid {
+                    grid-template-columns: 1fr;
+                }
+                .ft-brand {
+                    margin-bottom: 0.5rem;
+                }
+                .forms-section {
+                    padding: 4rem 4%;
+                    gap: 4rem;
+                }
+                .cta-acts {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+                .cta-acts .btn-p,
+                .cta-acts .btn-g {
+                    width: auto;
+                }
+                .about-visual-side {
+                    min-height: 280px;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .hero h1 {
+                    font-size: 2.8rem;
+                }
+                .hero-right {
+                    height: 80vw;
+                }
+                .council-grid {
+                    grid-template-columns: 1fr;
+                }
+                .mem:nth-child(2n) {
+                    border-right: none;
+                }
+                .mem:nth-last-child(-n + 2) {
+                    border-bottom: 1px solid var(--border);
+                }
+                .mem:last-child {
+                    border-bottom: none;
+                }
+                .offer-wrap,
+                .events-wrap,
+                .council-wrap,
+                .insights-wrap {
+                    padding: 4rem 1rem;
+                }
+                .s {
+                    padding: 4rem 1rem;
+                }
+                .about-text {
+                    padding: 3rem 1rem;
+                }
+                footer {
+                    padding: 3rem 1rem 2rem;
+                }
+                .forms-section {
+                    padding: 3rem 1rem;
+                }
+                .form-embed {
+                    padding: 0.75rem;
+                    border-radius: 10px;
+                }
+                .ticker-item {
+                    padding: 0 1.5rem;
+                }
+                .ev {
+                    padding: 1.75rem 1.25rem;
+                }
+                .ins-body {
+                    padding: 1.5rem 1.25rem;
+                }
+                .mem {
+                    padding: 1.25rem;
                 }
             }
         </style>
@@ -1029,6 +1289,16 @@
     <body>
         <div class="cur" id="cur"></div>
         <div class="cur-r" id="cur-r"></div>
+
+        <!-- MOBILE MENU DRAWER -->
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="#about" class="mobile-nav-link">About</a>
+            <a href="#services" class="mobile-nav-link">Services</a>
+            <a href="#events" class="mobile-nav-link">Events</a>
+            <a href="#insights" class="mobile-nav-link">Insights</a>
+            <a href="#council" class="mobile-nav-link">Council</a>
+            <a href="#network-form" class="nav-btn mobile-nav-link">Join the Network</a>
+        </div>
 
         <!-- NAV -->
         <nav id="nav">
@@ -1045,6 +1315,9 @@
                     Join the Network
                 </a>
             </li>
+            <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
         </nav>
 
         <!-- HERO -->
@@ -2132,6 +2405,22 @@
                     },
                 ],
             });*/
+
+            /* ── HAMBURGER TOGGLE ── */
+            const hamburger = document.getElementById('hamburger');
+            const mobileMenu = document.getElementById('mobileMenu');
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('open');
+                mobileMenu.classList.toggle('open');
+                document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+            });
+            document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('open');
+                    mobileMenu.classList.remove('open');
+                    document.body.style.overflow = '';
+                });
+            });
 
             /* CTA canvas */
             const ctaC = document.getElementById("ctaCanvas");
