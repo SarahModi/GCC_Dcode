@@ -1,0 +1,772 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Events — GCC Dcode</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Source+Sans+3:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            html {
+                scroll-behavior: smooth;
+            }
+            :root {
+                --ink: #0a0a0a;
+                --ink2: #111111;
+                --paper: #f2f0eb;
+                --off: #e8e5df;
+                --accent: #1a1a2e;
+                --blue: #1c3f6e;
+                --blue-mid: #2b5fa0;
+                --blue-light: #4a80c4;
+                --steel: #7a8fa6;
+                --muted: #9aa3b0;
+                --text: #eaeaea;
+                --text-dim: #8a8f98;
+                --border: #222228;
+                --border2: #2e2e38;
+            }
+            body {
+                background: var(--ink);
+                color: var(--text);
+                font-family: "Source Sans 3", sans-serif;
+                font-size: 16px;
+                line-height: 1.6;
+                overflow-x: hidden;
+                cursor: none;
+            }
+
+            /* ── CURSOR ── */
+            .cur {
+                position: fixed;
+                width: 8px;
+                height: 8px;
+                background: #fff;
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 9999;
+                transform: translate(-50%, -50%);
+                transition:
+                    width 0.15s,
+                    height 0.15s;
+            }
+            .cur-r {
+                position: fixed;
+                width: 32px;
+                height: 32px;
+                border: 1px solid rgba(255, 255, 255, 0.25);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 9998;
+                transform: translate(-50%, -50%);
+                transition:
+                    width 0.3s,
+                    height 0.3s;
+            }
+
+            /* ── NAV ── */
+            nav {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 200;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 1.5rem 3rem;
+                transition:
+                    background 0.4s,
+                    border 0.4s;
+            }
+            nav.scrolled {
+                background: rgba(10, 10, 10, 0.96);
+                border-bottom: 1px solid var(--border);
+            }
+            .logo {
+                font-family: "Playfair Display", serif;
+                font-size: 1.25rem;
+                font-weight: 800;
+                color: #fff;
+                text-decoration: none;
+                letter-spacing: -0.01em;
+            }
+            .logo em {
+                font-style: italic;
+                color: var(--blue-light);
+            }
+            .nav-links {
+                display: flex;
+                gap: 2.5rem;
+                list-style: none;
+            }
+            .nav-links a {
+                color: var(--text-dim);
+                text-decoration: none;
+                font-size: 0.78rem;
+                font-weight: 500;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                transition: color 0.2s;
+            }
+            .nav-links a:hover,
+            .nav-links a.active {
+                color: #fff;
+            }
+            .nav-btn {
+                background: transparent;
+                border: 1px solid var(--border2);
+                color: var(--text-dim);
+                padding: 0.55rem 1.25rem;
+                font-size: 0.75rem;
+                font-weight: 500;
+                cursor: none;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                transition: all 0.2s;
+                font-family: "Source Sans 3", sans-serif;
+                text-decoration: none;
+            }
+            .nav-btn:hover {
+                border-color: #fff;
+                color: #fff;
+            }
+
+            /* ── PAGE HERO ── */
+            .page-hero {
+                min-height: 70vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                padding: 11rem 3rem 5rem;
+                max-width: 1280px;
+                margin: 0 auto;
+                position: relative;
+            }
+            .hero-kicker {
+                font-family: "Space Mono", monospace;
+                font-size: 0.7rem;
+                color: var(--steel);
+                letter-spacing: 0.15em;
+                text-transform: uppercase;
+                margin-bottom: 2rem;
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+            }
+            .hero-kicker::before {
+                content: "";
+                display: block;
+                width: 20px;
+                height: 1px;
+                background: var(--steel);
+            }
+            .page-hero h1 {
+                font-family: "Playfair Display", serif;
+                font-size: clamp(3.5rem, 8vw, 6.5rem);
+                font-weight: 800;
+                line-height: 1;
+                letter-spacing: -0.03em;
+                color: #fff;
+                margin-bottom: 1.5rem;
+            }
+            .coming-soon-tag {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.6rem;
+                font-family: "Space Mono", monospace;
+                font-size: 0.78rem;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                color: var(--blue-light);
+                margin-bottom: 2.5rem;
+            }
+            .coming-soon-tag .dot {
+                width: 7px;
+                height: 7px;
+                border-radius: 50%;
+                background: var(--blue-mid);
+                box-shadow: 0 0 0 0 rgba(43, 95, 160, 0.6);
+                animation: pulseDot 2s infinite;
+            }
+            @keyframes pulseDot {
+                0% {
+                    box-shadow: 0 0 0 0 rgba(43, 95, 160, 0.6);
+                }
+                70% {
+                    box-shadow: 0 0 0 8px rgba(43, 95, 160, 0);
+                }
+                100% {
+                    box-shadow: 0 0 0 0 rgba(43, 95, 160, 0);
+                }
+            }
+            .page-hero-sub {
+                font-size: 1.05rem;
+                color: var(--text-dim);
+                font-weight: 300;
+                max-width: 620px;
+                line-height: 1.85;
+                margin-bottom: 1.25rem;
+            }
+
+            /* ── SECTION BASE ── */
+            .s {
+                padding: 7rem 3rem;
+                max-width: 1280px;
+                margin: 0 auto;
+            }
+            .eyebrow {
+                font-family: "Space Mono", monospace;
+                font-size: 0.65rem;
+                color: var(--steel);
+                letter-spacing: 0.15em;
+                text-transform: uppercase;
+                margin-bottom: 1rem;
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+            }
+            .eyebrow::before {
+                content: "";
+                display: block;
+                width: 20px;
+                height: 1px;
+                background: var(--steel);
+            }
+            h2.st {
+                font-family: "Playfair Display", serif;
+                font-size: clamp(2rem, 4vw, 3.25rem);
+                font-weight: 800;
+                line-height: 1.05;
+                letter-spacing: -0.03em;
+                color: #fff;
+                margin-bottom: 1.25rem;
+            }
+            h2.st em {
+                font-style: italic;
+                color: var(--blue-light);
+            }
+            .sd {
+                font-size: 1rem;
+                color: var(--text-dim);
+                font-weight: 300;
+                max-width: 480px;
+                line-height: 1.8;
+            }
+
+            /* ── FORMAT GRID ── */
+            .formats-section {
+                border-top: 1px solid var(--border);
+                background: var(--ink2);
+            }
+            .formats-wrap {
+                max-width: 1280px;
+                margin: 0 auto;
+                padding: 7rem 3rem;
+            }
+            .formats-head {
+                margin-bottom: 4rem;
+                max-width: 640px;
+            }
+            .formats-grid {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 0;
+                border: 1px solid var(--border);
+            }
+            .fmt {
+                padding: 2.75rem 2.25rem;
+                border-right: 1px solid var(--border);
+                transition: background 0.25s;
+                cursor: none;
+                position: relative;
+                overflow: hidden;
+            }
+            .fmt:last-child {
+                border-right: none;
+            }
+            .fmt::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 2px;
+                background: var(--blue-mid);
+                transform: scaleX(0);
+                transform-origin: left;
+                transition: transform 0.3s;
+            }
+            .fmt:hover::before {
+                transform: scaleX(1);
+            }
+            .fmt:hover {
+                background: rgba(255, 255, 255, 0.025);
+            }
+            .fmt-idx {
+                font-family: "Space Mono", monospace;
+                font-size: 0.62rem;
+                color: var(--blue-light);
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                margin-bottom: 1.5rem;
+                display: block;
+            }
+            .fmt-title {
+                font-family: "Playfair Display", serif;
+                font-size: 1.3rem;
+                font-weight: 700;
+                color: #fff;
+                line-height: 1.25;
+                margin-bottom: 0.85rem;
+            }
+            .fmt-desc {
+                font-size: 0.86rem;
+                color: var(--text-dim);
+                line-height: 1.7;
+            }
+
+            /* ── STAY UPDATED / FORM ── */
+            .forms-section {
+                padding: 8rem 8%;
+                background: #050505;
+                border-top: 1px solid var(--border);
+            }
+            .form-block {
+                max-width: 1100px;
+                margin: 0 auto;
+                width: 100%;
+            }
+            .form-header {
+                margin-bottom: 2.5rem;
+                max-width: 640px;
+            }
+            .form-header span {
+                font-family: "Space Mono", monospace;
+                font-size: 0.75rem;
+                letter-spacing: 0.15em;
+                color: var(--steel);
+                text-transform: uppercase;
+            }
+            .form-header h2 {
+                font-family: "Playfair Display", serif;
+                font-size: clamp(2rem, 4vw, 3.5rem);
+                font-weight: 800;
+                letter-spacing: -0.03em;
+                margin-top: 1rem;
+                margin-bottom: 1rem;
+                color: #fff;
+            }
+            .form-header p {
+                max-width: 620px;
+                color: var(--text-dim);
+                line-height: 1.8;
+                font-size: 1rem;
+                font-weight: 300;
+            }
+            .notify-form {
+                display: flex;
+                gap: 1rem;
+                max-width: 560px;
+                margin-top: 1rem;
+            }
+            .notify-form input {
+                flex: 1;
+                background: rgba(255, 255, 255, 0.02);
+                border: 1px solid var(--border2);
+                color: #fff;
+                padding: 1rem 1.25rem;
+                font-size: 0.92rem;
+                font-family: "Source Sans 3", sans-serif;
+                cursor: text;
+            }
+            .notify-form input::placeholder {
+                color: var(--text-dim);
+            }
+            .notify-form input:focus {
+                outline: none;
+                border-color: var(--blue-mid);
+            }
+            .notify-form button {
+                background: #fff;
+                color: #0a0a0a;
+                padding: 1rem 2rem;
+                font-size: 0.85rem;
+                font-weight: 600;
+                border: none;
+                cursor: none;
+                letter-spacing: 0.04em;
+                white-space: nowrap;
+                transition: all 0.2s;
+                font-family: "Source Sans 3", sans-serif;
+            }
+            .notify-form button:hover {
+                background: var(--blue-light);
+                color: #fff;
+            }
+            .notify-note {
+                font-size: 0.78rem;
+                color: var(--text-dim);
+                margin-top: 1rem;
+            }
+            .notify-success {
+                display: none;
+                margin-top: 1.25rem;
+                font-size: 0.88rem;
+                color: var(--blue-light);
+                font-family: "Space Mono", monospace;
+                letter-spacing: 0.04em;
+            }
+
+            /* ── FOOTER ── */
+            footer {
+                background: #060608;
+                border-top: 1px solid var(--border);
+                padding: 5rem 3rem 3rem;
+            }
+            .ft-grid {
+                display: grid;
+                grid-template-columns: 2fr 1fr 1fr 1fr;
+                gap: 3rem;
+                max-width: 1280px;
+                margin: 0 auto;
+            }
+            .ft-brand .logo {
+                font-size: 1.1rem;
+                display: block;
+                margin-bottom: 1rem;
+            }
+            .ft-desc {
+                font-size: 0.82rem;
+                color: var(--text-dim);
+                line-height: 1.7;
+                max-width: 220px;
+            }
+            .ft-col h4 {
+                font-family: "Space Mono", monospace;
+                font-size: 0.6rem;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                color: var(--steel);
+                margin-bottom: 1.25rem;
+            }
+            .ft-col ul {
+                list-style: none;
+            }
+            .ft-col li {
+                margin-bottom: 0.55rem;
+            }
+            .ft-col a {
+                color: var(--text-dim);
+                text-decoration: none;
+                font-size: 0.84rem;
+                transition: color 0.2s;
+            }
+            .ft-col a:hover {
+                color: #fff;
+            }
+            .ft-bottom {
+                max-width: 1280px;
+                margin: 3rem auto 0;
+                padding-top: 2rem;
+                border-top: 1px solid var(--border);
+                display: flex;
+                justify-content: space-between;
+                font-size: 0.75rem;
+                color: var(--text-dim);
+            }
+
+            /* ── REVEAL ── */
+            .reveal {
+                opacity: 0;
+                transform: translateY(28px);
+                transition:
+                    opacity 0.7s ease,
+                    transform 0.7s ease;
+            }
+            .reveal.visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            /* ── RESPONSIVE ── */
+            @media (max-width: 1024px) {
+                nav {
+                    padding: 1.25rem 1.5rem;
+                }
+                .nav-links {
+                    display: none;
+                }
+                .page-hero {
+                    padding: 8rem 1.5rem 3rem;
+                    min-height: auto;
+                }
+                .formats-grid {
+                    grid-template-columns: 1fr 1fr;
+                }
+                .fmt {
+                    border-right: 1px solid var(--border);
+                    border-bottom: 1px solid var(--border);
+                }
+                .fmt:nth-child(2n) {
+                    border-right: none;
+                }
+                .ft-grid {
+                    grid-template-columns: 1fr 1fr;
+                }
+                .s {
+                    padding: 5rem 1.5rem;
+                }
+                .notify-form {
+                    flex-direction: column;
+                }
+            }
+            @media (max-width: 600px) {
+                .formats-grid {
+                    grid-template-columns: 1fr;
+                }
+                .fmt:nth-child(2n) {
+                    border-right: 1px solid var(--border);
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="cur" id="cur"></div>
+        <div class="cur-r" id="cur-r"></div>
+
+        <!-- NAV -->
+        <nav id="nav">
+            <a href="GCCDcodev3.html" class="logo">GCC <em>Dcode</em></a>
+            <ul class="nav-links">
+                <li><a href="GCCDcodev3.html#about">About</a></li>
+                <li><a href="GCCDcodev3.html#services">Services</a></li>
+                <li><a href="events.html" class="active">Events</a></li>
+                <li><a href="GCCDcodev3.html#insights">Insights</a></li>
+                <li><a href="GCCDcodev3.html#council">Council</a></li>
+            </ul>
+            <li>
+                <a href="GCCDcodev3.html#network-form" class="nav-btn">
+                    Join the Network
+                </a>
+            </li>
+        </nav>
+
+        <!-- PAGE HERO -->
+        <section class="page-hero">
+            <div class="hero-kicker">The GCC Intelligence Platform</div>
+            <h1>Events</h1>
+            <div class="coming-soon-tag">
+                <span class="dot"></span>Coming Soon
+            </div>
+            <p class="page-hero-sub">
+                We're currently planning our first series of GCC-focused
+                events and executive discussions.
+            </p>
+            <p class="page-hero-sub">
+                Our events program will bring together GCC leaders,
+                practitioners, and industry experts to share insights,
+                discuss challenges, and explore opportunities shaping the
+                future of Global Capability Centers in India.
+            </p>
+        </section>
+
+        <!-- PLANNED FORMATS -->
+        <div class="formats-section">
+            <div class="formats-wrap">
+                <div class="formats-head reveal">
+                    <div class="eyebrow">What's Ahead</div>
+                    <h2 class="st">Planned Event <em>Formats</em></h2>
+                </div>
+                <div class="formats-grid reveal">
+                    <div class="fmt">
+                        <span class="fmt-idx">01</span>
+                        <div class="fmt-title">Executive Roundtables</div>
+                        <div class="fmt-desc">
+                            Invite-only discussions for GCC leaders.
+                        </div>
+                    </div>
+                    <div class="fmt">
+                        <span class="fmt-idx">02</span>
+                        <div class="fmt-title">Industry Forums</div>
+                        <div class="fmt-desc">
+                            Open discussions on GCC trends and best
+                            practices.
+                        </div>
+                    </div>
+                    <div class="fmt">
+                        <span class="fmt-idx">03</span>
+                        <div class="fmt-title">Research Briefings</div>
+                        <div class="fmt-desc">
+                            Data-backed insights and market intelligence
+                            sessions.
+                        </div>
+                    </div>
+                    <div class="fmt">
+                        <span class="fmt-idx">04</span>
+                        <div class="fmt-title">Leadership Networking</div>
+                        <div class="fmt-desc">
+                            Curated opportunities to build meaningful
+                            industry connections.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STAY UPDATED -->
+        <section class="forms-section">
+            <div class="form-block reveal">
+                <div class="form-header">
+                    <span>NOTIFY ME</span>
+                    <h2>Stay Updated</h2>
+                    <p>
+                        Be the first to hear about upcoming events,
+                        roundtables, and community initiatives.
+                    </p>
+                </div>
+                <form class="notify-form" id="notifyForm">
+                    <input
+                        type="email"
+                        id="notifyEmail"
+                        placeholder="you@company.com"
+                        required
+                    />
+                    <button type="submit">Notify Me →</button>
+                </form>
+                <div class="notify-success" id="notifySuccess">
+                    ✓ Thanks — we'll let you know as soon as events go live.
+                </div>
+                <p class="notify-note">
+                    No spam, ever. Just event announcements as they're
+                    confirmed.
+                </p>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer>
+            <div class="ft-grid">
+                <div class="ft-brand">
+                    <a href="GCCDcodev3.html" class="logo">GCC <em>Dcode</em></a>
+                    <p class="ft-desc">
+                        The world's GCC intelligence platform. Decoding the
+                        future of global capability — one insight at a time.
+                    </p>
+                </div>
+                <div class="ft-col">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="GCCDcodev3.html#services">GCC Database</a></li>
+                        <li><a href="GCCDcodev3.html#council">Industry Council</a></li>
+                        <li><a href="GCCDcodev3.html#insights">Research Hub</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="GCCDcodev3.html#services">Benchmarking</a></li>
+                    </ul>
+                </div>
+                <div class="ft-col">
+                    <h4>Community</h4>
+                    <ul>
+                        <li><a href="GCCDcodev3.html#network-form">Join the Network</a></li>
+                        <li><a href="GCCDcodev3.html#council">Council Members</a></li>
+                        <li><a href="#">Speaker Bureau</a></li>
+                        <li><a href="#">Partner With Us</a></li>
+                    </ul>
+                </div>
+                <div class="ft-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="GCCDcodev3.html#about">About</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Privacy</a></li>
+                        <li><a href="#">Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="ft-bottom">
+                <span>© 2026 GCC Dcode. All rights reserved.</span>
+                <span>Built for GCC leaders, by a GCC leader.</span>
+            </div>
+        </footer>
+
+        <script>
+            /* ── CURSOR ── */
+            const cur = document.getElementById("cur"),
+                curR = document.getElementById("cur-r");
+            let mx = 0,
+                my = 0,
+                rx = 0,
+                ry = 0;
+            document.addEventListener("mousemove", (e) => {
+                mx = e.clientX;
+                my = e.clientY;
+                cur.style.left = mx + "px";
+                cur.style.top = my + "px";
+            });
+            (function loop() {
+                rx += (mx - rx) * 0.1;
+                ry += (my - ry) * 0.1;
+                curR.style.left = rx + "px";
+                curR.style.top = ry + "px";
+                requestAnimationFrame(loop);
+            })();
+            document
+                .querySelectorAll("a,button,.fmt,input")
+                .forEach((el) => {
+                    el.addEventListener("mouseenter", () => {
+                        cur.style.width = "16px";
+                        cur.style.height = "16px";
+                        curR.style.width = "48px";
+                        curR.style.height = "48px";
+                    });
+                    el.addEventListener("mouseleave", () => {
+                        cur.style.width = "8px";
+                        cur.style.height = "8px";
+                        curR.style.width = "32px";
+                        curR.style.height = "32px";
+                    });
+                });
+
+            /* ── NAV SCROLL ── */
+            const nav = document.getElementById("nav");
+            window.addEventListener("scroll", () =>
+                nav.classList.toggle("scrolled", scrollY > 60),
+            );
+
+            /* ── REVEAL ── */
+            const revEls = document.querySelectorAll(".reveal");
+            const ro = new IntersectionObserver(
+                (es) =>
+                    es.forEach((e) => {
+                        if (e.isIntersecting) {
+                            setTimeout(
+                                () => e.target.classList.add("visible"),
+                                80,
+                            );
+                            ro.unobserve(e.target);
+                        }
+                    }),
+                { threshold: 0.08 },
+            );
+            revEls.forEach((r) => ro.observe(r));
+
+            /* ── NOTIFY FORM ── */
+            const notifyForm = document.getElementById("notifyForm");
+            const notifySuccess = document.getElementById("notifySuccess");
+            notifyForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                notifySuccess.style.display = "block";
+                notifyForm.reset();
+            });
+        </script>
+    </body>
+</html>
